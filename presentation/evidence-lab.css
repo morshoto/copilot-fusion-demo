@@ -1,0 +1,76 @@
+/* Qwen Meetup Tokyo 2026 · Evidence Lab · editable Marp theme */
+:root { --navy:#172f4e; --ink:#162a42; --slate:#596a80; --muted:#8693a6; --teal:#128d8e; --teal-bg:#e9f8f5; --amber:#bc7928; --amber-bg:#fff4e6; --blue:#2b78bd; --blue-bg:#edf5fc; --border:#dbe3ec; --panel:#f4f7fa; }
+section {
+  position:relative;
+  box-sizing:border-box;
+  width:1280px; height:720px;
+  padding:55px 70px 58px;
+  background:#ffffff; color:var(--ink);
+  font-family:'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP','Hiragino Kaku Gothic ProN',Arial,sans-serif;
+  font-size:23px; line-height:1.5;
+  letter-spacing:.005em;
+}
+section::after { font-family:Arial,sans-serif; font-size:14px; color:#a0aab5; right:39px; bottom:20px; }
+section h1,section h2,section h3 { color:var(--navy); letter-spacing:-.028em; }
+section h2 { font-size:42px; line-height:1.22; font-weight:800; margin:0 0 28px; }
+section h3 { font-size:24px; line-height:1.34; margin:0 0 10px; font-weight:750; }
+section p { margin:6px 0 13px; }
+section li { margin:6px 0; }
+section a { color:var(--blue); text-decoration:none; }
+section strong { color:var(--navy); }
+section img { object-fit:contain; }
+section .source { position:absolute; bottom:15px; left:70px; right:96px; font-family:Arial,'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP',sans-serif; font-size:12px; line-height:1.2; color:var(--muted); margin:0; }
+section .source a { color:var(--muted); text-decoration:underline; }
+section .eyebrow { font-family:Arial,sans-serif; font-size:15px; font-weight:800; letter-spacing:.19em; text-transform:uppercase; color:var(--blue); }
+section .lead { font-size:26px; color:var(--ink); font-weight:550; }
+section .subtle { font-size:17px; color:var(--slate); }
+section .layout--split { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch; }
+section .layout--three { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:stretch; }
+section .layout--next { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+section .card,section .axis-card { box-sizing:border-box; border:1px solid var(--border); border-radius:16px; padding:25px 27px; background:#fff; box-shadow:0 2px 8px rgba(17,39,68,.022); }
+section .axis-card { border-top:5px solid var(--blue); }
+section .axis-card--teal { border-top-color:var(--teal); }
+section .axis-card--amber { border-top-color:var(--amber); }
+section .card p, section .axis-card p { font-size:21px; color:#33465c; line-height:1.55; margin:7px 0; }
+section .card small,section .axis-card small { font-size:15px; color:var(--slate); }
+section .mini-note { font-size:16px; color:var(--slate); line-height:1.4; }
+section .callout { box-sizing:border-box; margin:20px 0 0; padding:15px 19px; border-left:5px solid var(--blue); background:var(--blue-bg); border-radius:0 10px 10px 0; font-size:20px; line-height:1.42; color:var(--ink); }
+section .callout--warning { border-left-color:var(--amber); background:var(--amber-bg); }
+section .callout--success { border-left-color:var(--teal); background:var(--teal-bg); }
+section .stat { font-family:Arial,'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP',sans-serif; font-size:64px; line-height:1.08; font-weight:800; color:var(--navy); letter-spacing:-.055em; }
+section .stat small { display:block; font-family:'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP',sans-serif; font-size:18px; line-height:1.4; font-weight:500; color:var(--slate); letter-spacing:normal; margin-top:13px; }
+section .stat--teal { color:var(--teal); }
+section .stat--amber { color:var(--amber); }
+section .eyeline { color:var(--slate); font-size:17px; font-weight:650; }
+section .quote { font-size:29px; line-height:1.5; font-weight:750; border-left:6px solid var(--blue); padding:9px 0 9px 19px; color:var(--navy); }
+section .ribbon { display:flex; align-items:center; justify-content:space-between; padding:15px 20px; border-radius:14px; background:var(--panel); font-size:18px; color:var(--slate); }
+section .divider { height:1px; margin:17px 0; background:var(--border); }
+section .fact-list { list-style:none; padding:0; margin:10px 0 0; }
+section .fact-list li { font-size:20px; border-bottom:1px solid var(--border); padding:11px 0; }
+section .pill { display:inline-block; font:700 16px Arial,'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP',sans-serif; padding:7px 11px; background:var(--blue-bg); color:var(--blue); border-radius:999px; }
+section .tagline { font-size:28px; font-weight:750; color:var(--navy); }
+section .metric-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:22px; }
+section .metric-strip .metric { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 18px; }
+section .metric b { display:block; color:var(--navy); font-family:Arial,sans-serif; font-size:31px; line-height:1.2; }
+section .metric small { display:block; color:var(--slate); font-size:15px; margin-top:4px; }
+section .hero-figure { display:block; width:100%; max-height:385px; margin:5px auto 8px; }
+section .figure-large { display:block; width:100%; max-height:350px; margin:0 auto 10px; }
+section .figure-short { display:block; width:100%; max-height:305px; margin:0 auto 6px; }
+section .muted { color:var(--slate); }
+section .u-mt-22 { margin-top:22px; }
+section .u-mt-30 { margin-top:30px; }
+section .u-mt-36 { margin-top:36px; }
+section .u-mb-4 { margin-bottom:4px; }
+section.slide--title,section.slide--closing { background:linear-gradient(135deg,#ffffff 0%,#ffffff 74%,#eef6fb 100%); }
+section.slide--title { padding:90px 90px 65px; }
+section .slide-hero h1 { font-family:Arial,'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP',sans-serif; font-size:80px; line-height:1.09; margin:26px 0 18px; letter-spacing:-.052em; font-weight:900; }
+section .slide-hero .rule, section .slide-closing .rule { width:120px; height:6px; border-radius:8px; background:var(--blue); margin:27px 0; }
+section .slide-hero .lead { margin-top:26px; font-size:27px; }
+section .slide-hero .subtle { margin-top:32px; font-size:18px; }
+section.slide--closing { padding:85px 80px 60px; }
+section .slide-closing h1 { font-family:Arial,'Hiragino Sans','Noto Sans JP','Noto Sans CJK JP',sans-serif; font-size:69px; margin:20px 0; line-height:1.12; letter-spacing:-.06em; }
+section .slide-closing .lead { margin:16px 0 38px; font-size:26px; }
+section .slide-closing .card { padding:20px 18px; min-height:123px; }
+section .slide-closing .card h3 { font-size:21px; }
+section .slide-closing .card p { font-size:18px; }
+@media print { @page { size: 1280px 720px; margin:0; } html,body { margin:0; padding:0; } section { page-break-after:always; break-after:page; } }

@@ -1,0 +1,5 @@
+node_modules/
+fusion-demo/recordings/
+.env
+.env.*
+!.env.example
