@@ -96,7 +96,7 @@ size: 16:9
 
 <div class="metric-strip">
 <div class="metric"><b>開始 → 結果</b><small>セッションの経過時間</small></div>
-<div class="metric"><b>model.call_start</b><small>観測されたモデル呼び出し</small></div>
+<div class="metric"><b>Fusion requests</b><small>完了時に報告された要求数</small></div>
 <div class="metric"><b>tool.execution_start</b><small>観測されたツール開始</small></div>
 </div>
 
