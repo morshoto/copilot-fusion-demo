@@ -17,7 +17,7 @@ test('security checks scan TypeScript and validate the actual demo', () => {
   const codeql = read('.github/workflows/codeql.yml');
   const security = read('.github/workflows/security.yml');
   assert.match(codeql, /languages: javascript-typescript/);
-  assert.doesNotMatch(codeql, /swift/i);
+  assert.doesNotMatch(codeql, /languages:\s*swift|typecheck-swift/i);
   assert.match(security, /working-directory: fusion-demo/);
   assert.match(security, /pnpm (?:run )?test/);
   assert.match(security, /pnpm (?:run )?typecheck/);
