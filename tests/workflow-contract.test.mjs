@@ -23,3 +23,9 @@ test('security checks scan TypeScript and validate the actual demo', () => {
   assert.match(security, /pnpm (?:run )?typecheck/);
   assert.doesNotMatch(security, /consumer-runtime|profile_swift/);
 });
+
+test('assignment automation has a pinned package manager and milestone helper', () => {
+  const assign = read('.github/workflows/assign.yml');
+  assert.match(assign, /pnpm\/action-setup@[\da-f]+[^\n]*\n\s+with:\n\s+version:/);
+  assert.ok(read('scripts/sync-pr-milestone.mjs').includes('syncPullRequestMilestone'));
+});
