@@ -29,3 +29,14 @@ B の委任メッセージには、読み取り専用、変更・コミット・
 2試行ではプロンプトだけでなく `task` の許可が違い、Fusion のパターン・モデルも変わった。速度・品質・コストの因果比較や一般化はできない。1件ずつの測定であり、キャッシュ、モデル、サーバ負荷も統制していない。結果の正しさやブラウザでのコントラストは別途検証が必要。
 
 [GitHub の custom agent ドキュメント](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)は、custom agent を subagent として実行する場合、既定では repository instructions を含めず、`include-custom-instructions: true` で含められると説明する。これは公開仕様であり、この2試行でその設定の有無を比較した結果ではない。[`/fleet` の公式説明](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/speed-up-task-completion)には並列実行方法があるが、今回は fleet を使用していない。
+
+## レビュー後の権限を揃えた追試
+
+元の A/B は `task` 許可が異なり、プロンプトの効果を分離できなかった。2026-11-25 に同じ固定 SHA を履歴の浅い独立 checkout に取り直し、両方で `task`、`view`、同じ読み取り用シェル規則を許可、書き込みを拒否した。両者の文面は元の A/B と同じで、B のみ末尾に subagent への委任と取り込みを追加した。CLI 1.0.115、Fusion High、30 AI credits のソフト上限、MCP 無効。外部アクセスは指示で禁止し、Issue 本文は渡していない。実行時間は `session.start` の開始時刻から `session.fusion_completed` の時刻まで。親セッションのイベントを数え、別ファイルの子セッションは合算していない。試行は他の検証と時間が重なり、経路、モデル、キャッシュ、負荷は統制していない。
+
+| 条件 | Fusion 経路 / 主モデル | subagent 開始・完了 | 親ツール開始 | 時間 | AI credits |
+| --- | --- | --- | ---: | ---: | ---: |
+| A: 委任を指定しない | Single / GPT-6.1 Terra | 0 / 0 | 35 | 約131.4秒 | 5.826 |
+| B: 委任と取り込みを指定 | Critique / Claude Opus 5.5 | 1 / 1 | 13 | 約51.4秒 | 13.126 |
+
+B は explore の結果を取り込んだが、提案の「300ms 以内にアニメーション完了」は固定ソースの 600ms と整合しない。A、B とも Issue 本文は読めなかったと明記した。各1回であり、明示指示による一般的な呼び出し率・速度差・品質差は断定できない。なお追試の準備中、共有 Git 履歴から後の修正ブランチを読める別の実行があり、その汚染された実行はこの表に含めていない。独立 checkout は初期 SHA の浅い履歴のみを持つ。
