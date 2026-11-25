@@ -1,0 +1,78 @@
+diff --git a/apps/docs/e2e/hero-first-paint.spec.mjs b/apps/docs/e2e/hero-first-paint.spec.mjs
+new file mode 100644
+index 000000000..246d46440
+--- /dev/null
++++ b/apps/docs/e2e/hero-first-paint.spec.mjs
+@@ -0,0 +1,56 @@
++import { test, expect } from "./fixture.mjs";
++import AxeBuilder from "@axe-core/playwright";
++
++for (const colorScheme of ["light", "dark"]) {
++  for (const reducedMotion of ["no-preference", "reduce"]) {
++    test(`hero is readable at first paint: ${colorScheme}, ${reducedMotion}`, async ({
++      page,
++      site,
++    }) => {
++      await page.emulateMedia({ colorScheme, reducedMotion });
++      await page.route("**/*", async (route) => {
++        const request = route.request();
++        if (new URL(request.url()).origin !== new URL(site).origin) {
++          await route.abort();
++          return;
++        }
++        if (request.resourceType() === "stylesheet") {
++          const response = await route.fetch();
++          await route.fulfill({
++            response,
++            // Freeze the initial frame without disabling entrance animations.
++            body: `${await response.text()}\n* { animation-play-state: paused !important; }`,
++          });
++          return;
++        }
++        await route.continue();
++      });
++      await page.goto(`${site}/`);
++
++      const hero = page.getByRole("region", {
++        name: "Video editing, in your own words.",
++      });
++      for (const [name, element] of [
++        ["heading", hero.getByRole("heading", { level: 1 })],
++        ["description", hero.getByText(/Bring your video workflow into Codex/)],
++        ["primary CTA", hero.getByRole("link", { name: /^Get started/ })],
++        ["secondary CTA", hero.getByRole("link", { name: /^View on GitHub/ })],
++      ]) {
++        await expect(element).toBeVisible();
++        const opacity = await element.evaluate((element) => {
++          let opacity = 1;
++          for (let node = element; node; node = node.parentElement) {
++            opacity *= Number(getComputedStyle(node).opacity);
++          }
++          return opacity;
++        });
++        expect.soft(opacity, `${name} initial effective opacity`).toBe(1);
++      }
++      const contrast = await new AxeBuilder({ page })
++        .include('section[aria-labelledby="hero-title"]')
++        .withRules(["color-contrast"])
++        .analyze();
++      expect(contrast.violations).toEqual([]);
++    });
++  }
++}
+diff --git a/apps/docs/src/components/EnglishOverview.module.scss b/apps/docs/src/components/EnglishOverview.module.scss
+index c53a55dff..0952f521b 100644
+--- a/apps/docs/src/components/EnglishOverview.module.scss
++++ b/apps/docs/src/components/EnglishOverview.module.scss
+@@ -990,11 +990,9 @@
+ 
+ @keyframes overview-enter {
+   from {
+-    opacity: 0;
+     transform: translateY(8px);
+   }
+   to {
+-    opacity: 1;
+     transform: translateY(0);
+   }
+ }
