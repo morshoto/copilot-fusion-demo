@@ -88,7 +88,7 @@ size: 16:9
 </div>
 
 <div class="callout">読み取り専用・対象・根拠・成果物を委任文に含める</div>
-<div class="source">各1試行。モデル・経路・権限も異なるため因果関係は未確認。</div>
+<div class="source">追試は両方 task を許可。各1試行でモデル・経路なども異なる。</div>
 
 ---
 
@@ -112,8 +112,8 @@ size: 16:9
 <div class="card"><h3>Max / Cascade</h3><div class="stat stat--amber">27.379<small>報告された AI credits</small></div></div>
 </div>
 
-<div class="callout">両方が主要ファイルを特定。提案したテストは未実行</div>
-<div class="source">同じ課題の各1回。請求額ではない。一般的な品質・コスト比較はできない。</div>
+<div class="callout">品質条件を満たした High 優先でも Max 単独より利用量が多い例を観測</div>
+<div class="source">上の値は先行試行。追試は High 34.426 / Max 30.113。請求額ではない。</div>
 
 ---
 
@@ -133,11 +133,11 @@ size: 16:9
 
 <div class="layout--split">
 <div class="card"><h3>今回の条件</h3><p>外部アクセスを禁止し、Issue 番号だけを指定</p></div>
-<div class="card"><h3>実際の回答</h3><p>High / Max とも Issue 本文を読めなかったと明示</p></div>
+<div class="card"><h3>実際の回答</h3><p>本文を与えた追試では図や 4.5:1 を含む2案を提示</p></div>
 </div>
 
 <div class="callout">公開可能な要件を渡し、読めなかった資料を確認する</div>
-<div class="source">本文を渡す対照試行は未実施。品質改善は仮説。</div>
+<div class="source">本文なしとの試行ではモデル等が異なり、因果関係は未確認。</div>
 
 ---
 
