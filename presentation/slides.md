@@ -40,6 +40,19 @@ size: 16:9
 
 ---
 
+## CLI で選択と利用量を確認
+
+<div class="layout--three">
+<div class="axis-card"><h3>/model</h3><p>セッションのモデル選択を開く</p></div>
+<div class="axis-card axis-card--teal"><h3>/usage</h3><p>セッションとアカウントの利用状況を表示</p></div>
+<div class="axis-card axis-card--amber"><h3>/context</h3><p>コンテキストの情報を確認</p></div>
+</div>
+
+<div class="callout--warning callout">開始直後の /context は情報なし。/usage の表示値は請求額そのものではない</div>
+<div class="source">Copilot CLI 1.0.115 の対話画面で確認。候補はプランや組織ポリシーに依存。</div>
+
+---
+
 ## 実操作：回帰テストを先に作る
 
 <img src="media/framekit-796-red.gif" alt="Fusion が Framekit の回帰テストを作成し、通常モーションで失敗した実録画" style="display:block; margin:auto; height:505px; width:auto;">
