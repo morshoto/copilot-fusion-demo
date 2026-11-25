@@ -1,0 +1,54 @@
+name: Assign
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+  issues:
+    types: [opened]
+
+jobs:
+  sync-labels:
+    permissions:
+      contents: read
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Create or update configured labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          while IFS= read -r label; do
+            name=$(jq -r '.name' <<< "$label")
+            color=$(jq -r '.color' <<< "$label")
+            description=$(jq -r '.description' <<< "$label")
+            gh label create "$name" --color "$color" --description "$description" --force
+          done < <(jq -c '.[]' .github/labels/labels.json)
+
+  assign-label:
+    needs: sync-labels
+    if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Apply labels from branch
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7
+        with:
+          configuration-path: .github/labels/labeling-branch.yaml
+      - name: Apply labels from changed files
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7
+        with:
+          configuration-path: .github/labels/labeling-files.yaml
+
+  assign-author:
+    if: ${{ github.event_name != 'workflow_dispatch' && !contains(fromJSON('["renovate[bot]", "dependabot[bot]"]'), github.actor) }}
+    permissions:
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/assign-author@9558557c5c4816f38bd06176fbc324ba14bb3160 # v1

@@ -1,0 +1,12 @@
+'Type: Document':
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.md', '**/*.pdf']
+'Type: Design':
+  - changed-files:
+      - any-glob-to-any-file: ['presentation/**/*.css', 'presentation/**/*.svg', 'presentation/**/*.png']
+'Type: Improvement':
+  - changed-files:
+      - any-glob-to-any-file: ['fusion-demo/src/**/*.ts']
+'Group: Infrastructure':
+  - changed-files:
+      - any-glob-to-any-file: ['.github/**']
