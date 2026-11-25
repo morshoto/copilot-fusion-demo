@@ -1,0 +1,20 @@
+changelog:
+    exclude:
+        labels:
+            - tagpr
+    categories:
+        - title: 'New Features'
+          labels:
+              - 'Type: New Feature'
+        - title: 'Bug Fixes'
+          labels:
+              - 'Problem: Bug'
+        - title: 'Documentation'
+          labels:
+              - 'Type: Document'
+        - title: 'Chores'
+          labels:
+              - 'Type: Chore'
+        - title: 'Other changes'
+          labels:
+              - '*'

@@ -1,0 +1,38 @@
+name: Lint and static checks
+description: Install the contributor toolchain and run repository static checks.
+inputs:
+  node-version:
+    description: Contributor Node.js version.
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/action/setup
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Workflow syntax and expressions
+      shell: bash
+      run: pnpm run check:workflows
+
+    - name: TypeScript build
+      shell: bash
+      run: pnpm run build
+
+    - name: Package boundary checks
+      shell: bash
+      run: pnpm run check:boundaries
+
+    - name: Script references and package entrypoints
+      shell: bash
+      run: pnpm run check:scripts
+
+    - name: Toolchain consistency
+      shell: bash
+      run: |
+        pnpm test --file tests/tooling/ci/toolchain-consistency.test.mjs
+        node scripts/check-toolchain.mjs
+
+    - name: Documentation structure and links
+      shell: bash
+      run: pnpm run check:docs

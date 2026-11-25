@@ -1,0 +1,802 @@
+name: Release
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        types: [opened, synchronize, reopened]
+    release:
+        types: [published]
+    repository_dispatch:
+        types: [framekit-native-release-published]
+    workflow_dispatch:
+        inputs:
+            release_tag:
+                description: Existing release tag to retry (for example, v0.1.3)
+                required: true
+                type: string
+
+permissions:
+    contents: read
+
+jobs:
+    tagpr:
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        concurrency:
+            group: release
+            cancel-in-progress: false
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            issues: read
+        outputs:
+            release-tag: ${{ steps.requested-tag.outputs.tag || steps.existing-tag.outputs.tag || steps.run-tagpr.outputs.tag }}
+            milestone-release: ${{ steps.classify.outputs.milestone }}
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  fetch-depth: 0
+                  token: ${{ secrets.TAGPR_TOKEN }}
+                  persist-credentials: false
+
+            - id: requested-tag
+              name: Resolve requested release tag
+              env:
+                  REQUESTED_TAG: ${{ inputs.release_tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  if [ -z "${REQUESTED_TAG}" ]; then
+                    echo "tag=" >> "$GITHUB_OUTPUT"
+                    exit 0
+                  fi
+                  if ! git check-ref-format "refs/tags/${REQUESTED_TAG}" \
+                    || ! git rev-parse --verify --quiet "refs/tags/${REQUESTED_TAG}^{commit}" >/dev/null; then
+                    echo "Requested release tag does not exist: ${REQUESTED_TAG}" >&2
+                    exit 1
+                  fi
+                  if ! git merge-base --is-ancestor "refs/tags/${REQUESTED_TAG}^{commit}" origin/main; then
+                    echo "Requested release tag is not reachable from main: ${REQUESTED_TAG}" >&2
+                    exit 1
+                  fi
+                  echo "tag=${REQUESTED_TAG}" >> "$GITHUB_OUTPUT"
+
+            - id: existing-tag
+              name: Detect release tag on HEAD
+              if: steps.requested-tag.outputs.tag == ''
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  mapfile -t tags < <(git tag --points-at HEAD --list 'v*')
+                  if (( ${#tags[@]} > 1 )); then
+                    echo "Multiple release tags point to HEAD" >&2
+                    exit 1
+                  fi
+                  tag="${tags[0]-}"
+                  echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+
+            - id: run-tagpr
+              name: Run tagpr
+              if: steps.requested-tag.outputs.tag == '' && steps.existing-tag.outputs.tag == ''
+              uses: Songmu/tagpr@047aec4b6c0ce166f52958b5a97f5a3d927fd65b # v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.TAGPR_TOKEN }}
+
+            - name: Format draft release notes
+              if: >-
+                steps.requested-tag.outputs.tag != '' ||
+                steps.existing-tag.outputs.tag != '' ||
+                steps.run-tagpr.outputs.tag != ''
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ steps.requested-tag.outputs.tag || steps.existing-tag.outputs.tag || steps.run-tagpr.outputs.tag }}
+                  RELEASE_VERSION: ${{ steps.requested-tag.outputs.tag || steps.existing-tag.outputs.tag || steps.run-tagpr.outputs.tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  original="${RUNNER_TEMP}/draft-release-body.md"
+                  formatted="${RUNNER_TEMP}/draft-release-body-formatted.md"
+                  payload="${RUNNER_TEMP}/draft-release-body.json"
+                  release_json="${RUNNER_TEMP}/draft-release.json"
+
+                  release_id="$(gh api --paginate "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
+                    | jq -sr --arg tag "${RELEASE_TAG}" \
+                      '[.[][] | select(.draft == true and (.name == $tag or .tag_name == $tag)) | .id][0] // empty')"
+                  if [ -z "${release_id}" ]; then
+                    echo "No draft release for ${RELEASE_TAG}; nothing to format."
+                    exit 0
+                  fi
+
+                  gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}" > "${release_json}"
+                  jq -r '.body // ""' "${release_json}" > "${original}"
+                  if ! grep -Fq '<!-- Release notes generated' "${original}"; then
+                    echo "Draft body is not GitHub-generated; preserving it without edits."
+                    exit 0
+                  fi
+
+                  node scripts/format-release-notes.mjs < "${original}" > "${formatted}"
+                  if cmp -s "${original}" "${formatted}"; then
+                    exit 0
+                  fi
+
+                  jq -Rs '{body: .}' < "${formatted}" > "${payload}"
+                  gh api --method PATCH \
+                    "repos/${GITHUB_REPOSITORY}/releases/${release_id}" \
+                    --input "${payload}" \
+                    --silent
+
+            - id: classify
+              name: Classify milestone release
+              env:
+                  RELEASE_TAG: ${{ steps.requested-tag.outputs.tag || steps.existing-tag.outputs.tag || steps.run-tagpr.outputs.tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  if [[ "${RELEASE_TAG}" =~ ^v[0-9]+\.[0-9]+\.0$ ]]; then
+                    echo "milestone=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "milestone=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+    milestone-report:
+        if: needs.tagpr.outputs.release-tag != ''
+        needs: tagpr
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            issues: read
+            pull-requests: read
+        steps:
+            - name: Skip milestone report for patch release
+              if: needs.tagpr.outputs.milestone-release != 'true'
+              run: echo "Patch release; skipping milestone report generation."
+
+            - name: Check out release tag
+              if: needs.tagpr.outputs.milestone-release == 'true'
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.tagpr.outputs.release-tag }}
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              if: needs.tagpr.outputs.milestone-release == 'true'
+              uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6
+
+            - name: Set up Node.js
+              if: needs.tagpr.outputs.milestone-release == 'true'
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+              with:
+                  node-version: 24.22.3
+                  cache: pnpm
+
+            - name: Install dependencies
+              if: needs.tagpr.outputs.milestone-release == 'true'
+              run: pnpm install --frozen-lockfile
+
+            - name: Generate and attach milestone report
+              if: needs.tagpr.outputs.milestone-release == 'true'
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  mapfile -t milestone_tags < <(git tag --list 'v*.*.0' --sort=v:refname)
+                  baseline_tag=""
+                  for candidate in "${milestone_tags[@]}"; do
+                    if [ "${candidate}" = "${RELEASE_TAG}" ]; then
+                      break
+                    fi
+                    baseline_tag="${candidate}"
+                  done
+                  if [ -z "${baseline_tag}" ]; then
+                    echo "No previous milestone tag found for ${RELEASE_TAG}" >&2
+                    exit 1
+                  fi
+
+                  current_coverage="${RUNNER_TEMP}/framekit-current-coverage"
+                  baseline_coverage="${RUNNER_TEMP}/framekit-baseline-coverage"
+                  baseline_worktree="${RUNNER_TEMP}/framekit-baseline-worktree"
+                  C8_REPORTS_DIR="${current_coverage}" pnpm run test:coverage
+                  git worktree add --detach "${baseline_worktree}" "${baseline_tag}"
+                  trap 'git worktree remove --force "${baseline_worktree}"' EXIT
+                  pnpm --dir "${baseline_worktree}" install --frozen-lockfile
+                  pnpm exec c8 \
+                    --reporter=json-summary \
+                    --reporter=text \
+                    --reports-dir "${baseline_coverage}" \
+                    pnpm --dir "${baseline_worktree}" test
+                  pnpm run release-report -- \
+                    --baseline-tag "${baseline_tag}" \
+                    --current-tag "${RELEASE_TAG}" \
+                    --baseline-coverage "${baseline_coverage}/coverage-summary.json" \
+                    --current-coverage "${current_coverage}/coverage-summary.json" \
+                    --output-dir artifacts/release-report
+                  gh release upload "${RELEASE_TAG}" \
+                    artifacts/release-report/report.json \
+                    artifacts/release-report/report.md \
+                    artifacts/release-report/charts/coverage.svg \
+                    artifacts/release-report/charts/roadmap-progress.svg \
+                    artifacts/release-report/charts/contributors.svg \
+                    --repo "${GITHUB_REPOSITORY}" \
+                    --clobber
+
+    resolve-swift-release:
+        if: needs.tagpr.outputs.release-tag != ''
+        needs: tagpr
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        outputs:
+            sha: ${{ steps.commit.outputs.sha }}
+        steps:
+            - name: Check out release tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.tagpr.outputs.release-tag }}
+                  persist-credentials: false
+            - name: Resolve release commit
+              id: commit
+              run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+    swift-release-scan:
+        if: needs.tagpr.outputs.release-tag != ''
+        needs: [tagpr, resolve-swift-release]
+        uses: ./.github/workflows/codeql.yml
+        permissions:
+            contents: read
+            actions: read
+            pull-requests: read
+            security-events: write
+        with:
+            swift_only: true
+            scan_ref: refs/tags/${{ needs.tagpr.outputs.release-tag }}
+            scan_sha: ${{ needs.resolve-swift-release.outputs.sha }}
+
+    swift-release-gate:
+        needs: [tagpr, resolve-swift-release, swift-release-scan]
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            security-events: read
+        steps:
+            - name: Check out trusted policy
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+            - name: Check release Swift findings
+              run: node .github/codeql/verify-release-policy.mjs
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+                  RELEASE_SHA: ${{ needs.resolve-swift-release.outputs.sha }}
+
+    publish-npm:
+        if: needs.tagpr.outputs.release-tag != ''
+        needs:
+            - tagpr
+            - validate-codex-plugin
+            - milestone-report
+            - swift-release-gate
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.tagpr.outputs.release-tag }}
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6
+
+            - name: Set up Node.js
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+              with:
+                  node-version: 24.22.3
+                  registry-url: https://registry.npmjs.org
+                  cache: pnpm
+
+            - name: Set up npm Trusted Publishing
+              run: npm install --global npm@11.5.1
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Install FFmpeg fixture toolchain
+              run: sudo apt-get update && sudo apt-get install --no-install-recommends -y ffmpeg
+
+            - name: Build release package
+              run: pnpm run build:package
+
+            - name: Validate release package
+              env:
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              run: node scripts/validate-release-contract.mjs
+
+            - name: Validate MCP server version
+              run: node scripts/validate-mcp-server-version.mjs
+
+            - name: Verify artifact-first headless workflows
+              env:
+                  FRAMEKIT_TEST_MCP_ENTRYPOINT: ${{ github.workspace }}/dist-package/apps/mcp-server/src/main.js
+              run: pnpm run test:headless
+
+            - name: Run v0.1.6 native-editing release gate
+              run: pnpm run release-gate --output-dir artifacts/release-gate/${{ github.run_id }}
+
+            - name: Upload release gate evidence
+              if: always()
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+              with:
+                  name: release-gate-${{ github.run_id }}
+                  path: artifacts/release-gate/${{ github.run_id }}
+                  if-no-files-found: warn
+
+            - id: npm-status
+              name: Check npm publication status
+              env:
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  expected_version="${RELEASE_TAG#v}"
+                  package_name="$(node -p "require('./package.json').name")"
+                  error_log="${RUNNER_TEMP}/npm-view-error.log"
+                  if published_version="$(npm view --prefer-online "${package_name}@${expected_version}" version 2>"${error_log}")"; then
+                    if [ "${published_version}" != "${expected_version}" ]; then
+                      echo "Unexpected npm version: ${published_version}" >&2
+                      exit 1
+                    fi
+                    echo "published=true" >> "$GITHUB_OUTPUT"
+                  elif grep -Eq 'E404|404 Not Found' "${error_log}"; then
+                    echo "published=false" >> "$GITHUB_OUTPUT"
+                  else
+                    cat "${error_log}" >&2
+                    exit 1
+                  fi
+
+            - name: Publish npm package
+              if: steps.npm-status.outputs.published != 'true'
+              env:
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  expected_version="${RELEASE_TAG#v}"
+                  package_name="$(node -p "require('./package.json').name")"
+                  error_log="${RUNNER_TEMP}/npm-publish-error.log"
+                  if npm publish --access public 2>"${error_log}"; then
+                    exit 0
+                  fi
+                  cat "${error_log}" >&2
+                  if grep -Eq 'EPUBLISHCONFLICT|previously published versions' "${error_log}"; then
+                    echo "npm ${package_name}@${expected_version} was published by an earlier attempt; verification will confirm it."
+                    exit 0
+                  fi
+                  echo "::error::npm publish failed. For E404 or ENEEDAUTH, verify that @morshoto/framekit trusts morshoto/framekit release.yml and allows direct npm publish."
+                  exit 1
+
+            - name: Verify npm publication
+              env:
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+                  NPM_LIFECYCLE_TOKEN: ${{ secrets.NPM_LIFECYCLE_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  expected_version="${RELEASE_TAG#v}"
+                  package_name="$(node -p "require('./package.json').name")"
+                  encoded_package_name="${package_name//\//%2F}"
+                  error_log="${RUNNER_TEMP}/npm-verify-error.log"
+                  lifecycle_error_log="${RUNNER_TEMP}/npm-lifecycle-status-error.log"
+                  max_attempts=17
+                  retry_delay_seconds=60
+                  for attempt in $(seq 1 "${max_attempts}"); do
+                    lifecycle_status=""
+                    if [ -n "${NPM_LIFECYCLE_TOKEN:-}" ]; then
+                      if lifecycle_response="$(curl --fail --silent --show-error \
+                        --max-time 15 \
+                        --oauth2-bearer "${NPM_LIFECYCLE_TOKEN}" \
+                        "https://registry.npmjs.org/-/package/${encoded_package_name}/version/${expected_version}/status" \
+                        2>"${lifecycle_error_log}")"; then
+                        if lifecycle_status="$(node -e 'try { const payload = JSON.parse(process.argv[1]); process.stdout.write(typeof payload.status === "string" ? payload.status : ""); } catch { process.exit(1); }' "${lifecycle_response}")"; then
+                          :
+                        else
+                          lifecycle_status=""
+                          echo "npm lifecycle status response is invalid; using public registry verification."
+                        fi
+                      else
+                        echo "npm lifecycle status is unavailable; using public registry verification."
+                      fi
+                    fi
+                    if [ "${lifecycle_status}" = "validating" ]; then
+                      if [ "${attempt}" -lt "${max_attempts}" ]; then
+                        echo "npm ${package_name}@${expected_version} is still validating; retrying in ${retry_delay_seconds}s (attempt ${attempt}/${max_attempts})."
+                        sleep "${retry_delay_seconds}"
+                        continue
+                      fi
+                    fi
+                    if published_version="$(npm view --prefer-online "${package_name}@${expected_version}" version 2>"${error_log}")"; then
+                      if [ "${published_version}" != "${expected_version}" ]; then
+                        echo "Unexpected npm version: ${published_version}" >&2
+                        exit 1
+                      fi
+                      echo "Verified ${package_name}@${expected_version} on attempt ${attempt}."
+                      exit 0
+                    fi
+                    if ! grep -Eq 'E404|404 Not Found|No match found for version' "${error_log}"; then
+                      cat "${error_log}" >&2
+                      exit 1
+                    fi
+                    if [ "${attempt}" -lt "${max_attempts}" ]; then
+                      echo "npm ${package_name}@${expected_version} is not visible yet; retrying in ${retry_delay_seconds}s (attempt ${attempt}/${max_attempts})."
+                      sleep "${retry_delay_seconds}"
+                    fi
+                  done
+                  cat "${error_log}" >&2
+                  exit 1
+
+            - name: Verify clean published Codex MCP installation
+              env:
+                  FRAMEKIT_CLEAN_CLIENT: codex
+                  FRAMEKIT_CLEAN_MCP_EVIDENCE_OUTPUT: artifacts/release-candidate/clean-mcp-clients.json
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  export RELEASE_COMMIT="$(git rev-parse HEAD)"
+                  pnpm run test:clean-mcp-clients
+
+            - name: Publish GitHub release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              run: |
+                  set -euo pipefail
+                  release_id="$(gh api "repos/${GITHUB_REPOSITORY}/releases" --paginate \
+                    --jq ".[] | select(.draft == true and (.name == \"${RELEASE_TAG}\" or .tag_name == \"${RELEASE_TAG}\")) | .id" \
+                    | head -n 1)"
+                  if [ -n "${release_id}" ]; then
+                    gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${release_id}" \
+                      -f tag_name="${RELEASE_TAG}" \
+                      -f name="${RELEASE_TAG}" \
+                      -F draft=false
+                  else
+                    gh release edit "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --draft=false
+                  fi
+
+            - name: Upload clean MCP release candidate evidence
+              if: always()
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+              with:
+                  name: clean-mcp-clients-${{ needs.tagpr.outputs.release-tag }}
+                  path: artifacts/release-candidate/clean-mcp-clients.json
+                  if-no-files-found: warn
+
+    validate-codex-plugin:
+        if: needs.tagpr.outputs.release-tag != ''
+        needs: tagpr
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.tagpr.outputs.release-tag }}
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6
+
+            - name: Set up Node.js
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+              with:
+                  node-version: 24.22.3
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Validate package and plugin alignment
+              run: pnpm run test:codex-plugin
+
+    tagpr-pull-request:
+        if: >-
+            github.event_name == 'pull_request' &&
+            startsWith(github.head_ref, 'tagpr-from-') &&
+            github.event.pull_request.head.repo.full_name == github.repository
+        concurrency:
+            group: release-notes-pr-${{ github.event.pull_request.number }}
+            cancel-in-progress: true
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            issues: read
+            pull-requests: write
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - name: Format generated release notes in tagpr PR
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+                  PR_TITLE: ${{ github.event.pull_request.title }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  original="${RUNNER_TEMP}/release-pr-body.md"
+                  formatted="${RUNNER_TEMP}/release-pr-body-formatted.md"
+                  payload="${RUNNER_TEMP}/release-pr-body.json"
+
+                  export RELEASE_VERSION="${PR_TITLE#Release for }"
+                  gh api "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}" --jq '.body // ""' > "${original}"
+                  node scripts/format-release-notes.mjs < "${original}" > "${formatted}"
+
+                  if cmp -s "${original}" "${formatted}"; then
+                    exit 0
+                  fi
+
+                  jq -Rs '{body: .}' < "${formatted}" > "${payload}"
+                  gh api --method PATCH \
+                    "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}" \
+                    --input "${payload}" \
+                    --silent
+
+    github-release:
+        if: github.event_name == 'release'
+        concurrency:
+            group: release-notes-${{ github.event.release.tag_name }}
+            cancel-in-progress: true
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            issues: read
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - name: Format generated release notes in GitHub release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  RELEASE_ID: ${{ github.event.release.id }}
+                  RELEASE_VERSION: ${{ github.event.release.tag_name }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  original="${RUNNER_TEMP}/release-body.md"
+                  formatted="${RUNNER_TEMP}/release-body-formatted.md"
+                  payload="${RUNNER_TEMP}/release-body.json"
+
+                  gh api "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" --jq '.body // ""' > "${original}"
+                  node scripts/format-release-notes.mjs < "${original}" > "${formatted}"
+
+                  if cmp -s "${original}" "${formatted}"; then
+                    exit 0
+                  fi
+
+                  jq -Rs '{body: .}' < "${formatted}" > "${payload}"
+                  gh api --method PATCH \
+                    "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" \
+                    --input "${payload}" \
+                    --silent
+
+    validate-native-release:
+        if: >-
+            (github.event_name == 'release' && github.event.action == 'published') ||
+            (github.event_name == 'repository_dispatch' && github.event.action == 'framekit-native-release-published')
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            security-events: read
+        outputs:
+            release-tag: ${{ steps.validate.outputs.tag }}
+        steps:
+            - name: Check out main
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: main
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - id: validate
+              name: Validate release tag
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.client_payload.release_tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  if ! git check-ref-format "refs/tags/${RELEASE_TAG}" \
+                    || ! git rev-parse --verify --quiet "refs/tags/${RELEASE_TAG}^{commit}" >/dev/null; then
+                    echo "Requested release tag does not exist: ${RELEASE_TAG}" >&2
+                    exit 1
+                  fi
+                  if ! git merge-base --is-ancestor "refs/tags/${RELEASE_TAG}^{commit}" origin/main; then
+                    echo "Requested release tag is not reachable from main: ${RELEASE_TAG}" >&2
+                    exit 1
+                  fi
+                  gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null
+                  echo "tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
+                  echo "sha=$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")" >> "$GITHUB_OUTPUT"
+
+            - name: Check Swift security evidence for native assets
+              run: node .github/codeql/verify-release-policy.mjs
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  RELEASE_TAG: ${{ steps.validate.outputs.tag }}
+                  RELEASE_SHA: ${{ steps.validate.outputs.sha }}
+
+    package-native-assets:
+        name: Package signed native assets
+        needs: validate-native-release
+        concurrency:
+            group: native-release-${{ github.event_name == 'release' && github.event.release.tag_name || github.event.client_payload.release_tag }}
+            cancel-in-progress: false
+        runs-on: [self-hosted, macOS, framekit-release]
+        permissions:
+            contents: write
+        steps:
+            - name: Check out release tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.validate-native-release.outputs.release-tag }}
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Package signed native release assets
+              env:
+                  FRAMEKIT_CODESIGN_IDENTITY: ${{ secrets.FRAMEKIT_CODESIGN_IDENTITY }}
+                  FRAMEKIT_NOTARY_PROFILE: ${{ vars.FRAMEKIT_NOTARY_PROFILE }}
+                  FRAMEKIT_RELEASE_DIR: ${{ runner.temp }}/framekit-native-release
+                  RELEASE_TAG: ${{ needs.validate-native-release.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  export FRAMEKIT_RELEASE_VERSION="${RELEASE_TAG#v}"
+                  bash scripts/package-final-cut-release.sh
+
+            - name: Upload native release assets
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  FRAMEKIT_RELEASE_DIR: ${{ runner.temp }}/framekit-native-release
+                  RELEASE_TAG: ${{ needs.validate-native-release.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  expected_version="${RELEASE_TAG#v}"
+                  archive_name="FramekitFinalCutWorkflow-${expected_version}.zip"
+                  checksum_name="${archive_name}.sha256"
+                  test -s "${FRAMEKIT_RELEASE_DIR}/${archive_name}"
+                  test -s "${FRAMEKIT_RELEASE_DIR}/${checksum_name}"
+                  gh release upload "${RELEASE_TAG}" \
+                    "${FRAMEKIT_RELEASE_DIR}/${archive_name}" \
+                    "${FRAMEKIT_RELEASE_DIR}/${checksum_name}" \
+                    --repo "${GITHUB_REPOSITORY}" \
+                    --clobber
+
+            - name: Verify downloaded native release installation
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ needs.validate-native-release.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  expected_version="${RELEASE_TAG#v}"
+                  expected_commit="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
+                  archive_name="FramekitFinalCutWorkflow-${expected_version}.zip"
+                  checksum_name="${archive_name}.sha256"
+                  verification_dir="$(mktemp -d "${RUNNER_TEMP}/framekit-release-install.XXXXXX")"
+                  trap 'rm -rf "$verification_dir"' EXIT
+                  gh release download "${RELEASE_TAG}" \
+                    --repo "${GITHUB_REPOSITORY}" \
+                    --pattern "$archive_name" \
+                    --pattern "$checksum_name" \
+                    --dir "$verification_dir"
+                  cd "$verification_dir"
+                  shasum -a 256 --check "$checksum_name"
+                  mkdir -p staged Applications
+                  ditto -x -k "$archive_name" staged
+                  staged_app="${verification_dir}/staged/FramekitFinalCutWorkflow.app"
+                  installed_app="${verification_dir}/Applications/FramekitFinalCutWorkflow.app"
+                  test -d "$staged_app"
+                  ditto "$staged_app" "$installed_app"
+                  codesign --verify --deep --strict "$installed_app"
+                  extension_plist="${installed_app}/Contents/PlugIns/FramekitFinalCutWorkflowExtension.appex/Contents/Info.plist"
+                  test -f "$extension_plist"
+                  actual_version="$(/usr/libexec/PlistBuddy -c 'Print :FramekitBuildVersion' "$extension_plist")"
+                  actual_commit="$(/usr/libexec/PlistBuddy -c 'Print :FramekitBuildCommit' "$extension_plist")"
+                  test "$actual_version" = "$expected_version"
+                  test "$actual_commit" = "$expected_commit"
+
+    verify-release-provenance:
+        if: always() && needs.validate-native-release.result == 'success'
+        needs:
+            - validate-native-release
+            - package-native-assets
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            actions: read
+        steps:
+            - name: Check out release tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.validate-native-release.outputs.release-tag }}
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6
+
+            - name: Set up Node.js
+              uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+              with:
+                  node-version: 24.22.3
+                  registry-url: https://registry.npmjs.org
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Verify complete release provenance
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ needs.validate-native-release.outputs.release-tag }}
+                  RELEASE_PROVENANCE_OUTPUT_DIR: artifacts/release-provenance/${{ github.run_id }}
+              run: pnpm run verify-release-provenance
+
+            - name: Upload provenance evidence
+              if: always()
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+              with:
+                  name: release-provenance-${{ github.run_id }}
+                  path: artifacts/release-provenance/${{ github.run_id }}
+                  if-no-files-found: warn
+
+    dispatch-native-release:
+        if: needs.publish-npm.result == 'success' && needs.tagpr.outputs.release-tag != ''
+        needs:
+            - publish-npm
+            - tagpr
+        continue-on-error: true
+        concurrency:
+            group: native-release-dispatch-${{ needs.tagpr.outputs.release-tag }}
+            cancel-in-progress: false
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Dispatch native release packaging
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+                  RELEASE_TAG: ${{ needs.tagpr.outputs.release-tag }}
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  payload="${RUNNER_TEMP}/native-release-dispatch.json"
+                  jq -n \
+                    --arg release_tag "${RELEASE_TAG}" \
+                    '{event_type: "framekit-native-release-published", client_payload: {release_tag: $release_tag}}' \
+                    > "${payload}"
+                  gh api --method POST "repos/${GITHUB_REPOSITORY}/dispatches" \
+                    --input "${payload}" \
+                    --silent
