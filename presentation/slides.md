@@ -108,12 +108,12 @@ size: 16:9
 ## 3. 品質を確認して effort を選ぶ
 
 <div class="layout--split">
-<div class="card"><h3>High / Single</h3><div class="stat">5.311<small>報告された AI credits</small></div></div>
-<div class="card"><h3>Max / Cascade</h3><div class="stat stat--amber">27.379<small>報告された AI credits</small></div></div>
+<div class="card"><h3>High / Single</h3><div class="stat">34.426<small>報告された AI credits</small></div></div>
+<div class="card"><h3>Max / Single</h3><div class="stat stat--amber">30.113<small>報告された AI credits</small></div></div>
 </div>
 
 <div class="callout">品質条件を満たした High 優先でも Max 単独より利用量が多い例を観測</div>
-<div class="source">上の値は先行試行。追試は High 34.426 / Max 30.113。請求額ではない。</div>
+<div class="source">追試各1回。Max は図の測定対象を漏らし、同品質ではない。請求額ではない。</div>
 
 ---
 
@@ -132,8 +132,8 @@ size: 16:9
 ## 5. 必要な要件を渡し、未読を明示する
 
 <div class="layout--split">
-<div class="card"><h3>今回の条件</h3><p>外部アクセスを禁止し、Issue 番号だけを指定</p></div>
-<div class="card"><h3>実際の回答</h3><p>本文を与えた追試では図や 4.5:1 を含む2案を提示</p></div>
+<div class="card"><h3>先行：番号のみ</h3><p>外部アクセスを禁止し、Issue 番号だけを指定</p></div>
+<div class="card"><h3>追試：本文を提供</h3><p>本文を与えた追試では図や 4.5:1 を含む2案を提示</p></div>
 </div>
 
 <div class="callout">公開可能な要件を渡し、読めなかった資料を確認する</div>
