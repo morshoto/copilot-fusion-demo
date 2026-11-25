@@ -10,7 +10,7 @@
 [Marp スライドのドラフト](slides.md)を次のコマンドで表示用 HTML に変換できる。実録画 GIF を挿入済み。通し練習は未実施。
 
 ```sh
-npx --yes @marp-team/marp-cli@4.5.1 presentation/slides.md --html --allow-local-files --theme presentation/evidence-lab.css -o presentation/fusion-slides.html
+npx --yes @marp-team/marp-cli@4.5.1 presentation/slides.md --html --allow-local-files --theme presentation/fusion-redesign.css -o presentation/fusion-slides.html
 ```
 
 ## スライド案
