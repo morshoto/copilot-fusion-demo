@@ -29,3 +29,9 @@ test('assignment automation has a pinned package manager and milestone helper', 
   assert.match(assign, /pnpm\/action-setup@[\da-f]+[^\n]*\n\s+with:\n\s+version:/);
   assert.ok(read('scripts/sync-pr-milestone.mjs').includes('syncPullRequestMilestone'));
 });
+
+test('label synchronization uses supported pnpm dlx options', () => {
+  const assign = read('.github/workflows/assign.yml');
+  assert.doesNotMatch(assign, /pnpm dlx --yes/);
+  assert.match(assign, /pnpm dlx @azu\/github-label-setup/);
+});
