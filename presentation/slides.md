@@ -40,12 +40,30 @@ size: 16:9
 
 ---
 
-## 実験対象と操作
+## 実操作：回帰テストを先に作る
+
+<img src="media/framekit-796-red.gif" alt="Fusion が Framekit の回帰テストを作成し、通常モーションで失敗した実録画" style="display:block; margin:auto; height:505px; width:auto;">
+
+<div class="source">実際の CLI 出力。待機短縮・2倍速、個人パスとセッション ID を伏せた録画。</div>
+
+---
+
+## 実操作：修正とテスト再実行
+
+<img src="media/framekit-796-green.gif" alt="Fusion が初期表示を修正し、ブラウザテストを再実行した実録画" style="display:block; margin:auto; height:505px; width:auto;">
+
+<div class="source">上限到達後に再開した録画。待機短縮・2倍速。追加の独立検証は実験記録を参照。</div>
+
+---
+
+## 修正前後の初期フレーム
 
 <div class="layout--split">
-<div><h3>Framekit #796</h3><p>初期表示の文字と CTA の可読性を調査</p><p>固定コミット / 読み取り専用</p><p>Issue 本文の取得とブラウザ検証は行っていない</p></div>
-<div class="card"><h3>実操作 GIF</h3><p>録画・公開内容の確認待ち</p><p class="mini-note">このスライドは未完成</p></div>
+<div class="card"><h3>修正前</h3><img src="media/framekit-796-before.png" alt="修正前、hero が見えない初期表示" style="width:300px; height:400px; object-fit:cover; object-position:top; display:block; margin:auto;"></div>
+<div class="card"><h3>修正後</h3><img src="media/framekit-796-after.png" alt="修正後、hero の見出しとボタンが見える初期表示" style="width:300px; height:400px; object-fit:cover; object-position:top; display:block; margin:auto;"></div>
 </div>
+
+<div class="source">Chromium / light / 375px。初期アニメーションを停止して比較。ローカル生成物。</div>
 
 ---
 
