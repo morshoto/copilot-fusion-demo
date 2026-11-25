@@ -46,3 +46,7 @@ B は explore の結果を取り込んだが、提案の「300ms 以内にアニ
 同じ固定 SHA の別の浅い checkout のルート `AGENTS.md` の末尾に、docs landing hero 調査時は `explore` subagent に初期調査を委任し、その結果を取り込むという英語の読み取り専用指示を一時追加した。プロンプトは委任を明示しない上表 A と同文、ツール許可・CLI 設定も同じで `--trust-folder` を使用。ローカル変更は実験 checkout 内の追加文だけで、製品の修正やコミットはしていない。
 
 この1試行は Single / GPT-6.1 Terra、親の `subagent.started` と `subagent.completed` が各1、親ツール開始18件、開始から Fusion 完了まで約232.1秒、4.788 AI credits。explore の結果を親が参照した一方、完了後に追加指示を送ろうとして「Agent is not running in background mode」と失敗したイベントもあった。指示を追加しない A は0件だったが、各1回、別セッション・別時刻・同時実験の負荷などがある。AGENTS.md の追加だけが原因と断定せず、同ファイル内の他の指示の継承もこの試行では検証していない。
+
+### `--fleet` 設定
+
+別の浅い checkout では元の `AGENTS.md` を変更せず、委任を明示しない A と同じプロンプト・権限・その他の設定に CLI の `--fleet` だけを追加した。Single / GPT-6.1 Terra で、親セッションに subagent 開始2件・完了2件、親ツール開始59件、Fusion requests 30件を記録。開始から完了まで約250.5秒、8.177 AI credits だった。2つの explore は実装と既存テストを分担し、親が結果を使って回答した。初期設定の A は0件だが、どちらも1試行であり、実行時間・利用量の一般的な優劣は示さない。CLI の `--fleet` は対話画面の `/fleet` と異なる起動方法であり、後者を実行したとは主張しない。
