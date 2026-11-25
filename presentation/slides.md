@@ -98,16 +98,15 @@ size: 16:9
 
 ---
 
-## 5. 予定と実行済みを分ける
+## 5. 必要な要件を渡し、未読を明示する
 
-<div class="layout--three">
-<div class="axis-card"><h3>Solver</h3><p>開始・完了</p></div>
-<div class="axis-card axis-card--teal"><h3>Judge</h3><p>開始・完了</p></div>
-<div class="axis-card axis-card--amber"><h3>Repair</h3><p>条件付きで予定。開始イベントなし</p></div>
+<div class="layout--split">
+<div class="card"><h3>今回の条件</h3><p>外部アクセスを禁止し、Issue 番号だけを指定</p></div>
+<div class="card"><h3>実際の回答</h3><p>High / Max とも Issue 本文を読めなかったと明示</p></div>
 </div>
 
-<div class="callout">Fusion の critic と CLI の subagent も別のイベントとして扱う</div>
-<div class="source">Max 試行の記録。見えない内部工程は推測しない。</div>
+<div class="callout">公開可能な要件を渡し、読めなかった資料を確認する</div>
+<div class="source">本文を渡す対照試行は未実施。品質改善は仮説。</div>
 
 ---
 
