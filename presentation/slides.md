@@ -100,8 +100,8 @@ size: 16:9
 <div class="metric"><b>tool.execution_start</b><small>観測されたツール開始</small></div>
 </div>
 
-<div class="callout--warning callout">約93秒と約67秒の差は、委任指示の効果とは断定できない</div>
-<div class="source">各1試行。モデル・経路・権限・キャッシュなどが異なる。</div>
+<div class="callout--warning callout">見直し指示の追試：131秒 → 252秒。因果関係は断定できない</div>
+<div class="source">各1試行。モデルと権限を揃えても、負荷・キャッシュなどは異なる。</div>
 
 ---
 
