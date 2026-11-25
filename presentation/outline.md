@@ -7,6 +7,12 @@
 | 6:00–13:30 | 5つの Tips：subagent、ループ、利用量、根拠、工程 | 実験ごとの条件・限界を添える |
 | 13:30–15:00 | まとめ | 独立した検証と公開前確認 |
 
+[Marp スライドのドラフト](slides.md)を次のコマンドで表示用 HTML に変換できる。実操作 GIF は未挿入。
+
+```sh
+npx --yes @marp-team/marp-cli presentation/slides.md --html --theme presentation/evidence-lab.css -o /tmp/fusion-slides.html
+```
+
 ## スライド案
 
 1. **Copilot Fusion：実験から得た5つの Tips**
