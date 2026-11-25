@@ -36,4 +36,4 @@ npx --yes @marp-team/marp-cli@4.5.1 presentation/slides.md --html --allow-local-
 - 原稿と GIF を通して実際に読み、15分以内になるまで調整する。時間配分は目標であり、通し確認の実績ではない。
 - 参考: 2026-11-25 に日本語音声合成 Kyoko、rate 200 で本文だけを読み上げた生成音声は約10分45秒。GIF の再生、操作、実際の話者の間は含まない。15分の通し練習ではなく、内容と尺の調整が必要。
 
-主要な根拠: [GitHub Fusion 概要](https://docs.github.com/en/copilot/concepts/models/copilot-fusion)、[HyDRA 論文](https://arxiv.org/abs/2605.17106)、[subagent 実験](../experiments/subagent-observation.md)、[effort 比較](../experiments/effort-quality-observation.md)、[追加 Tips](../experiments/tips.md)、[Framekit の開発記録](../experiments/framekit-796-development.md)。実行ループは Issue #7 の記録を参照する。
+主要な根拠: [GitHub Fusion 概要](https://docs.github.com/en/copilot/concepts/models/copilot-fusion)、[HyDRA 論文](https://arxiv.org/abs/2605.17106)、[subagent 実験](../experiments/subagent-observation.md)、[effort 比較](../experiments/effort-quality-observation.md)、[追加 Tips](../experiments/tips.md)、[Framekit の開発記録](../experiments/framekit-796-development.md)。実行ループは [Issue #7 の観測記録](../experiments/prompt-loop-observation.md)を参照する。
