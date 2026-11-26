@@ -33,3 +33,13 @@
 ## 実録画（2026-11-25）
 
 認証回復後、Framekit #796 の回帰テスト作成と修正を Fusion に依頼し、実際の端末出力を2つの GIF にした。[実験の条件・結果と公開範囲](../experiments/framekit-796-development.md)を参照。個人パスとセッション ID を伏せ、待機を短縮した録画である。途中のセッション上限到達と再開は GIF だけでは見えないため、実験記録に明記した。15分の実際の通し練習は未実施。
+
+## Copilot CLI のデモ（2026-11-26）
+
+Copilot CLI 1.0.115 を直接起動し、Fusion High に指数バックオフの説明を依頼した。[GIF](media/fusion-cli-demo.gif) は実際の端末出力を録画し、待機時間を短縮したもの。`-s` を指定したため、この録画だけでは選択されたモデルや経路は分からない。
+
+```sh
+copilot --model auto --auto-tier hydrafusion -s --disable-builtin-mcps --disable-mcp-server unityMCP --no-auto-update -p "指数バックオフを2文で説明"
+```
+
+このバージョンの `hydrafusion` は High 指定の内部名。録画メタデータから実行環境情報を除いた [cast](../experiments/data/fusion-cli-2026-11-26.cast) を参照。経路イベントの説明は別のSDK実験に基づく。15分の通し練習は未実施。

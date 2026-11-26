@@ -7,136 +7,190 @@ size: 16:9
 
 <!-- _class: cover -->
 
-<div class="kicker">GITHUB UNIVERSE RECAP 2026</div>
+<div class="eyebrow">GITHUB UNIVERSE RECAP 2026</div>
 
 # Copilot<br>Fusion<span class="accent">.</span>
 
-<p class="cover-sub">使い倒してわかった、<br>モデル選択の裏側と5つのヒント</p>
+<p class="cover-sub">使い倒してわかった、<br>モデル選択の裏側と実践のヒント</p>
 <div class="cover-index">ROUTING　/　AGENTS　/　EVIDENCE</div>
 
 ---
 
-<div class="kicker">01 / ARCHITECTURE</div>
+## Copilot Fusion とは？
 
-## Fusion は処理の流れを選ぶ
+<div class="key-message">選ぶのは<strong>単一のモデル</strong>ではなく、<strong>モデルと処理の組み合わせ</strong></div>
 
-<div class="architecture">
-  <div class="arch-input"><span>INPUT</span><b>開発タスク</b><small>プロンプトとコンテキスト</small></div>
-  <div class="arch-route"><span>FUSION</span><b>モデルと方式を選択</b><small>effort ・利用可能なモデル</small></div>
-  <div class="arch-outputs"><div><b>Single</b><small>1モデルが解く</small></div><div><b>Cascade</b><small>判定して必要なら強いモデルへ</small></div><div><b>Critique</b><small>批評を集めて回答を改訂</small></div></div>
+<div class="intro-two">
+<div><h3>利用者が決める</h3><p>タスクと <b>effort</b><br>Standard / High / Max</p></div>
+<div class="arrow-symbol">→</div>
+<div><h3>Fusion が決める</h3><p>利用可能なモデルと<br><b>Single / Cascade / Critique</b></p></div>
+<div class="arrow-symbol">→</div>
+<div><h3>受け取る</h3><p>統合された<br><b>ひとつの回答</b></p></div>
 </div>
-<p class="takeaway">必要に応じて追加のモデル呼び出しが発生する</p>
-<div class="foot">出典：GitHub Docs, About Copilot Fusion</div>
+
+<div class="source">出典: GitHub Docs “About GitHub Copilot Fusion” · モデルプールと挙動は変わる可能性があります</div>
 
 ---
 
-<div class="kicker">02 / RESEARCH</div>
+## Fusion の中で何が起きる？
 
-## モデル選択を「能力」で考える
+<div class="key-message"><strong>経路の予定・実行・最終回答</strong>をイベントで照合する</div>
 
-<div class="research">
-  <div class="research-left"><p class="overline">HyDRA 論文の考え方</p><div class="axis"><b>推論</b><i style="--w:82%"></i></div><div class="axis"><b>コード生成</b><i style="--w:67%"></i></div><div class="axis"><b>デバッグ</b><i style="--w:92%"></i></div><div class="axis"><b>ツール利用</b><i style="--w:48%"></i></div><small>バーは考え方を示すイメージ</small></div>
-  <div class="research-right"><p>要求される能力を予測し、<br><strong>モデルの能力との不足</strong>を比較する。</p><p class="muted">モデル一覧と予測器を分離する設計</p></div>
+<img class="architecture-image" src="media/fusion-architecture.svg" alt="Fusionの入力、経路選択、3つの実行方式、最終回答と観測可能なイベントのアーキテクチャ図">
+
+<div class="source">緑：今回の観測 · 点線：未確認 · SDK 2.0.1 / High · 各経路は別試行 · 2026-11-26</div>
+
+---
+
+## キャッシュはどれくらい使われた？
+
+<div class="key-message">同じ長い依頼の2試行で、<strong>2ターン目に約1.08万トークンを再利用</strong></div>
+
+<table class="comparison cache-table"><thead><tr><th>実行条件</th><th>cache read / input</th><th>追試</th></tr></thead><tbody>
+<tr><td>同一会話の2ターン目</td><td><b>10,843 / 18,541</b></td><td><b>10,844 / 18,622</b></td></tr>
+<tr><td>新規セッションで同じ依頼</td><td>1,271 / 10,848</td><td>1,271 / 10,843</td></tr>
+<tr><td>同一会話で課題を変更</td><td>0 / 35,823</td><td>1,271 / 35,932</td></tr>
+</tbody></table>
+<p class="hypothesis-note">課題変更時は会話履歴・モデル・経路も変化。<br>何がキャッシュ差の原因かは、この比較だけでは分からない。</p>
+<div class="source">SDKのfusion_completedが報告した入力・キャッシュ読み取り · High · 各2試行 · 2026-11-26</div>
+
+---
+
+## モデルをどう選ぶ？ HyDRA 論文
+
+<div class="key-message">要求を4つの能力として推定し、<strong>モデルの不足分</strong>を比較する</div>
+
+<div class="paper-figure"><img src="media/hydra-paper-figure1.png" alt="HyDRA論文 Figure 1 のアーキテクチャ図"></div>
+
+<div class="paper-caption"><b>図中の 0〜1：</b>要求の強さを表す推定スコア。<br>例は論文中の「WebSocket再接続の競合を修正」</div>
+
+<div class="source">Garg et al., HyDRA, EMNLP 2026, Figure 1, p.1379 · https://aclanthology.org/2026.emnlp-industry.82/ · 関連するAuto選択の研究で、Fusion全体の実装仕様ではありません</div>
+
+---
+
+## 観測：Cascade で実際に動いた工程
+
+<div class="key-message">短い修正課題の20試行はすべて <strong>primary → judge</strong> の2工程</div>
+
+<div class="phase-flow"><div><small>入力</small><b>JavaScript<br>の修正依頼</b></div><span>→</span><div><small>primary / solver</small><b>gpt-6.1-sol</b><p>候補を生成</p></div><span>→</span><div><small>judge</small><b>gpt-6-luna</b><p>候補を評価</p></div><span>→</span><div><small>出力</small><b>最終回答</b></div></div>
+<p class="hypothesis-note">20 / 20 試行で各2リクエスト。<b>repair の開始イベントは0 / 20</b>。<br>これらは実行イベントの観測であり、経路選択の理由や内部の評価基準は不明。</p>
+<div class="source">Copilot SDK 2.0.1 · Fusion High · 同一課題、指示2条件を各10回 · ツール無効 · 2026-11-26</div>
+
+---
+
+## よく使う基本コマンド
+
+<div class="key-message">利用前に<strong>モデル・利用量・コンテキスト</strong>を確認</div>
+
+<div class="command-table">
+<div><code>/model</code><strong>Fusion と effort を選択</strong><span>利用可能なモデルはプランやポリシーに依存</span></div>
+<div><code>/usage</code><strong>利用量の確認</strong><span>表示された利用量と実請求額は異なる</span></div>
+<div><code>/context</code><strong>コンテキストの状態</strong><span>開始直後は情報が表示されないことがある</span></div>
 </div>
-<div class="foot">Garg et al., HyDRA (2026) · Auto 選択の関連研究。現行 Fusion の完全な内部仕様ではない</div>
+<div class="source">Copilot CLI 1.0.115で確認 · コマンドや利用条件はバージョンによって変わります</div>
 
 ---
 
-<div class="kicker">03 / CLI</div>
+## 知っておきたいコマンド
 
-## まず、状態を見えるようにする
+<div class="key-message">並列調査、設定確認、独立レビューを<strong>短い操作</strong>で</div>
 
-<div class="commands"><div><code>/model</code><p>選択できるモデルを確認</p></div><div><code>/usage</code><p>セッションの利用量を確認</p></div><div><code>/context</code><p>コンテキストの状態を確認</p></div></div>
-<p class="takeaway">表示される利用量と、実際の請求額は別</p>
-<div class="foot">Copilot CLI 1.0.115 の観測。起動直後の /context は情報なし</div>
-
----
-
-<!-- _class: demo -->
-
-<div class="kicker">04 / RECORDED DEMO</div>
-
-## まず失敗するテストを作る
-
-<div class="screen"><img src="media/framekit-796-red.gif" alt="回帰テストを作成し失敗を確認する実際のCLI録画"></div>
-<div class="foot">実録画・待機短縮・2倍速。個人パスとセッションIDを伏せています</div>
+<div class="command-table">
+<div><code>/fleet</code><strong>独立した作業を並列委任</strong><span>同じ調査課題の追試では3 / 5回で開始・完了</span></div>
+<div><code>/env</code><strong>instructions・agents 等を確認</strong><span>意図した設定が読み込まれているかを見る</span></div>
+<div><code>/rubber-duck</code><strong>別の視点から設計を批評</strong><span>セカンドオピニオンを依頼 · 今回は未実行</span></div>
+</div>
+<div class="source">GitHub Copilot CLI command reference · /fleetとFusionのCritiqueは別機能 · --fleet追試 n=5</div>
 
 ---
 
-<!-- _class: demo -->
+## デモ：CLI から Fusion High を使う
 
-<div class="kicker">05 / RECORDED DEMO</div>
+<div class="key-message">自作スクリプトを介さず、<strong>Copilot CLI を直接実行</strong></div>
 
-## 修正して、もう一度テスト
-
-<div class="screen"><img src="media/framekit-796-green.gif" alt="修正とテスト再実行の実際のCLI録画"></div>
-<div class="foot">上限到達で停止後、上限を上げて再開。GIFは再開後の録画</div>
-
----
-
-<div class="kicker">06 / RESULT</div>
-
-## 最初のフレームを比べる
-
-<div class="before-after"><div><span>BEFORE</span><img src="media/framekit-796-before.png" alt="修正前の初期フレーム"></div><div><span>AFTER</span><img src="media/framekit-796-after.png" alt="修正後の初期フレーム"></div><aside><strong>初期表示で<br>文字とボタンが<br>見えるように</strong><p>20ケースを確認<br>5つのブラウザ・モバイル設定</p></aside></div>
-<div class="foot">Chromium・light・375px。初期アニメーションを停止したローカル生成物</div>
+<div class="demo-video"><img src="media/fusion-cli-demo.gif" alt="GitHub Copilot CLIを直接実行しFusion Highに質問する実録画"></div>
+<p class="demo-note">Fusion High を指定 → 質問を送る → 回答を受け取る</p>
+<div class="source">Copilot CLI 1.0.115 · --auto-tier hydrafusion はこのバージョンの High 指定 · 実録画・待機短縮</div>
 
 ---
 
-<div class="kicker">07 / TIP 01 · SUBAGENT</div>
+## デモ：何が見えて、何が見えない？
 
-## 委任の指示と、結果を確認する
+<div class="key-message">CLI は回答を返す。<strong>経路を詳しく調べるにはイベントを観測</strong></div>
 
-<div class="subagent-grid"><div><span>指示なし</span><strong>0</strong><p>開始イベント</p></div><div><span>委任を明示</span><strong>1</strong><p>explore 開始・完了</p></div><aside><b>委任文に含めたいこと</b><p>対象、成果物、制約、根拠</p><small>AGENTS.md と --fleet でも<br>開始を観測</small></aside></div>
-<div class="foot">各1試行。task権限は揃えたが、モデル・経路などは異なる。Fusionの批評工程とsubagentは別</div>
-
----
-
-<div class="kicker">08 / TIP 02 · ITERATION</div>
-
-## 見直しと停止を、依頼に書く
-
-<div class="loop"><div class="loop-quote">「一度見直したら調査を止め、<br>確認済みと未確認を分ける」</div><div class="loop-stats"><div><b>131<span>秒</span></b><small>基本依頼</small></div><div><b>252<span>秒</span></b><small>見直し・停止を追加</small></div></div></div>
-<p class="takeaway">途中の再確認と、最終報告をイベントで確認</p>
-<div class="foot">各1試行・同じモデルと権限。キャッシュや負荷は異なり、時間差の原因は断定できない</div>
+<div class="answer-comparison"><div><h3>いまの CLI デモ</h3><p><b>質問 → 最終回答</b></p><small>-s で出力を簡潔にしたため、この録画からモデルや経路は判定できない</small></div><div><h3>別途 SDK で観測</h3><p><b>予定経路 → 開始 → 完了</b></p><small>fusion_resolved と phase started / completed を照合。予定だけでは実行完了といえない</small></div></div>
+<div class="source">CLI録画とSDKの経路観測は別セッション · 内部の判断理由や非公開の推論は見えません</div>
 
 ---
 
-<div class="kicker">09 / TIP 03 · COST & QUALITY</div>
+## 実際の開発：初期表示の修正
 
-## effort と品質を一緒に見る
+<div class="key-message">Fusionに依頼し、<strong>修正前後の初期フレーム</strong>を確認</div>
 
-<div class="cost"><div><span>HIGH 優先</span><strong>34.426</strong><small>AI credits · 品質基準に合格</small></div><div><span>MAX 単独</span><strong>30.113</strong><small>AI credits · 図の検証を漏らした</small></div></div>
-<p class="takeaway">この1例では、High 優先による節約は示せなかった</p>
-<div class="foot">各1試行。テスト案の評価であり実行結果や請求額ではない。同品質の費用比較ではない</div>
-
----
-
-<div class="kicker">10 / TIP 04 · VERIFICATION</div>
-
-## もっともらしい説明も、コードで確認
-
-<div class="claim"><div><span>回答</span><p>アニメーションの間、<br><b>ずっと不可視</b></p></div><div><span>コード</span><p>opacity は <b>0 から 1</b> へ。<br>遅延後は徐々に表示</p></div></div>
-<p class="takeaway">重要な主張は、パスと元のコードに戻って確かめる</p>
-<div class="foot">Maxの1回答での観測。一般的なモデル品質の評価ではない</div>
+<div class="before-after"><div><b>修正前</b><img src="media/framekit-796-before.png" alt="修正前の初期表示"></div><div><b>修正後</b><img src="media/framekit-796-after.png" alt="修正後の初期表示"></div><aside><strong>表示開始時から<br>文字とボタンを表示</strong><p>テスト先行で修正。<br>20ケースを実行。</p></aside></div>
+<div class="source">ローカル生成物 · Chromium / light / 375px · 初期アニメーションを停止して比較</div>
 
 ---
 
-<div class="kicker">11 / TIP 05 · CONTEXT</div>
+## Tip 1：subagent はどう呼ぶ？
 
-## 読めない要件は、プロンプトで渡す
+<div class="key-message">同じ調査依頼に、<strong>委任先を明示</strong>する</div>
 
-<div class="requirements"><div><span>ISSUE 番号だけ</span><b>本文を取得できず</b><p>外部アクセスを禁止</p></div><div><span>本文を添付</span><b>対象と閾値を含む提案</b><p>図・両CTA・4.5:1</p></div></div>
-<p class="takeaway">参照できた情報と、読めなかった情報を分ける</p>
-<div class="foot">異なるモデル等が選択された別試行。本文追加による因果効果は未確認</div>
+<div class="delegation-prompt"><p><b>共通の依頼</b><br>sample.ts を読み、timeoutMs のバグと修正案を報告してください。変更や外部アクセスはしないでください。</p><p><b>追加する一文</b><br><mark>subagentにファイルの調査を委任してください。</mark></p></div>
+<div class="delegation-methods"><div><b>AGENTS.md</b><br><small>When investigating sample.ts, <mark>delegate the initial file investigation to the explore subagent</mark> and use its findings.</small></div><div><b>CLI オプション</b><br><code>copilot --fleet ...</code><br><small>同じ調査依頼で並列委任を試す</small></div></div>
+<div class="source">実際の依頼と指示から抜粋 · AGENTS.mdにはファイル変更と外部アクセスを禁止する一文も含む</div>
 
 ---
 
-<!-- _class: closing -->
+## Tip 1：呼び出し方を比べる
 
-<div class="kicker">12 / TAKEAWAYS</div>
+<div class="key-message">同じ読み取り専用課題で、<strong>開始・完了イベント</strong>を数えた</div>
 
-## モデル選択を任せ、<br>成果を確かめる<span class="accent">.</span>
+<div class="subagent-chart"><img src="media/subagent-comparison.svg" alt="呼び出し方法別のsubagent開始・完了セッション数"></div>
+<div class="source">Copilot CLI 1.0.115 / Fusion High · view, task を許可 · 試行ごとに新規セッション · 先行は2、追試は4セッション並行 · AGENTS.md条件のみ指示読み込み有効</div>
 
-<div class="closing-lines"><p><b>01</b> 委任する仕事と制約を明確に</p><p><b>02</b> どこで止めるかを伝える</p><p><b>03</b> 品質と利用量を一緒に見る</p><p><b>04</b> 根拠と必要な要件を確認する</p></div>
-<div class="foot">探索的な少数試行。実験条件と限界を併記</div>
+---
+
+## Tip 2：見直し指示と応答時間
+
+<div class="key-message">同じ課題で各10回。<strong>「3ケースを1回見直す」</strong>指示を追加</div>
+
+<div class="chart-area"><img src="media/prompt-duration.svg" alt="見直し指示の有無とFusion Highの応答時間の実測結果"></div>
+<div class="source">両条件ともCascade 10/10（各2 requests） · モデルのみ・ツール無効 · 因果効果は未確定</div>
+
+---
+
+## 見直し指示：実際に渡したプロンプト
+
+<div class="key-message">基本依頼に<strong>1文だけ追加</strong>して比較</div>
+
+<div class="prompt-exact"><h3>両条件に共通</h3><p>次の JavaScript 関数はゼロも有効な設定値として扱う必要があります。バグを指摘し、修正済みの関数を返してください。</p><pre>function timeoutMs(config) { return config.timeout || 5000; }</pre><p>例: timeoutMs({timeout: 0}) は 0 を返します。</p><h3>見直し条件だけに追加</h3><p><mark>回答前に、0・undefined・null の3ケースを1回見直してから結論を返してください。</mark></p></div>
+<div class="source">SDK / Fusion High · 各10回 · ツール無効。内部の思考回数やエージェントのツールループは測定していません</div>
+
+---
+
+## 生成コードを、実際にテストする
+
+<div class="key-message">20回答すべて同じ修正。<strong>入力4ケース × 20回答が通過</strong></div>
+
+<div class="evidence-image"><img src="media/generated-code-verification.png" alt="モデルが生成したJavaScriptの修正コードと4つの入力に対する実行結果"></div>
+<div class="source">各回答のコードを抽出し、こちらでNode.js上で実行 · 80 / 80合格 · モデル自身によるテスト実行ではない</div>
+
+---
+
+## Tip 3：コストと品質を同時に見る
+
+<div class="key-message">使用量だけでは品質を比較できない。<strong>成果物の差</strong>も確認する</div>
+
+<table class="comparison cost-table"><thead><tr><th></th><th>High 優先</th><th>Max 単独</th></tr></thead><tbody>
+<tr><td>回答のテスト案</td><td>見出し・CTA・図を初期から3秒確認</td><td>見出しとCTAを確認。図の文字は対象外</td></tr>
+<tr><td>調査経路</td><td>heroと図、既存テストを読んで2案</td><td>heroと図、既存テストを読んで2案</td></tr>
+<tr><td>利用量</td><td><b>34.426 AI credits</b></td><td><b>30.113 AI credits</b></td></tr>
+<tr><td>事前の品質条件</td><td class="ok">合格</td><td class="ng">不合格</td></tr>
+</tbody></table>
+<div class="source">各1試行・提示されたIssue本文は同じ · テスト案の評価でありテスト実行や請求額ではない · 異なる品質なので単純比較不可</div>
+
+---
+
+<!-- _class: blank -->
+<!-- _paginate: false -->
