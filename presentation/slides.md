@@ -104,22 +104,23 @@ size: 16:9
 
 ---
 
-## デモ：CLI から Fusion High を使う
+## デモ：Fusion の経路をイベントで追う
 
-<div class="key-message">自作スクリプトを介さず、<strong>Copilot CLI を直接実行</strong></div>
+<div class="key-message">別のSDK実行で <strong>予定 → 開始・完了 → 最終ソース</strong> を照合</div>
 
-<div class="demo-video"><img src="media/fusion-cli-demo.gif" alt="GitHub Copilot CLIを直接実行しFusion Highに質問する実録画"></div>
-<p class="demo-note">Fusion High を指定 → 質問を送る → 回答を受け取る</p>
-<div class="source">Copilot CLI 1.0.115 · --auto-tier hydrafusion はこのバージョンの High 指定 · 実録画・待機短縮</div>
+<div class="phase-flow"><div><small>予定: Cascade</small><b>primary → judge</b><p>repair は条件付き</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6.1-sol</b><p>primary / solver</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6-luna</b><p>judge / accept</p></div><span>→</span><div><small>完了</small><b>primary</b><p>最終ソース · 2 requests</p></div></div>
+<p class="hypothesis-note">repair の開始は未観測。予定を実行済みとは扱わない。<br>次の Framekit 開発録画とは別セッション。</p>
+<div class="source">SDK 2.0.1 / High · 同一会話の課題変更ターン1件 · fusion-runtime-study-2026-11-26.json</div>
 
 ---
 
-## デモ：何が見えて、何が見えない？
+## デモ：Framekit の Red → Green
 
-<div class="key-message">CLI は回答を返す。<strong>経路を詳しく調べるにはイベントを観測</strong></div>
+<div class="key-message">Framekit の<strong>同一セッション</strong>で、各依頼の経路とテスト結果を照合</div>
 
-<div class="answer-comparison"><div><h3>いまの CLI デモ</h3><p><b>質問 → 最終回答</b></p><small>-s で出力を簡潔にしたため、この録画からモデルや経路は判定できない</small></div><div><h3>別途 SDK で観測</h3><p><b>予定経路 → 開始 → 完了</b></p><small>fusion_resolved と phase started / completed を照合。予定だけでは実行完了といえない</small></div></div>
-<div class="source">CLI録画とSDKの経路観測は別セッション · 内部の判断理由や非公開の推論は見えません</div>
+<div class="answer-comparison"><div><h3>Red：Cascade</h3><p>gpt-6.1-sol → gpt-6-luna</p><small>primary → judge 完了・accept。後のテストで通常モーションは opacity 0、2件失敗。</small></div><div><h3>Green：Critique</h3><p>Opus 5.5 → Luna → Opus 5.5</p><small>draft → critic → revision 完了。その後の修正検証で20ケース通過。</small></div></div>
+<p class="hypothesis-note">途中で利用上限に達し、上限変更後に再開。開始イベントは保存記録にない。<br>モデルの完了順と後続のツール実行を区別する。</p>
+<div class="source">CLI 1.0.115 · 2026-11-25 · 保存ログの本文・IDを除いた集計と開発記録</div>
 
 ---
 
