@@ -26,3 +26,15 @@ test('demonstration separates Framekit red and green from model-level observatio
   assert.match(notes, /開始.*完了/s);
   assert.match(notes, /別セッション/);
 });
+
+ test('Framekit red and resumed green cite their own recorded Fusion phases', async () => {
+  const evidence = JSON.parse(await read('experiments/data/framekit-796-fusion-phases.json'));
+  assert.deepEqual(evidence.turns.map(t => t.pattern), ['cascade', 'critique', 'critique']);
+  assert.deepEqual(evidence.turns[0].phases.map(p => [p.kind, p.model, p.status]), [['primary', 'gpt-6.1-sol', 'succeeded'], ['judge', 'gpt-6-luna', 'succeeded']]);
+  assert.deepEqual(evidence.turns[2].phases.map(p => [p.kind, p.model, p.status]), [['draft', 'claude-opus-5.5', 'succeeded'], ['critic', 'gpt-6-luna', 'succeeded'], ['revision', 'claude-opus-5.5', 'succeeded']]);
+  assert.equal(evidence.turns[1].creditLimitObserved, true);
+  assert.equal(evidence.turns[0].startsRecorded, false);
+  const slides = await read('presentation/slides.md');
+  assert.match(slides, /同一セッション/);
+  assert.match(slides, /開始イベント.*記録.*ない/s);
+});
