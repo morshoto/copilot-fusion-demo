@@ -1,8 +1,16 @@
 # Fusion デモ：実行経路とテスト先行の証拠
 
-## 表示の意図と境界
+## Framekit 同一セッションの経路と結果
 
-スライドの経路図と Framekit の Red → Green は**別セッション**。両者は Fusion High の使い方を補い合う例だが、Framekit の各作業を特定モデルや judge の実行に対応付けるログは公開記録にない。対応関係は未観測であり、図をその証拠として扱わない。これを直接対応付けるには同一試行のフェーズイベントとテスト結果を記録する追加実験が必要で、今回は実施していない。
+ローカルの Copilot CLI 1.0.115 の保存セッションを再確認し、本文・識別子・時刻・パスを除いた [集計](data/framekit-796-fusion-phases.json) を作成した。`fusion_resolved`、phase completed、`fusion_completed` の並びと同じターンのツール結果・最終出力を照合した。開始イベントは保存記録にないため、完了順は確認できるが開始時刻や重なりは分からない。モデルのフェーズ完了と後続のツール実行は区別する。
+
+| 依頼 | 予定と完了したフェーズ | 後続の結果 |
+| --- | --- | --- |
+| Red: 回帰テスト | Cascade: primary `gpt-6.1-sol` → judge `gpt-6-luna`、両方 succeeded、judge accept。repair は条件付き予定で完了記録なし | ツールのテスト出力は通常モーションで2失敗、reduced motion で2通過 |
+| Green: 最初の続行 | Critique: draft `claude-opus-5.5` → critic `gpt-6-luna` → revision `claude-opus-5.5`、完了を記録 | 30 AI credits の上限エラーで中断。フェーズ完了や `fusion_completed` だけで修正完了とはいえない |
+| Green: 上限変更後の続行 | 同じ Critique の3フェーズがこの順に完了 | 修正後の CLI 出力で Chromium の関連9件通過。別途、人側が5設定の回帰20ケースを検証 |
+
+条件付き revision は両続行で完了を記録した。critic の verdict は null で、判断基準や各モデルの内部推論は不明。phase completed の順序は全てのモデル呼び出し・ツール呼び出しの詳細を示さない。利用量はセッション累計であり、[開発記録](framekit-796-development.md)に示す。別の SDK セッションは下記の独立した例で、Framekit の経路の証拠ではない。
 
 ## 経路：SDK の1ターン
 

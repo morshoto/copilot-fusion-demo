@@ -109,18 +109,18 @@ size: 16:9
 <div class="key-message">別のSDK実行で <strong>予定 → 開始・完了 → 最終ソース</strong> を照合</div>
 
 <div class="phase-flow"><div><small>予定: Cascade</small><b>primary → judge</b><p>repair は条件付き</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6.1-sol</b><p>primary / solver</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6-luna</b><p>judge / accept</p></div><span>→</span><div><small>完了</small><b>primary</b><p>最終ソース · 2 requests</p></div></div>
-<p class="hypothesis-note">repair の開始は未観測。予定を実行済みとは扱わない。<br>次の Framekit 開発録画とは別セッションで、モデルを対応付ける証拠はない。</p>
+<p class="hypothesis-note">repair の開始は未観測。予定を実行済みとは扱わない。<br>次の Framekit 開発録画とは別セッション。</p>
 <div class="source">SDK 2.0.1 / High · 同一会話の課題変更ターン1件 · fusion-runtime-study-2026-11-26.json</div>
 
 ---
 
 ## デモ：Framekit の Red → Green
 
-<div class="key-message">Fusion High への2回の依頼で、<strong>失敗するテストから修正へ</strong></div>
+<div class="key-message">Framekit の<strong>同一セッション</strong>で、各依頼の経路とテスト結果を照合</div>
 
-<div class="answer-comparison"><div><h3>Red：回帰テスト</h3><p>通常モーションで opacity 0</p><small>light / dark が失敗。reduced motion は通過。</small></div><div><h3>Green：最小修正</h3><p>opacity の変化を除去</p><small>後の検証で5設定 × 4ケース = 20ケース通過。</small></div></div>
-<p class="hypothesis-note">Framekit の個別モデル・フェーズは不明。前ページの経路はこの録画のものではない。</p>
-<div class="source">Copilot CLI 1.0.115 · 2026-11-25 · 実録画は framekit-796-red / green.gif · 中断・再開あり</div>
+<div class="answer-comparison"><div><h3>Red：Cascade</h3><p>gpt-6.1-sol → gpt-6-luna</p><small>primary → judge 完了・accept。後のテストで通常モーションは opacity 0、2件失敗。</small></div><div><h3>Green：Critique</h3><p>Opus 5.5 → Luna → Opus 5.5</p><small>draft → critic → revision 完了。その後の修正検証で20ケース通過。</small></div></div>
+<p class="hypothesis-note">途中で利用上限に達し、上限変更後に再開。開始イベントは保存記録にない。<br>モデルの完了順と後続のツール実行を区別する。</p>
+<div class="source">CLI 1.0.115 · 2026-11-25 · 保存ログの本文・IDを除いた集計と開発記録</div>
 
 ---
 

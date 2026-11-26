@@ -17,17 +17,17 @@ test('Cascade demonstration distinguishes the planned repair from observed phase
   assert.match(slides, /別セッション/);
 });
 
-test('demonstration separates Framekit red and green from model-level observations', async () => {
+test('demonstration identifies Framekit red and green results', async () => {
   const slides = await read('presentation/slides.md');
   assert.match(slides, /Red.*opacity 0/s);
   assert.match(slides, /Green.*20ケース/s);
-  assert.match(slides, /Framekit.*モデル.*フェーズ.*不明/s);
+  assert.match(slides, /Framekit.*同一セッション/s);
   const notes = await read('experiments/fusion-demo-evidence.md');
   assert.match(notes, /開始.*完了/s);
-  assert.match(notes, /別セッション/);
+  assert.match(notes, /同一セッション/);
 });
 
- test('Framekit red and resumed green cite their own recorded Fusion phases', async () => {
+test('Framekit red and resumed green cite their own recorded Fusion phases', async () => {
   const evidence = JSON.parse(await read('experiments/data/framekit-796-fusion-phases.json'));
   assert.deepEqual(evidence.turns.map(t => t.pattern), ['cascade', 'critique', 'critique']);
   assert.deepEqual(evidence.turns[0].phases.map(p => [p.kind, p.model, p.status]), [['primary', 'gpt-6.1-sol', 'succeeded'], ['judge', 'gpt-6-luna', 'succeeded']]);

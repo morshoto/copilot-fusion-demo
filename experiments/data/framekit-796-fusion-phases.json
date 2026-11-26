@@ -1,0 +1,134 @@
+{
+  "source": "Copilot CLI 1.0.115 durable session log; content, timestamps, identifiers and paths omitted",
+  "turns": [
+    {
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "plan": [
+        {
+          "kind": "primary",
+          "conditional": false
+        },
+        {
+          "kind": "judge",
+          "conditional": false
+        },
+        {
+          "kind": "repair",
+          "conditional": true
+        }
+      ],
+      "phases": [
+        {
+          "kind": "primary",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "verdict": null
+        },
+        {
+          "kind": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "verdict": "accept"
+        }
+      ],
+      "startsRecorded": false,
+      "creditLimitObserved": false,
+      "completed": {
+        "outcome": "completed",
+        "finalSourceModel": "gpt-6.1-sol",
+        "requestCount": 16
+      }
+    },
+    {
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "plan": [
+        {
+          "kind": "draft",
+          "conditional": false
+        },
+        {
+          "kind": "critic",
+          "conditional": false
+        },
+        {
+          "kind": "revision",
+          "conditional": true
+        }
+      ],
+      "phases": [
+        {
+          "kind": "draft",
+          "model": "claude-opus-5.5",
+          "status": "succeeded",
+          "verdict": null
+        },
+        {
+          "kind": "critic",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "verdict": null
+        },
+        {
+          "kind": "revision",
+          "model": "claude-opus-5.5",
+          "status": "succeeded",
+          "verdict": null
+        }
+      ],
+      "startsRecorded": false,
+      "creditLimitObserved": true,
+      "completed": {
+        "outcome": "completed",
+        "finalSourceModel": "claude-opus-5.5",
+        "requestCount": 2
+      }
+    },
+    {
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "plan": [
+        {
+          "kind": "draft",
+          "conditional": false
+        },
+        {
+          "kind": "critic",
+          "conditional": false
+        },
+        {
+          "kind": "revision",
+          "conditional": true
+        }
+      ],
+      "phases": [
+        {
+          "kind": "draft",
+          "model": "claude-opus-5.5",
+          "status": "succeeded",
+          "verdict": null
+        },
+        {
+          "kind": "critic",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "verdict": null
+        },
+        {
+          "kind": "revision",
+          "model": "claude-opus-5.5",
+          "status": "succeeded",
+          "verdict": null
+        }
+      ],
+      "startsRecorded": false,
+      "creditLimitObserved": false,
+      "completed": {
+        "outcome": "completed",
+        "finalSourceModel": "claude-opus-5.5",
+        "requestCount": 14
+      }
+    }
+  ]
+}
