@@ -21,7 +21,7 @@ jobs:
   deep-validation:
     name: Full security and integration validation
     if: ${{ github.event_name != 'workflow_run' }}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
