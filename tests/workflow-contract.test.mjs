@@ -35,3 +35,10 @@ test('label synchronization uses supported pnpm dlx options', () => {
   assert.doesNotMatch(assign, /pnpm dlx --yes/);
   assert.match(assign, /pnpm dlx @azu\/github-label-setup/);
 });
+
+test('grader integration runs on macOS with its sandbox available', () => {
+  const ci = read('.github/workflows/ci.yml');
+  const security = read('.github/workflows/security.yml');
+  assert.match(ci, /runs-on: macos-latest/);
+  assert.match(security, /deep-validation:[\s\S]*?runs-on: macos-latest/);
+});
