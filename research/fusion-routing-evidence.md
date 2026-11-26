@@ -14,8 +14,8 @@
 
 | 材料 | 公開根拠 / 実測 | 仮説・未確認 |
 | --- | --- | --- |
-| 負荷 | **関連研究:** [HyDRA §8・付録 C](https://arxiv.org/html/2605.17106#S8) は throughput、エラー率、遅延による health veto を記述する。候補の順位変更ではなく不健全な候補の除外で、全候補が除外された場合はフォールバックする。 | 現在の Fusion で同じ veto、指標、閾値が適用されるかは未確認。負荷が観測された方式を決めたとは言えない。 |
-| キャッシュ | **関連研究:** 論文の Auto はセッション内でモデルを維持し、初回や圧縮後に再選択する設計を記述する。**実測:** 継続会話で cache read が増えた一方、別の変更後に減った例がある。[条件と数値](fusion-runtime-architecture.md#実験条件と結果)。 | 論文の sticky routing を Fusion に適用できるか、キャッシュの単位や再利用条件は不明。会話・課題・モデル・方式が同時に変わったため因果は不明。Fusion 公式説明は同一セッションでもプロンプトごとに方式が変わり得るとする。 |
+| 負荷 | **公開仕様:** [Fusion 公式説明](https://docs.github.com/en/copilot/concepts/models/copilot-fusion#overview) はモデル選択時にリアルタイムのシステム健全性と可用性を考慮すると説明する。**関連研究:** [HyDRA §8・付録 C](https://arxiv.org/html/2605.17106#S8) は throughput、エラー率、遅延による health veto を記述する。候補の順位変更ではなく不健全な候補の除外で、全候補が除外された場合はフォールバックする。 | 現在の Fusion で論文と同じ veto、指標、閾値が適用されるかは未確認。負荷が観測された方式を決めたとは言えない。 |
+| キャッシュ | **公開仕様:** [Fusion 公式説明](https://docs.github.com/en/copilot/concepts/models/copilot-fusion#overview) は、自然なキャッシュ境界や会話の複雑さが大きく変化する際にルーティングすると説明する。[課金の説明](https://docs.github.com/en/copilot/concepts/models/copilot-fusion#billing-for-copilot-fusion) では、キャッシュを生かすため主会話のモデルを可能な限り維持するとしている。**関連研究:** 論文の Auto はセッション内でモデルを維持し、初回や圧縮後に再選択する設計を記述する。**実測:** 継続会話で cache read が増えた一方、別の変更後に減った例がある。[条件と数値](fusion-runtime-architecture.md#実験条件と結果)。 | 論文の具体的な sticky routing が Fusion に適用されるか、キャッシュ境界の定義や再利用条件は不明。会話・課題・モデル・方式が同時に変わったため因果は不明。Fusion 公式説明は同一セッションでもプロンプトごとに方式が変わり得るとする。 |
 | effort | **公開仕様:** [公式説明](https://docs.github.com/en/copilot/concepts/models/copilot-fusion#copilot-fusion-effort-levels) では Standard は各課題で1モデル、High は必要に応じ追加呼び出し、Max は高度な能力を優先する。**実測:** 同じ課題の High 1回が Critique、Max 1回が Single だった。[条件](fusion-runtime-architecture.md#critique分岐失敗時はどうなるか)。 | 時刻なども異なり、effort が差の原因とは断定できない。High / Max の方式や費用を個々の実行について保証しない。 |
 
 ## 方式別の論理フロー
