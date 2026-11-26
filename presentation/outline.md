@@ -1,14 +1,39 @@
-# スライド構成案：Copilot Fusion
+# Copilot Fusion — 15分の構成案
 
-登壇時間・会場・対象者に合わせて調整するための下書き。主張は [GitHub の説明](https://docs.github.com/en/copilot/concepts/models/copilot-fusion) と実演時の観測で確認する。
+| 時間 | 内容 | 根拠・見せ方 |
+| --- | --- | --- |
+| 0:00–3:00 | 仕組み：Fusion、3つの経路、HyDRA 論文、CLI コマンド | 公開資料と自分の実験を区別する |
+| 3:00–6:00 | 操作記録：Framekit の hero 調査 | 実際の CLI 記録を2つの GIF で示す。待機短縮・パス等の伏せ字を明示 |
+| 6:00–13:30 | 5つの Tips：subagent、ループ、利用量、根拠、要件 | 実験ごとの条件・限界を添える |
+| 13:30–15:00 | まとめ | 独立した検証と公開前確認 |
 
-1. **タイトル** — Copilot Fusion：モデル選択と協調を見てみる
-2. **問題意識** — タスクごとにモデルを選ぶのは難しい
-3. **Fusion とは** — タスクに応じてモデルと処理方式を選択する
-4. **3つの方式** — Single / Cascade / Critique。実行の全工程が毎回使われるわけではない
-5. **ライブデモ** — 同じ画面で課題、方式、実際のフェーズと回答を観察
-6. **実行結果の読み方** — 予定と実行済み、通知された情報と不明な情報を区別
-7. **使うときの注意** — 利用枠・料金、モデルポリシー、実行ごとの変動
-8. **まとめ** — 自動選択を活用しつつ、観察できる結果を確認する
+[Marp スライドのドラフト](slides.md)を次のコマンドで表示用 HTML に変換できる。実録画 GIF を挿入済み。通し練習は未実施。
 
-ライブデモが失敗した場合は、事前に取得した実際の記録を `--replay` で再生し、ライブではないと明示する。
+```sh
+npx --yes @marp-team/marp-cli@4.5.1 presentation/slides.md --html --allow-local-files --theme presentation/fusion-redesign.css -o presentation/fusion-slides.html
+```
+
+## スライド案
+
+1. **Copilot Fusion：実験から得た5つの Tips**
+2. **Fusion の3つの経路** — Single / Cascade / Critique。経路は要求ごとに変わり得る。
+3. **HyDRA 論文と Fusion** — 論文は Auto 選択の研究。評価条件付きの結果であり、今回の CLI 実測とは別。
+4. **CLI コマンド** — `/model`、`/usage`、`/context` の実機観測と限界。
+5. **実操作：回帰テスト** — Framekit #796 のテスト作成を実録画で示す。
+6. **実操作：修正と再実行** — 上限到達後の再開を明示する。
+7. **修正前後の初期フレーム** — 固定コミットとローカル修正を比較する。
+8. **Tip 1：委任先に制約と成果物を渡す** — 権限を揃えた追試でも明示した1試行で explore の開始と完了を観測。
+9. **Tip 2：ループの数え方を先に決める** — 開始イベントと終了時刻を定義。見直しと停止を明示した追試を記録し、速度差を一般化しない。
+10. **Tip 3：品質を見て effort を選ぶ** — 追試の High 優先は品質条件を満たしたが、Max 単独より利用量が多かった。請求額ではない。
+11. **Tip 4：回答の根拠を元のコードで確かめる** — Max の「全時間不可視」という説明をソースで訂正。
+12. **Tip 5：必要な要件を渡し、未読を明示する** — 両回答が Issue 本文を読めなかったと明示。本文を渡した追試で要件を含む案を観測したが、モデル差がある。
+13. **まとめ** — 委任は観測する、品質は独立に検証する、未確認は未確認と伝える。
+
+## 発表準備の残件
+
+- 実際の CLI 操作を録画し GIF を挿入済み。発表前に公開範囲をもう一度確認する。
+- スライドをレンダリングして全ページの表示を確認する。
+- 原稿と GIF を通して実際に読み、15分以内になるまで調整する。時間配分は目標であり、通し確認の実績ではない。
+- 参考: 2026-11-25 に追試を反映する前の原稿を日本語音声合成 Kyoko、rate 200 で読み上げた生成音声は約10分45秒。現行原稿の計測値ではない。GIF の再生、操作、実際の話者の間は含まない。15分の通し練習ではなく、内容と尺の調整が必要。
+
+主要な根拠: [GitHub Fusion 概要](https://docs.github.com/en/copilot/concepts/models/copilot-fusion)、[HyDRA 論文](https://arxiv.org/abs/2605.17106)、[subagent 実験](../experiments/subagent-observation.md)、[effort 比較](../experiments/effort-quality-observation.md)、[追加 Tips](../experiments/tips.md)、[Framekit の開発記録](../experiments/framekit-796-development.md)。実行ループは [Issue #7 の観測記録](../experiments/prompt-loop-observation.md)を参照する。
