@@ -1,0 +1,291 @@
+{
+  "startedAt": "2026-11-26T02:29:00.760Z",
+  "seed": 20261126,
+  "jobCount": 3,
+  "recordsWritten": 3,
+  "results": [
+    {
+      "order": 2,
+      "kind": "judge",
+      "id": "date-midnight",
+      "condition": "date-midnight",
+      "topic": null,
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 169,
+      "turnStartedAt": "2026-11-26T02:29:02.969Z",
+      "elapsedMs": 6633,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "claude-opus-5.5",
+          "scores": {
+            "reasoning": 0.4521,
+            "codeGen": 0.6582,
+            "debugging": 0.0161,
+            "toolUse": 0.1573
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "claude-opus-5.5",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 4034,
+              "outputTokens": 163,
+              "cachedTokens": 1506,
+              "cacheWriteTokens": 2524,
+              "totalNanoAiu": 1133804000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 4034,
+          "outputTokens": 163,
+          "durationMs": 2780,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "claude-opus-5.5",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1506,
+          "cacheWriteTokens": 2524,
+          "totalNanoAiu": 1133804000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 0,
+      "kind": "judge",
+      "id": "binary-search-first",
+      "condition": "binary-search-first",
+      "topic": null,
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 119,
+      "turnStartedAt": "2026-11-26T02:29:02.957Z",
+      "elapsedMs": 11228,
+      "error": null,
+      "observation": {
+        "pattern": "cascade",
+        "route": {
+          "primaryModel": "gpt-6.1-sol",
+          "scores": {
+            "reasoning": 0.4541,
+            "codeGen": 0.6058,
+            "debugging": 0.0285,
+            "toolUse": 0.127
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            },
+            {
+              "kind": "judge",
+              "role": "judge",
+              "conditional": false
+            },
+            {
+              "kind": "repair",
+              "role": "solver",
+              "conditional": true
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-sol",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 3418,
+              "outputTokens": 179,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 2144,
+              "totalNanoAiu": 509817000
+            }
+          },
+          {
+            "id": "p2",
+            "kind": "judge",
+            "model": "gpt-6-luna",
+            "status": "succeeded",
+            "role": "judge",
+            "verdict": "accept",
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 2341,
+              "outputTokens": 195,
+              "cachedTokens": 0,
+              "cacheWriteTokens": 2338,
+              "totalNanoAiu": 27303500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "cascade",
+          "inputTokens": 5759,
+          "outputTokens": 374,
+          "durationMs": 7010,
+          "requestCount": 2,
+          "phaseCount": 2,
+          "finalSourceModel": "gpt-6.1-sol",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 4482,
+          "totalNanoAiu": 537120500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": {
+        "status": "scored",
+        "passed": 5,
+        "total": 5,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "order": 1,
+      "kind": "judge",
+      "id": "stable-unique",
+      "condition": "stable-unique",
+      "topic": null,
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 144,
+      "turnStartedAt": "2026-11-26T02:29:02.774Z",
+      "elapsedMs": 12261,
+      "error": null,
+      "observation": {
+        "pattern": "cascade",
+        "route": {
+          "primaryModel": "gpt-6.1-sol",
+          "scores": {
+            "reasoning": 0.4456,
+            "codeGen": 0.5222,
+            "debugging": 0.0526,
+            "toolUse": 0.0914
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            },
+            {
+              "kind": "judge",
+              "role": "judge",
+              "conditional": false
+            },
+            {
+              "kind": "repair",
+              "role": "solver",
+              "conditional": true
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-sol",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 3433,
+              "outputTokens": 150,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 2159,
+              "totalNanoAiu": 492142000
+            }
+          },
+          {
+            "id": "p2",
+            "kind": "judge",
+            "model": "gpt-6-luna",
+            "status": "succeeded",
+            "role": "judge",
+            "verdict": "accept",
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 2315,
+              "outputTokens": 243,
+              "cachedTokens": 0,
+              "cacheWriteTokens": 2312,
+              "totalNanoAiu": 28756000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "cascade",
+          "inputTokens": 5748,
+          "outputTokens": 393,
+          "durationMs": 8168,
+          "requestCount": 2,
+          "phaseCount": 2,
+          "finalSourceModel": "gpt-6.1-sol",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 4471,
+          "totalNanoAiu": 520898000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": {
+        "status": "scored",
+        "passed": 4,
+        "total": 4,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    }
+  ]
+}

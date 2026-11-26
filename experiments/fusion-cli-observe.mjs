@@ -1,0 +1,12 @@
+import {spawn} from 'node:child_process';
+import {writeFile} from 'node:fs/promises';
+const [cli,out]=process.argv.slice(2);if(!cli||!out)throw Error('usage: node fusion-cli-observe.mjs /path/to/copilot new-output.json');
+await writeFile(out,'{}\n',{flag:'wx'});
+const args=['--model','auto','--auto-tier','hydrafusion','--no-auto-update','--no-custom-instructions','--disable-builtin-mcps','--disable-mcp-server','unityMCP','--no-ask-user','--trust-folder','--available-tools','','--output-format','json','-p','指数バックオフを日本語で2文で説明してください。'];
+const child=spawn(cli,args,{cwd:'/tmp',stdio:['ignore','pipe','pipe']});let raw='',err='';child.stdout.on('data',x=>raw+=x);child.stderr.on('data',x=>err+=x);
+const exitCode=await new Promise((resolve,reject)=>{child.on('error',reject);child.on('close',resolve)});
+const events=raw.split('\n').flatMap(s=>{try{return [JSON.parse(s)]}catch{return []}});
+const keep=events.filter(e=>/^(session\.fusion_|assistant\.fusion_phase_(started|completed|failed)|assistant\.usage|model\.call_(start|finished))/.test(e.type));
+const ids=new Map();const pid=x=>{if(!x)return null;if(!ids.has(x))ids.set(x,`p${ids.size+1}`);return ids.get(x)};
+const clean=keep.map(({type,data:d={}})=>({type,...(type==='session.fusion_resolved'?{pattern:d.pattern,routeSource:d.routeSource,primaryModel:d.primaryModel,phasePlan:d.phasePlan?.map(({kind,role,conditional,scope})=>({kind,role,conditional,scope}))}:{}),...(type==='session.fusion_route_failed'?{reason:d.reason,fallbackModel:d.fallbackModel}:{}),...(type.startsWith('assistant.fusion_phase_')?{phaseId:pid(d.phaseId),kind:d.phaseKind,model:d.model,role:d.role,status:d.status,verdict:d.verdict,usage:d.usage,reason:d.reason}:{}),...(type==='session.fusion_completed'?{pattern:d.pattern,outcome:d.outcome,finalSourceModel:d.finalSourceModel,finalSourcePhaseId:pid(d.finalSourcePhaseId),requestCount:d.requestCount,cachedTokens:d.cachedTokens,cacheWriteTokens:d.cacheWriteTokens,totalNanoAiu:d.totalNanoAiu}:{}),...(type==='assistant.usage'?{model:d.model,inputTokens:d.inputTokens,cacheReadTokens:d.cacheReadTokens,cacheWriteTokens:d.cacheWriteTokens,phaseId:pid(d.fusion?.phaseId)}:{})}));
+await writeFile(out,JSON.stringify({createdAt:new Date().toISOString(),cliVersion:'1.0.115',tier:'high',prompt:'指数バックオフを日本語で2文で説明してください。',exitCode,events:clean},null,2)+'\n');console.log(JSON.stringify({exitCode,events:clean.map(e=>e.type)}));if(exitCode!==0)console.error('CLI failed; stderr intentionally omitted');

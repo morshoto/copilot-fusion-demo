@@ -1,0 +1,11 @@
+{"version": 2, "width": 100, "height": 30, "timestamp": 1795656509}
+[0.005979, "o", "$ pnpm --silent demo --scenario simple --tier high\r\n\r\n"]
+[0.300719, "o", "\r\n━━━ Fusion high / simple ━━━\r\n課題:\r\n指数バックオフとは何ですか？日本語で2文以内で説明してください。\r\n\r\n実行中（Fusion が方式を選択します）...\r\n"]
+[6.209744, "o", "  • ルーティングを開始\r\n"]
+[7.057285, "o", "  • 実行方式を選択: single（主モデル: gpt-6-luna）\r\n"]
+[7.059299, "o", "  • primary / solver / gpt-6-luna: 開始\r\n"]
+[7.940774, "o", "  • primary の応答を処理中（内容は非公開）\r\n"]
+[8.470803, "o", "  • primary / solver / gpt-6-luna: succeeded\r\n"]
+[8.471737, "o", "  • Fusion 完了: completed\r\n"]
+[8.475364, "o", "\r\nFusion high / 課題: simple\r\n実行方式: single（単一モデル）\r\n実行予定（条件付きの工程は実行されるとは限りません）: 主回答 (primary)\r\n確認できたフェーズ（イベント受信順。並列実行を順序で表すものではありません）:\r\n  主回答 (primary) / solver / gpt-6-luna / succeeded / 1.4秒\r\n完了結果: completed / 報告されたフェーズ 1 / リクエスト 1\r\n所要時間: 8.2秒（セッション作成・応答を含む）\r\n使用量: 入力 3367 / 出力 66（Fusion 完了イベントの合計）\r\n課金額: この表示からは確定できません\r\n\r\n最終回答:\r\n指数バックオフとは、処理に失敗した際、再試行までの待ち時間を回数に応じて指数関数的に延ばす方法です。短時間に何度も再試行して負荷を高めるのを防ぎます。\r\n"]
+[13.405249, "x", "0"]

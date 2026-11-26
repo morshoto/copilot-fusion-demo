@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-11-26T02:02:33.863Z",
+  "cliVersion": "1.0.115",
+  "tier": "high",
+  "prompt": "指数バックオフを日本語で2文で説明してください。",
+  "exitCode": 0,
+  "events": [
+    {
+      "type": "session.fusion_route_started"
+    },
+    {
+      "type": "session.fusion_resolved",
+      "pattern": "single",
+      "routeSource": "capi_plan",
+      "primaryModel": "gpt-6-luna",
+      "phasePlan": []
+    },
+    {
+      "type": "model.call_start"
+    },
+    {
+      "type": "model.call_finished"
+    },
+    {
+      "type": "session.fusion_completed",
+      "pattern": "single",
+      "outcome": "completed",
+      "finalSourceModel": "gpt-6-luna",
+      "finalSourcePhaseId": null,
+      "requestCount": 1,
+      "cachedTokens": 0,
+      "cacheWriteTokens": 3051,
+      "totalNanoAiu": 30252250
+    }
+  ]
+}

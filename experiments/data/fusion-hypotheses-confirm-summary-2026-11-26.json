@@ -1,0 +1,144 @@
+{
+  "protocol": "experiments/fusion-hypotheses-confirm-protocol.md",
+  "records": 48,
+  "valid": 48,
+  "missing": [],
+  "clusters": [
+    {
+      "topic": "cache",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "calendar",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "counter",
+      "completePairs": 2,
+      "diffs": [
+        1,
+        0
+      ],
+      "mean": 0.5
+    },
+    {
+      "topic": "money",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "queue",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "rate",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        1
+      ],
+      "mean": 0.5
+    },
+    {
+      "topic": "reserve",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "retry",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "search",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        1
+      ],
+      "mean": 0.5
+    },
+    {
+      "topic": "settings",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "token",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    },
+    {
+      "topic": "upload",
+      "completePairs": 2,
+      "diffs": [
+        0,
+        0
+      ],
+      "mean": 0
+    }
+  ],
+  "counts": {
+    "explain": {
+      "n": 24,
+      "multi": 2,
+      "patterns": {
+        "single": 22,
+        "cascade": 1,
+        "critique": 1
+      }
+    },
+    "design": {
+      "n": 24,
+      "multi": 5,
+      "patterns": {
+        "single": 19,
+        "cascade": 0,
+        "critique": 5
+      }
+    }
+  },
+  "meanDifference": 0.125,
+  "pExact": 0.25,
+  "ci95": [
+    0,
+    0.25
+  ],
+  "ciMethod": "subject-cluster bootstrap percentile; null when all cluster differences identical",
+  "reportedCredits": 26.217987249999993
+}

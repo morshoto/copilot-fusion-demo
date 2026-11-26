@@ -1,0 +1,651 @@
+{
+  "createdAt": "2026-11-26T01:14:44.661Z",
+  "tier": "high",
+  "task": "次の JavaScript 関数はゼロも有効な設定値として扱う必要があります。バグを指摘し、修正済みの関数を返してください。\nfunction timeoutMs(config) { return config.timeout || 5000; }\n例: timeoutMs({timeout: 0}) は 0 を返します。",
+  "prompts": {
+    "basic": "次の JavaScript 関数はゼロも有効な設定値として扱う必要があります。バグを指摘し、修正済みの関数を返してください。\nfunction timeoutMs(config) { return config.timeout || 5000; }\n例: timeoutMs({timeout: 0}) は 0 を返します。",
+    "review": "次の JavaScript 関数はゼロも有効な設定値として扱う必要があります。バグを指摘し、修正済みの関数を返してください。\nfunction timeoutMs(config) { return config.timeout || 5000; }\n例: timeoutMs({timeout: 0}) は 0 を返します。\n回答前に、0・undefined・null の3ケースを1回見直してから結論を返してください。"
+  },
+  "runs": [
+    {
+      "index": 1,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:10:44.681Z",
+      "elapsedMs": 14300,
+      "answer": "`||` は `0` を偽値として扱うため、`5000` に置き換えてしまいます。`null` または `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5261,
+        "outputTokens": 293,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3133
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3216
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:11:00.392Z",
+      "elapsedMs": 11164,
+      "answer": "`||` は `0` を偽として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n確認結果：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5350,
+        "outputTokens": 389,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3227
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3459
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:11:12.839Z",
+      "elapsedMs": 9752,
+      "answer": "`||` は `0` を falsy と判定し、`5000` に置き換えるのがバグです。`??` を使えば、`undefined` と `null` の場合だけ既定値になります。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを確認：`0 → 0`、`undefined → 5000`、`null → 5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5352,
+        "outputTokens": 365,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2694
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2607
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:11:24.682Z",
+      "elapsedMs": 10138,
+      "answer": "`||` は `0` を falsy と判定し、`5000` に置き換えてしまいます。`null` または `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5289,
+        "outputTokens": 270,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2294
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3275
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:11:36.231Z",
+      "elapsedMs": 10850,
+      "answer": "`||` は `0` も偽値として扱うため、`5000` に置き換えてしまいます。`null` または `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5294,
+        "outputTokens": 280,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3258
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3038
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:11:48.731Z",
+      "elapsedMs": 10462,
+      "answer": "`||` は `0` も偽として扱うため、`5000` を返してしまいます。`null`・`undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを確認：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5372,
+        "outputTokens": 314,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3047
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3045
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:12:00.740Z",
+      "elapsedMs": 10435,
+      "answer": "`||` は `0` も偽値として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを見直した結果：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5381,
+        "outputTokens": 318,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3867
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2042
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:12:12.215Z",
+      "elapsedMs": 10669,
+      "answer": "`||` は `0` を偽として扱うため、`5000` に置き換えてしまいます。`null` または `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5312,
+        "outputTokens": 246,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2624
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3302
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:12:24.409Z",
+      "elapsedMs": 8918,
+      "answer": "`||` は `0` を falsy と判定し、`5000` を返してしまいます。`null` または `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\nこれで `timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5311,
+        "outputTokens": 284,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2353
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2183
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:12:35.263Z",
+      "elapsedMs": 11585,
+      "answer": "`||` は `0` も偽値として扱い、`5000` に置き換えてしまいます。`null` と `undefined` のみを既定値に置き換える `??` を使います。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを見直すと、`0` → `0`、`undefined` → `5000`、`null` → `5000` になります。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5379,
+        "outputTokens": 356,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 5017
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2010
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:12:48.093Z",
+      "elapsedMs": 12440,
+      "answer": "`||` は `0` も偽として扱うため、既定値の `5000` に置き換えてしまいます。`null` と `undefined` のみを置き換える `??` を使います。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースの確認：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5377,
+        "outputTokens": 364,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 4414
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3506
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:13:01.686Z",
+      "elapsedMs": 8748,
+      "answer": "`||` は `0` も偽として扱うため、`5000` に置き換えてしまいます。`null` または `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5293,
+        "outputTokens": 274,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2116
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2078
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:13:11.872Z",
+      "elapsedMs": 10056,
+      "answer": "`||` は `0` も偽として扱うため、`5000` を返してしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5307,
+        "outputTokens": 228,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2641
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2863
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:13:23.167Z",
+      "elapsedMs": 9993,
+      "answer": "`||` は `0` も偽として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` のときだけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを確認すると、`0` → `0`、`undefined` → `5000`、`null` → `5000` です。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5375,
+        "outputTokens": 407,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3197
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2450
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:13:34.624Z",
+      "elapsedMs": 10376,
+      "answer": "`||` は `0` も偽として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを確認：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5374,
+        "outputTokens": 333,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3148
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2053
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:13:46.317Z",
+      "elapsedMs": 10097,
+      "answer": "`||` は `0` を falsy と判断し、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5308,
+        "outputTokens": 256,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2666
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2944
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:13:57.771Z",
+      "elapsedMs": 8903,
+      "answer": "`||` は `0` も偽として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5294,
+        "outputTokens": 259,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2114
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 2217
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:14:08.338Z",
+      "elapsedMs": 11659,
+      "answer": "`||` は `0` も偽と判定し、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースを確認：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5377,
+        "outputTokens": 391,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3093
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3966
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "condition": "review",
+      "startedAt": "2026-11-26T01:14:21.821Z",
+      "elapsedMs": 10953,
+      "answer": "`||` は `0` を偽として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` の場合だけ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n3ケースの確認結果：`0` → `0`、`undefined` → `5000`、`null` → `5000`。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5377,
+        "outputTokens": 284,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 3251
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3290
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "condition": "basic",
+      "startedAt": "2026-11-26T01:14:34.325Z",
+      "elapsedMs": 10336,
+      "answer": "`||` は `0` を偽値として扱うため、`5000` に置き換えてしまいます。`null` と `undefined` の場合のみ既定値を使う `??` に修正します。\n\n```javascript\nfunction timeoutMs(config) {\n  return config.timeout ?? 5000;\n}\n```\n\n`timeoutMs({ timeout: 0 })` は `0` を返します。",
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "completed": {
+        "requestCount": 2,
+        "phaseCount": 2,
+        "inputTokens": 5310,
+        "outputTokens": 328,
+        "outcome": "completed"
+      },
+      "phases": [
+        {
+          "kind": "primary",
+          "role": "solver",
+          "model": "gpt-6.1-sol",
+          "status": "succeeded",
+          "durationMs": 2409
+        },
+        {
+          "kind": "judge",
+          "role": "judge",
+          "model": "gpt-6-luna",
+          "status": "succeeded",
+          "durationMs": 3502
+        }
+      ]
+    }
+  ]
+}

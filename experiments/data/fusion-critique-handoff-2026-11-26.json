@@ -1,0 +1,12 @@
+{
+  "source": "CLI-compatible durable session log for high-review experiment; content and IDs omitted",
+  "events": [
+    {
+      "type": "session.fusion_handoff",
+      "sourcePhaseKind": "critic",
+      "targetPhaseKind": "revision",
+      "targetModel": "claude-opus-5.5",
+      "messagePresent": true
+    }
+  ]
+}

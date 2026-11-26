@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {analyze} from './analyze-fusion-confirm.mjs';
+const dataset=means=>({results:means.flatMap((m,i)=>[0,1].flatMap(v=>[{topic:`t${i}`,variant:v,mode:'explain',pattern:'single',error:null},{topic:`t${i}`,variant:v,mode:'design',pattern:m?'cascade':'single',error:null}]))});
+test('paired difference and exact cluster sign flips',()=>{const o=analyze(dataset([1,1,1,1]));assert.equal(o.meanDifference,1);assert.equal(o.pExact,0.125);assert.equal(o.ci95,null)});
+test('missing patterns remain missing and paired proportions preserve both categories',()=>{const d=dataset([1,0]);d.results[1].error='timeout';const o=analyze(d);assert.deepEqual(o.missing,['t0-0']);assert.equal(o.counts.design.n,3);assert.equal(o.clusters.length,2);assert.ok(o.ci95)});

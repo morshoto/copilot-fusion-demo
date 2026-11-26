@@ -1,28 +1,37 @@
 import type { SessionEvent } from "@microsoft/copilot-sdk";
 
-export type Phase = { id: string; kind: string; role: string; model: string; status: string; durationMs?: number };
-export type Usage = { id: string; model: string; inputTokens?: number; outputTokens?: number; pattern?: string; phaseId?: string; phaseKind?: string; role?: string; sourceModel?: string };
+export type Phase = { id: string; kind: string; role: string; model: string; status: string; durationMs?: number; verdict?: string | null; usage?: { inputTokens?: number; outputTokens?: number; cachedTokens?: number; cacheWriteTokens?: number; requestCount?: number; totalNanoAiu?: number }; reason?: string; degradedToPhaseId?: string; conversationScope?: string };
+export type Usage = { id: string; model: string; inputTokens?: number; outputTokens?: number; pattern?: string; phaseId?: string; phaseKind?: string; role?: string; sourceModel?: string; cacheReadTokens?: number; cacheWriteTokens?: number };
 export type Observation = {
   pattern?: string;
-  route?: { primaryModel: string; hint?: string; plan?: { kind: string; role: string; conditional: boolean }[] };
+  eventTypes?: string[];
+  handoffs?: { sourcePhaseId?: string; targetPhaseId?: string; targetModel?: string }[];
+  route?: { primaryModel: string; hint?: string; plan?: { kind: string; role: string; conditional: boolean }[]; routeSource?: string; scores?: { reasoning:number; codeGen:number; debugging:number; toolUse:number }; routingLatencyMs?: number; followUp?: unknown; judgeModel?: string; repairModel?: string; fallbackModel?: string };
   routeFailure?: { reason: string; fallbackModel: string };
   phases: Phase[];
   usage: Usage[];
-  completed?: { pattern: string; inputTokens: number; outputTokens: number; durationMs: number; requestCount: number; phaseCount: number; finalSourceModel: string | null; outcome: string; degradedReason: string | null };
+  completed?: { pattern: string; inputTokens: number; outputTokens: number; durationMs: number; requestCount: number; phaseCount: number; finalSourceModel: string | null; outcome: string; degradedReason: string | null; cachedTokens?: number; cacheWriteTokens?: number; totalNanoAiu?: number; finalSourcePhaseId?: string | null };
 };
 export type DemoRun = { tier: string; scenario: string; prompt: string; answer: string; elapsedMs: number; currentModel?: unknown; observation: Observation };
 export type DemoRecord = { version: 1; createdAt: string; runs: DemoRun[] };
 
-export function newObservation(): Observation { return { phases: [], usage: [] }; }
+export function newObservation(): Observation { return { phases: [], usage: [], eventTypes: [], handoffs: [] }; }
 
 export function observe(o: Observation, event: SessionEvent): string | undefined {
+  if (event.type.startsWith("session.fusion_") || event.type.startsWith("assistant.fusion_") || event.type === "assistant.usage" || event.type === "assistant.message" || event.type.startsWith("model.call_")) o.eventTypes?.push(event.type);
+  // Runtime can emit events before they appear in the generated SDK union. Never retain handoff content.
+  if ((event.type as string) === "session.fusion_handoff") {
+    const d = event.data as unknown as { sourcePhaseId?: string; targetPhaseId?: string; targetModel?: string };
+    o.handoffs?.push({ sourcePhaseId: d.sourcePhaseId, targetPhaseId: d.targetPhaseId, targetModel: d.targetModel });
+    return;
+  }
   switch (event.type) {
     case "session.fusion_route_started":
       return "ルーティングを開始";
     case "session.fusion_resolved": {
       const d = event.data;
       o.pattern = d.pattern;
-      o.route = { primaryModel: d.primaryModel, hint: d.hint, plan: d.phasePlan?.map(({ kind, role, conditional }) => ({ kind, role, conditional })) };
+      o.route = { primaryModel: d.primaryModel, hint: d.hint, routeSource: d.routeSource, scores: d.scores, routingLatencyMs: d.routingLatencyMs, followUp: d.followUp, judgeModel: d.judgeModel, repairModel: d.repairModel, fallbackModel: d.fallbackModel, plan: d.phasePlan?.map(({ kind, role, conditional }) => ({ kind, role, conditional })) };
       return `実行方式を選択: ${d.pattern}（主モデル: ${d.primaryModel}）`;
     }
     case "session.fusion_route_failed":
@@ -33,7 +42,7 @@ export function observe(o: Observation, event: SessionEvent): string | undefined
     case "assistant.fusion_phase_failed": {
       const d = event.data;
       const status = event.type === "assistant.fusion_phase_started" ? "開始" : event.type === "assistant.fusion_phase_failed" ? "失敗" : "status" in d ? d.status : "不明";
-      const phase = { id: d.phaseId, kind: d.phaseKind, role: d.role, model: d.model, status, ...("durationMs" in d ? { durationMs: d.durationMs } : {}) };
+      const phase = { id: d.phaseId, kind: d.phaseKind, role: d.role, model: d.model, status, ...("durationMs" in d ? { durationMs: d.durationMs } : {}), ...("verdict" in d ? { verdict: d.verdict } : {}), ...("usage" in d ? { usage: d.usage } : {}), ...("reason" in d ? { reason: d.reason } : {}), ...("degradedToPhaseId" in d ? { degradedToPhaseId: d.degradedToPhaseId } : {}), ...("conversationScope" in d ? { conversationScope: d.conversationScope } : {}) };
       const index = o.phases.findIndex((p) => p.id === d.phaseId);
       if (index < 0) o.phases.push(phase); else o.phases[index] = phase;
       if ("pattern" in d) o.pattern ??= d.pattern;
@@ -42,14 +51,14 @@ export function observe(o: Observation, event: SessionEvent): string | undefined
     case "assistant.usage": {
       if (o.usage.some((u) => u.id === event.id)) return;
       const d = event.data;
-      o.usage.push({ id: event.id, model: d.model, inputTokens: d.inputTokens, outputTokens: d.outputTokens, pattern: d.fusion?.pattern, phaseId: d.fusion?.phaseId, phaseKind: d.fusion?.phaseKind, role: d.fusion?.role, sourceModel: d.fusion?.sourceModel });
+      o.usage.push({ id: event.id, model: d.model, inputTokens: d.inputTokens, outputTokens: d.outputTokens, pattern: d.fusion?.pattern, phaseId: d.fusion?.phaseId, phaseKind: d.fusion?.phaseKind, role: d.fusion?.role, sourceModel: d.fusion?.sourceModel, cacheReadTokens: d.cacheReadTokens, cacheWriteTokens: d.cacheWriteTokens });
       o.pattern ??= d.fusion?.pattern;
       return;
     }
     case "session.fusion_completed": {
       const d = event.data;
       o.pattern = d.pattern;
-      o.completed = { pattern: d.pattern, inputTokens: d.inputTokens, outputTokens: d.outputTokens, durationMs: d.durationMs, requestCount: d.requestCount, phaseCount: d.phaseCount, finalSourceModel: d.finalSourceModel, outcome: d.outcome, degradedReason: d.degradedReason };
+      o.completed = { pattern: d.pattern, inputTokens: d.inputTokens, outputTokens: d.outputTokens, durationMs: d.durationMs, requestCount: d.requestCount, phaseCount: d.phaseCount, finalSourceModel: d.finalSourceModel, outcome: d.outcome, degradedReason: d.degradedReason, cachedTokens: d.cachedTokens, cacheWriteTokens: d.cacheWriteTokens, totalNanoAiu: d.totalNanoAiu, finalSourcePhaseId: d.finalSourcePhaseId };
       return `Fusion 完了: ${d.outcome}`;
     }
   }

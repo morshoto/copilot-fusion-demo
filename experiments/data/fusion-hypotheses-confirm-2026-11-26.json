@@ -1,0 +1,1159 @@
+{
+  "createdAt": "2026-11-26T02:32:03.962Z",
+  "seed": 17654321,
+  "protocol": "experiments/fusion-hypotheses-confirm-protocol.md",
+  "results": [
+    {
+      "pairIndex": 0,
+      "topic": "rate",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:32:04.033Z",
+      "elapsedMs": 16081,
+      "error": null,
+      "promptChars": 122,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3001,
+        "codeGen": 0.015,
+        "debugging": 0.0024,
+        "toolUse": 0.0181
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.410921
+    },
+    {
+      "pairIndex": 1,
+      "topic": "settings",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:32:04.034Z",
+      "elapsedMs": 20932,
+      "error": null,
+      "promptChars": 121,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.357,
+        "codeGen": 0.0085,
+        "debugging": 0.0025,
+        "toolUse": 0.022
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.556346
+    },
+    {
+      "pairIndex": 2,
+      "topic": "cache",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:32:04.034Z",
+      "elapsedMs": 24714,
+      "error": null,
+      "promptChars": 118,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2956,
+        "codeGen": 0.0077,
+        "debugging": 0.0028,
+        "toolUse": 0.0244
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.650146
+    },
+    {
+      "pairIndex": 0,
+      "topic": "rate",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:32:20.116Z",
+      "elapsedMs": 17437,
+      "error": null,
+      "promptChars": 123,
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "scores": {
+        "reasoning": 0.4916,
+        "codeGen": 0.0536,
+        "debugging": 0.0086,
+        "toolUse": 0.1432
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 1.36616375
+    },
+    {
+      "pairIndex": 2,
+      "topic": "cache",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:32:28.748Z",
+      "elapsedMs": 10192,
+      "error": null,
+      "promptChars": 114,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2699,
+        "codeGen": 0.0171,
+        "debugging": 0.0064,
+        "toolUse": 0.0399
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.311346
+    },
+    {
+      "pairIndex": 1,
+      "topic": "settings",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:32:24.967Z",
+      "elapsedMs": 16125,
+      "error": null,
+      "promptChars": 120,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3025,
+        "codeGen": 0.0119,
+        "debugging": 0.0026,
+        "toolUse": 0.0168
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.4629835
+    },
+    {
+      "pairIndex": 3,
+      "topic": "upload",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:32:37.553Z",
+      "elapsedMs": 10791,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2378,
+        "codeGen": 0.0181,
+        "debugging": 0.0025,
+        "toolUse": 0.0432
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.277396
+    },
+    {
+      "pairIndex": 4,
+      "topic": "search",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:32:38.941Z",
+      "elapsedMs": 19776,
+      "error": null,
+      "promptChars": 118,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3944,
+        "codeGen": 0.0302,
+        "debugging": 0.0026,
+        "toolUse": 0.0814
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.564571
+    },
+    {
+      "pairIndex": 5,
+      "topic": "token",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:32:41.092Z",
+      "elapsedMs": 20104,
+      "error": null,
+      "promptChars": 123,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3748,
+        "codeGen": 0.0194,
+        "debugging": 0.0017,
+        "toolUse": 0.0453
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.6308085
+    },
+    {
+      "pairIndex": 3,
+      "topic": "upload",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:32:48.345Z",
+      "elapsedMs": 13841,
+      "error": null,
+      "promptChars": 123,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2652,
+        "codeGen": 0.0181,
+        "debugging": 0.0012,
+        "toolUse": 0.0384
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.366471
+    },
+    {
+      "pairIndex": 4,
+      "topic": "search",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:32:58.717Z",
+      "elapsedMs": 11978,
+      "error": null,
+      "promptChars": 114,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3669,
+        "codeGen": 0.0366,
+        "debugging": 0.0057,
+        "toolUse": 0.0527
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.3562335
+    },
+    {
+      "pairIndex": 5,
+      "topic": "token",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:01.196Z",
+      "elapsedMs": 15409,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3633,
+        "codeGen": 0.0691,
+        "debugging": 0.0059,
+        "toolUse": 0.0757
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.424746
+    },
+    {
+      "pairIndex": 6,
+      "topic": "counter",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:02.187Z",
+      "elapsedMs": 18579,
+      "error": null,
+      "promptChars": 116,
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "scores": {
+        "reasoning": 0.407,
+        "codeGen": 0.0383,
+        "debugging": 0.0037,
+        "toolUse": 0.0481
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 1.13001875
+    },
+    {
+      "pairIndex": 8,
+      "topic": "money",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:16.606Z",
+      "elapsedMs": 13786,
+      "error": null,
+      "promptChars": 114,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3294,
+        "codeGen": 0.0575,
+        "debugging": 0.0056,
+        "toolUse": 0.0863
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.390271
+    },
+    {
+      "pairIndex": 7,
+      "topic": "retry",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:33:10.696Z",
+      "elapsedMs": 21427,
+      "error": null,
+      "promptChars": 126,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.343,
+        "codeGen": 0.0225,
+        "debugging": 0.0034,
+        "toolUse": 0.0533
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.6500585
+    },
+    {
+      "pairIndex": 6,
+      "topic": "counter",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:33:20.766Z",
+      "elapsedMs": 13970,
+      "error": null,
+      "promptChars": 117,
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "scores": {
+        "reasoning": 0.4238,
+        "codeGen": 0.0661,
+        "debugging": 0.0091,
+        "toolUse": 0.1368
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 1.11591375
+    },
+    {
+      "pairIndex": 9,
+      "topic": "calendar",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:34.736Z",
+      "elapsedMs": 9925,
+      "error": null,
+      "promptChars": 122,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2456,
+        "codeGen": 0.0117,
+        "debugging": 0.0025,
+        "toolUse": 0.0135
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.278096
+    },
+    {
+      "pairIndex": 8,
+      "topic": "money",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:33:30.393Z",
+      "elapsedMs": 16744,
+      "error": null,
+      "promptChars": 118,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3573,
+        "codeGen": 0.0283,
+        "debugging": 0.0012,
+        "toolUse": 0.0294
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.4971085
+    },
+    {
+      "pairIndex": 7,
+      "topic": "retry",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:32.123Z",
+      "elapsedMs": 16196,
+      "error": null,
+      "promptChars": 125,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3053,
+        "codeGen": 0.0124,
+        "debugging": 0.0026,
+        "toolUse": 0.0176
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.470946
+    },
+    {
+      "pairIndex": 9,
+      "topic": "calendar",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:33:44.662Z",
+      "elapsedMs": 10708,
+      "error": null,
+      "promptChars": 123,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2644,
+        "codeGen": 0.0102,
+        "debugging": 0.0021,
+        "toolUse": 0.014
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.291396
+    },
+    {
+      "pairIndex": 10,
+      "topic": "upload",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:33:47.137Z",
+      "elapsedMs": 12329,
+      "error": null,
+      "promptChars": 125,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2447,
+        "codeGen": 0.0131,
+        "debugging": 0.0018,
+        "toolUse": 0.033
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.354921
+    },
+    {
+      "pairIndex": 10,
+      "topic": "upload",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:59.466Z",
+      "elapsedMs": 9824,
+      "error": null,
+      "promptChars": 124,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2394,
+        "codeGen": 0.0125,
+        "debugging": 0.0024,
+        "toolUse": 0.0219
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.2792335
+    },
+    {
+      "pairIndex": 12,
+      "topic": "rate",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:33:55.370Z",
+      "elapsedMs": 14971,
+      "error": null,
+      "promptChars": 117,
+      "pattern": "cascade",
+      "primaryModel": "gpt-6.1-sol",
+      "scores": {
+        "reasoning": 0.4371,
+        "codeGen": 0.1809,
+        "debugging": 0.0211,
+        "toolUse": 0.1248
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.530453
+    },
+    {
+      "pairIndex": 11,
+      "topic": "cache",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:33:48.320Z",
+      "elapsedMs": 23593,
+      "error": null,
+      "promptChars": 120,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.328,
+        "codeGen": 0.0126,
+        "debugging": 0.005,
+        "toolUse": 0.0623
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.7027335
+    },
+    {
+      "pairIndex": 11,
+      "topic": "cache",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:34:11.914Z",
+      "elapsedMs": 11239,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2751,
+        "codeGen": 0.0069,
+        "debugging": 0.0036,
+        "toolUse": 0.0134
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.3362835
+    },
+    {
+      "pairIndex": 12,
+      "topic": "rate",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:34:10.342Z",
+      "elapsedMs": 17076,
+      "error": null,
+      "promptChars": 121,
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "scores": {
+        "reasoning": 0.4565,
+        "codeGen": 0.0335,
+        "debugging": 0.0027,
+        "toolUse": 0.0909
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 1.584842
+    },
+    {
+      "pairIndex": 13,
+      "topic": "retry",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:34:09.291Z",
+      "elapsedMs": 18787,
+      "error": null,
+      "promptChars": 120,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3657,
+        "codeGen": 0.0905,
+        "debugging": 0.0102,
+        "toolUse": 0.0745
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.5611585
+    },
+    {
+      "pairIndex": 14,
+      "topic": "token",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:34:23.154Z",
+      "elapsedMs": 20631,
+      "error": null,
+      "promptChars": 124,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3055,
+        "codeGen": 0.0089,
+        "debugging": 0.0027,
+        "toolUse": 0.0142
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.6150585
+    },
+    {
+      "pairIndex": 13,
+      "topic": "retry",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:34:28.078Z",
+      "elapsedMs": 16121,
+      "error": null,
+      "promptChars": 124,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3707,
+        "codeGen": 0.0192,
+        "debugging": 0.0023,
+        "toolUse": 0.0421
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.4829335
+    },
+    {
+      "pairIndex": 15,
+      "topic": "settings",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:34:27.419Z",
+      "elapsedMs": 17033,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3663,
+        "codeGen": 0.0098,
+        "debugging": 0.0018,
+        "toolUse": 0.0256
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.491246
+    },
+    {
+      "pairIndex": 16,
+      "topic": "reserve",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:34:44.200Z",
+      "elapsedMs": 9017,
+      "error": null,
+      "promptChars": 118,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2372,
+        "codeGen": 0.0082,
+        "debugging": 0.0021,
+        "toolUse": 0.0162
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.2818585
+    },
+    {
+      "pairIndex": 14,
+      "topic": "token",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:34:43.785Z",
+      "elapsedMs": 17701,
+      "error": null,
+      "promptChars": 125,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3682,
+        "codeGen": 0.0209,
+        "debugging": 0.0025,
+        "toolUse": 0.0659
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.531496
+    },
+    {
+      "pairIndex": 15,
+      "topic": "settings",
+      "variant": 0,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:34:44.452Z",
+      "elapsedMs": 17615,
+      "error": null,
+      "promptChars": 115,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3061,
+        "codeGen": 0.0311,
+        "debugging": 0.0042,
+        "toolUse": 0.0557
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.4736585
+    },
+    {
+      "pairIndex": 16,
+      "topic": "reserve",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:34:53.217Z",
+      "elapsedMs": 17153,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3966,
+        "codeGen": 0.0404,
+        "debugging": 0.0048,
+        "toolUse": 0.0917
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.5270335
+    },
+    {
+      "pairIndex": 17,
+      "topic": "calendar",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:35:01.487Z",
+      "elapsedMs": 11169,
+      "error": null,
+      "promptChars": 117,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2654,
+        "codeGen": 0.0177,
+        "debugging": 0.0023,
+        "toolUse": 0.0354
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.314496
+    },
+    {
+      "pairIndex": 18,
+      "topic": "search",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:35:02.068Z",
+      "elapsedMs": 16340,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3058,
+        "codeGen": 0.0138,
+        "debugging": 0.0025,
+        "toolUse": 0.02
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.487396
+    },
+    {
+      "pairIndex": 17,
+      "topic": "calendar",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:12.657Z",
+      "elapsedMs": 10305,
+      "error": null,
+      "promptChars": 121,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2705,
+        "codeGen": 0.0096,
+        "debugging": 0.0014,
+        "toolUse": 0.0153
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.303121
+    },
+    {
+      "pairIndex": 19,
+      "topic": "counter",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:35:10.371Z",
+      "elapsedMs": 13948,
+      "error": null,
+      "promptChars": 111,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3799,
+        "codeGen": 0.0743,
+        "debugging": 0.0071,
+        "toolUse": 0.0891
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.441896
+    },
+    {
+      "pairIndex": 18,
+      "topic": "search",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:18.408Z",
+      "elapsedMs": 13599,
+      "error": null,
+      "promptChars": 120,
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "scores": {
+        "reasoning": 0.4166,
+        "codeGen": 0.0424,
+        "debugging": 0.008,
+        "toolUse": 0.1389
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 1.3904625
+    },
+    {
+      "pairIndex": 20,
+      "topic": "reserve",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:35:22.963Z",
+      "elapsedMs": 12554,
+      "error": null,
+      "promptChars": 113,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2902,
+        "codeGen": 0.0481,
+        "debugging": 0.0049,
+        "toolUse": 0.0672
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.384321
+    },
+    {
+      "pairIndex": 19,
+      "topic": "counter",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:24.319Z",
+      "elapsedMs": 15529,
+      "error": null,
+      "promptChars": 115,
+      "pattern": "critique",
+      "primaryModel": "claude-opus-5.5",
+      "scores": {
+        "reasoning": 0.4078,
+        "codeGen": 0.0536,
+        "debugging": 0.0035,
+        "toolUse": 0.1089
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 1.137185
+    },
+    {
+      "pairIndex": 21,
+      "topic": "money",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:35:32.008Z",
+      "elapsedMs": 9131,
+      "error": null,
+      "promptChars": 119,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2606,
+        "codeGen": 0.0134,
+        "debugging": 0.0018,
+        "toolUse": 0.0159
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.2766085
+    },
+    {
+      "pairIndex": 20,
+      "topic": "reserve",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:35.517Z",
+      "elapsedMs": 13296,
+      "error": null,
+      "promptChars": 117,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3115,
+        "codeGen": 0.0163,
+        "debugging": 0.0015,
+        "toolUse": 0.0461
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.4246585
+    },
+    {
+      "pairIndex": 22,
+      "topic": "queue",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:35:39.849Z",
+      "elapsedMs": 9583,
+      "error": null,
+      "promptChars": 118,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2418,
+        "codeGen": 0.0365,
+        "debugging": 0.0036,
+        "toolUse": 0.0466
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.298571
+    },
+    {
+      "pairIndex": 21,
+      "topic": "money",
+      "variant": 1,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:41.140Z",
+      "elapsedMs": 19416,
+      "error": null,
+      "promptChars": 120,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3865,
+        "codeGen": 0.0242,
+        "debugging": 0.0025,
+        "toolUse": 0.0425
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.5933585
+    },
+    {
+      "pairIndex": 23,
+      "topic": "queue",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:48.814Z",
+      "elapsedMs": 14686,
+      "error": null,
+      "promptChars": 124,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3189,
+        "codeGen": 0.0158,
+        "debugging": 0.0029,
+        "toolUse": 0.0493
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.4127585
+    },
+    {
+      "pairIndex": 22,
+      "topic": "queue",
+      "variant": 0,
+      "order": [
+        "explain",
+        "design"
+      ],
+      "mode": "design",
+      "startedAt": "2026-11-26T02:35:49.433Z",
+      "elapsedMs": 18853,
+      "error": null,
+      "promptChars": 122,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.3123,
+        "codeGen": 0.0164,
+        "debugging": 0.0018,
+        "toolUse": 0.0351
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.5000835
+    },
+    {
+      "pairIndex": 23,
+      "topic": "queue",
+      "variant": 1,
+      "order": [
+        "design",
+        "explain"
+      ],
+      "mode": "explain",
+      "startedAt": "2026-11-26T02:36:03.500Z",
+      "elapsedMs": 10397,
+      "error": null,
+      "promptChars": 123,
+      "pattern": "single",
+      "primaryModel": "gpt-6.1-terra",
+      "scores": {
+        "reasoning": 0.2638,
+        "codeGen": 0.0121,
+        "debugging": 0.0024,
+        "toolUse": 0.0177
+      },
+      "routeSource": "capi_plan",
+      "reportedCredits": 0.298221
+    }
+  ]
+}

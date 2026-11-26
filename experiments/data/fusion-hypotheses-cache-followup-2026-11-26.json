@@ -1,0 +1,1136 @@
+{
+  "startedAt": "2026-11-26T02:36:28.673Z",
+  "seed": 20261126,
+  "jobCount": 9,
+  "recordsWritten": 15,
+  "results": [
+    {
+      "order": 0,
+      "kind": "cache",
+      "id": "deployment-fresh",
+      "condition": "fresh",
+      "topic": "deployment",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 16002,
+      "turnStartedAt": "2026-11-26T02:36:30.278Z",
+      "elapsedMs": 7068,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2607,
+            "codeGen": 0.0162,
+            "debugging": 0.0302,
+            "toolUse": 0.0086
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6333,
+              "outputTokens": 31,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 5059,
+              "totalNanoAiu": 458171000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6333,
+          "outputTokens": 31,
+          "durationMs": 2946,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 5059,
+          "totalNanoAiu": 458171000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 1,
+      "kind": "cache",
+      "id": "inventory-repeat",
+      "condition": "repeat",
+      "topic": "inventory",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 15782,
+      "turnStartedAt": "2026-11-26T02:36:30.281Z",
+      "elapsedMs": 7121,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2332,
+            "codeGen": 0.0234,
+            "debugging": 0.0128,
+            "toolUse": 0.0041
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6332,
+              "outputTokens": 27,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 5058,
+              "totalNanoAiu": 456683500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6332,
+          "outputTokens": 27,
+          "durationMs": 3011,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 5058,
+          "totalNanoAiu": 456683500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 2,
+      "kind": "cache",
+      "id": "shipping-repeat",
+      "condition": "repeat",
+      "topic": "shipping",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 16992,
+      "turnStartedAt": "2026-11-26T02:36:30.280Z",
+      "elapsedMs": 7235,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2414,
+            "codeGen": 0.0063,
+            "debugging": 0.021,
+            "toolUse": 0.0051
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6224,
+              "outputTokens": 27,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 4950,
+              "totalNanoAiu": 447233500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6224,
+          "outputTokens": 27,
+          "durationMs": 2981,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 4950,
+          "totalNanoAiu": 447233500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 1,
+      "kind": "cache",
+      "id": "inventory-repeat",
+      "condition": "repeat",
+      "topic": "inventory",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 2,
+      "promptChars": 15782,
+      "turnStartedAt": "2026-11-26T02:36:37.403Z",
+      "elapsedMs": 2413,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2332,
+            "codeGen": 0.0234,
+            "debugging": 0.0128,
+            "toolUse": 0.0041
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 9375,
+              "outputTokens": 27,
+              "cachedTokens": 6329,
+              "cacheWriteTokens": 3043,
+              "totalNanoAiu": 298074000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 9375,
+          "outputTokens": 27,
+          "durationMs": 2335,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 6329,
+          "cacheWriteTokens": 3043,
+          "totalNanoAiu": 298074000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 2,
+      "kind": "cache",
+      "id": "shipping-repeat",
+      "condition": "repeat",
+      "topic": "shipping",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 2,
+      "promptChars": 16992,
+      "turnStartedAt": "2026-11-26T02:36:37.516Z",
+      "elapsedMs": 2409,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2414,
+            "codeGen": 0.0063,
+            "debugging": 0.021,
+            "toolUse": 0.0051
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 9157,
+              "outputTokens": 31,
+              "cachedTokens": 6221,
+              "cacheWriteTokens": 2933,
+              "totalNanoAiu": 289471000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 9157,
+          "outputTokens": 31,
+          "durationMs": 2384,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 6221,
+          "cacheWriteTokens": 2933,
+          "totalNanoAiu": 289471000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 3,
+      "kind": "cache",
+      "id": "deployment-repeat",
+      "condition": "repeat",
+      "topic": "deployment",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 16002,
+      "turnStartedAt": "2026-11-26T02:36:38.426Z",
+      "elapsedMs": 6599,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2607,
+            "codeGen": 0.0162,
+            "debugging": 0.0302,
+            "toolUse": 0.0086
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6330,
+              "outputTokens": 31,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 5056,
+              "totalNanoAiu": 457908500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6330,
+          "outputTokens": 31,
+          "durationMs": 3130,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 5056,
+          "totalNanoAiu": 457908500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 3,
+      "kind": "cache",
+      "id": "deployment-repeat",
+      "condition": "repeat",
+      "topic": "deployment",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 2,
+      "promptChars": 16002,
+      "turnStartedAt": "2026-11-26T02:36:45.026Z",
+      "elapsedMs": 2550,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2607,
+            "codeGen": 0.0162,
+            "debugging": 0.0302,
+            "toolUse": 0.0086
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 9377,
+              "outputTokens": 31,
+              "cachedTokens": 6327,
+              "cacheWriteTokens": 3047,
+              "totalNanoAiu": 299817000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 9377,
+          "outputTokens": 31,
+          "durationMs": 2516,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 6327,
+          "cacheWriteTokens": 3047,
+          "totalNanoAiu": 299817000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 4,
+      "kind": "cache",
+      "id": "inventory-changed",
+      "condition": "changed",
+      "topic": "inventory",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 15782,
+      "turnStartedAt": "2026-11-26T02:36:42.305Z",
+      "elapsedMs": 5613,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2332,
+            "codeGen": 0.0234,
+            "debugging": 0.0128,
+            "toolUse": 0.0041
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6331,
+              "outputTokens": 42,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 5057,
+              "totalNanoAiu": 461846000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6331,
+          "outputTokens": 42,
+          "durationMs": 2225,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 5057,
+          "totalNanoAiu": 461846000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 5,
+      "kind": "cache",
+      "id": "deployment-changed",
+      "condition": "changed",
+      "topic": "deployment",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 16002,
+      "turnStartedAt": "2026-11-26T02:36:42.315Z",
+      "elapsedMs": 6174,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2607,
+            "codeGen": 0.0162,
+            "debugging": 0.0302,
+            "toolUse": 0.0086
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6330,
+              "outputTokens": 31,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 5056,
+              "totalNanoAiu": 457908500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6330,
+          "outputTokens": 31,
+          "durationMs": 2786,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 5056,
+          "totalNanoAiu": 457908500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 5,
+      "kind": "cache",
+      "id": "deployment-changed",
+      "condition": "changed",
+      "topic": "deployment",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 2,
+      "promptChars": 16029,
+      "turnStartedAt": "2026-11-26T02:36:48.489Z",
+      "elapsedMs": 5789,
+      "error": null,
+      "observation": {
+        "pattern": "critique",
+        "route": {
+          "primaryModel": "claude-opus-5.5",
+          "scores": {
+            "reasoning": 0.5296,
+            "codeGen": 0.0347,
+            "debugging": 0.0745,
+            "toolUse": 0.047
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "draft",
+              "role": "solver",
+              "conditional": false
+            },
+            {
+              "kind": "critic",
+              "role": "critic",
+              "conditional": false
+            },
+            {
+              "kind": "revision",
+              "role": "solver",
+              "conditional": true
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "draft",
+            "model": "claude-opus-5.5",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 13555,
+              "outputTokens": 105,
+              "cachedTokens": 1506,
+              "cacheWriteTokens": 12045,
+              "totalNanoAiu": 4384954000
+            }
+          },
+          {
+            "id": "p2",
+            "kind": "critic",
+            "model": "gpt-6-luna",
+            "status": "succeeded",
+            "role": "critic",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 4795,
+              "outputTokens": 295,
+              "cachedTokens": 0,
+              "cacheWriteTokens": 4792,
+              "totalNanoAiu": 52276000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "critique",
+          "inputTokens": 18350,
+          "outputTokens": 400,
+          "durationMs": 5752,
+          "requestCount": 2,
+          "phaseCount": 2,
+          "finalSourceModel": "claude-opus-5.5",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1506,
+          "cacheWriteTokens": 16837,
+          "totalNanoAiu": 4437230000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 4,
+      "kind": "cache",
+      "id": "inventory-changed",
+      "condition": "changed",
+      "topic": "inventory",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 2,
+      "promptChars": 15809,
+      "turnStartedAt": "2026-11-26T02:36:47.918Z",
+      "elapsedMs": 9577,
+      "error": null,
+      "observation": {
+        "pattern": "critique",
+        "route": {
+          "primaryModel": "claude-opus-5.5",
+          "scores": {
+            "reasoning": 0.5363,
+            "codeGen": 0.0338,
+            "debugging": 0.1626,
+            "toolUse": 0.0298
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "draft",
+              "role": "solver",
+              "conditional": false
+            },
+            {
+              "kind": "critic",
+              "role": "critic",
+              "conditional": false
+            },
+            {
+              "kind": "revision",
+              "role": "solver",
+              "conditional": true
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "draft",
+            "model": "claude-opus-5.5",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 13550,
+              "outputTokens": 132,
+              "cachedTokens": 1506,
+              "cacheWriteTokens": 12040,
+              "totalNanoAiu": 4421004000
+            }
+          },
+          {
+            "id": "p2",
+            "kind": "critic",
+            "model": "gpt-6-luna",
+            "status": "succeeded",
+            "role": "critic",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 4818,
+              "outputTokens": 797,
+              "cachedTokens": 0,
+              "cacheWriteTokens": 4815,
+              "totalNanoAiu": 70047250
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "critique",
+          "inputTokens": 18368,
+          "outputTokens": 929,
+          "durationMs": 9496,
+          "requestCount": 2,
+          "phaseCount": 2,
+          "finalSourceModel": "claude-opus-5.5",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1506,
+          "cacheWriteTokens": 16855,
+          "totalNanoAiu": 4491051250,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 6,
+      "kind": "cache",
+      "id": "inventory-fresh",
+      "condition": "fresh",
+      "topic": "inventory",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 15782,
+      "turnStartedAt": "2026-11-26T02:36:49.781Z",
+      "elapsedMs": 8137,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2332,
+            "codeGen": 0.0234,
+            "debugging": 0.0128,
+            "toolUse": 0.0041
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6330,
+              "outputTokens": 72,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 5056,
+              "totalNanoAiu": 472258500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6330,
+          "outputTokens": 72,
+          "durationMs": 4763,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 5056,
+          "totalNanoAiu": 472258500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 7,
+      "kind": "cache",
+      "id": "shipping-fresh",
+      "condition": "fresh",
+      "topic": "shipping",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 16992,
+      "turnStartedAt": "2026-11-26T02:36:56.218Z",
+      "elapsedMs": 5773,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2414,
+            "codeGen": 0.0063,
+            "debugging": 0.021,
+            "toolUse": 0.0051
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6221,
+              "outputTokens": 36,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 4947,
+              "totalNanoAiu": 450121000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6221,
+          "outputTokens": 36,
+          "durationMs": 2374,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 4947,
+          "totalNanoAiu": 450121000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 8,
+      "kind": "cache",
+      "id": "shipping-changed",
+      "condition": "changed",
+      "topic": "shipping",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 1,
+      "promptChars": 16992,
+      "turnStartedAt": "2026-11-26T02:36:59.124Z",
+      "elapsedMs": 5505,
+      "error": null,
+      "observation": {
+        "pattern": "single",
+        "route": {
+          "primaryModel": "gpt-6.1-terra",
+          "scores": {
+            "reasoning": 0.2414,
+            "codeGen": 0.0063,
+            "debugging": 0.021,
+            "toolUse": 0.0051
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "primary",
+              "role": "solver",
+              "conditional": false
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "primary",
+            "model": "gpt-6.1-terra",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 6220,
+              "outputTokens": 37,
+              "cachedTokens": 1271,
+              "cacheWriteTokens": 4946,
+              "totalNanoAiu": 450383500
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "single",
+          "inputTokens": 6220,
+          "outputTokens": 37,
+          "durationMs": 2174,
+          "requestCount": 1,
+          "phaseCount": 1,
+          "finalSourceModel": "gpt-6.1-terra",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1271,
+          "cacheWriteTokens": 4946,
+          "totalNanoAiu": 450383500,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    },
+    {
+      "order": 8,
+      "kind": "cache",
+      "id": "shipping-changed",
+      "condition": "changed",
+      "topic": "shipping",
+      "mode": null,
+      "paraphrase": null,
+      "turn": 2,
+      "promptChars": 17019,
+      "turnStartedAt": "2026-11-26T02:37:04.630Z",
+      "elapsedMs": 8574,
+      "error": null,
+      "observation": {
+        "pattern": "critique",
+        "route": {
+          "primaryModel": "claude-opus-5.5",
+          "scores": {
+            "reasoning": 0.5073,
+            "codeGen": 0.042,
+            "debugging": 0.2188,
+            "toolUse": 0.0537
+          },
+          "routeSource": "capi_plan",
+          "plan": [
+            {
+              "kind": "draft",
+              "role": "solver",
+              "conditional": false
+            },
+            {
+              "kind": "critic",
+              "role": "critic",
+              "conditional": false
+            },
+            {
+              "kind": "revision",
+              "role": "solver",
+              "conditional": true
+            }
+          ]
+        },
+        "routeFailure": null,
+        "phases": [
+          {
+            "id": "p1",
+            "kind": "draft",
+            "model": "claude-opus-5.5",
+            "status": "succeeded",
+            "role": "solver",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 15549,
+              "outputTokens": 121,
+              "cachedTokens": 1506,
+              "cacheWriteTokens": 14039,
+              "totalNanoAiu": 5105254000
+            }
+          },
+          {
+            "id": "p2",
+            "kind": "critic",
+            "model": "gpt-6-luna",
+            "status": "succeeded",
+            "role": "critic",
+            "verdict": null,
+            "usage": {
+              "requestCount": 1,
+              "inputTokens": 4695,
+              "outputTokens": 420,
+              "cachedTokens": 0,
+              "cacheWriteTokens": 4692,
+              "totalNanoAiu": 55776000
+            }
+          }
+        ],
+        "completed": {
+          "pattern": "critique",
+          "inputTokens": 20244,
+          "outputTokens": 541,
+          "durationMs": 8539,
+          "requestCount": 2,
+          "phaseCount": 2,
+          "finalSourceModel": "claude-opus-5.5",
+          "outcome": "completed",
+          "degradedReason": null,
+          "cachedTokens": 1506,
+          "cacheWriteTokens": 18731,
+          "totalNanoAiu": 5161030000,
+          "finalSourcePhaseId": "p1"
+        },
+        "handoffs": []
+      },
+      "scoring": null
+    }
+  ]
+}

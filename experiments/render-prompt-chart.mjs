@@ -1,0 +1,12 @@
+import {readFile,writeFile} from 'node:fs/promises';
+const d=JSON.parse(await readFile(new URL('./data/prompt-study-2026-11-26.json',import.meta.url),'utf8'));
+const groups=['basic','review'].map(condition=>d.runs.filter(r=>r.condition===condition).map(r=>r.elapsedMs/1000).sort((a,b)=>a-b));
+if(groups.some(g=>g.length!==10)) throw Error('Expected exactly ten observations in each condition');
+const x=s=>250+s*50, y=[150,285];
+const dots=groups.flatMap((values,i)=>values.map((s,j)=>`<circle cx="${x(s)}" cy="${y[i]+((j%5)-2)*13}" r="8" fill="${i?'#d92932':'#454e5d'}" opacity=".84"><title>${s.toFixed(3)} 秒</title></circle>`)).join('');
+const medians=groups.map(g=>(g[4]+g[5])/2);
+const med=medians.map((v,i)=>`<path d="M${x(v)} ${y[i]-38} v76" stroke="${i?'#a4101b':'#263040'}" stroke-width="3"/><text x="${x(v)+8}" y="${y[i]-47}" class="median">中央値 ${v.toFixed(1)}秒</text>`).join('');
+const ticks=[0,4,8,12,16].map(t=>`<path d="M${x(t)} 80 V350" stroke="#e2e2e2"/><text x="${x(t)}" y="382" text-anchor="middle" class="tick">${t}</text>`).join('');
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="420" viewBox="0 0 1120 420"><style>text{font-family:'Hiragino Sans','Noto Sans JP',sans-serif;fill:#222}.label{font-size:24px;font-weight:700}.sub{font-size:15px;fill:#666}.median{font-size:19px;font-weight:700}.tick{font-size:16px;fill:#666}</style><text x="20" y="32" class="sub">応答時間（秒）　／　1点 = 1回の実測　／　両条件とも10回</text>${ticks}<text x="20" y="145" class="label">基本依頼</text><text x="20" y="170" class="sub">指示の追加なし</text><text x="20" y="280" class="label">見直しを追加</text><text x="20" y="305" class="sub">0・undefined・null</text>${dots}${med}</svg>`;
+await writeFile(new URL('../presentation/media/prompt-duration.svg',import.meta.url),svg);
+console.log(JSON.stringify({counts:groups.map(g=>g.length),medians}));

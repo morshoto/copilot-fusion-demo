@@ -1,0 +1,48 @@
+{
+  "method": "Regrade locally from matching synthetic prompts in durable event logs using corrected equality; content and identifiers omitted",
+  "results": [
+    {
+      "id": "stable-unique",
+      "scoring": {
+        "status": "scored",
+        "passed": 4,
+        "total": 4,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "id": "binary-search-first",
+      "scoring": {
+        "status": "scored",
+        "passed": 5,
+        "total": 5,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "id": "timeout",
+      "scoring": {
+        "status": "scored",
+        "passed": 4,
+        "total": 4,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    }
+  ]
+}

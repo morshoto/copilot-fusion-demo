@@ -1,0 +1,6 @@
+import type {Case} from './hypotheses-fixtures.js';
+export const followup:{id:string;prompt:string;cases:Case[]}[]=[
+ {id:'binary-search-first',prompt:'JavaScript の function solve(a, x) を実装。昇順配列 a で x と厳密一致する最初の添字を二分探索で返し、存在しなければ -1。空配列と重複を扱う。コードは ```javascript の1ブロックのみ。',cases:[{name:'found',args:[[1,2,3],2],expected:1},{name:'empty',args:[[],1],expected:-1},{name:'duplicate',args:[[1,2,2,2,3],2],expected:1},{name:'not-found',args:[[1,3],2],expected:-1},{name:'first',args:[[1,1],1],expected:0}]},
+ {id:'date-midnight',prompt:'JavaScript の function solve(start, end) を実装。start と end は整数の分（0〜1439）を表す。時刻が end 未満なら当日、それ以外は翌日として次の end までの分数を返す。同時刻は翌日で 1440。範囲外・非整数は null。コードは ```javascript の1ブロックのみ。',cases:[{name:'normal',args:[60,90],expected:30},{name:'midnight',args:[1430,10],expected:20},{name:'same',args:[500,500],expected:1440},{name:'invalid-low',args:[-1,0],expected:null},{name:'invalid-high',args:[0,1440],expected:null},{name:'fraction',args:[1.5,4],expected:null}]},
+ {id:'stable-unique',prompt:'JavaScript の function solve(items) を実装。数値と文字列を含む配列から厳密一致での重複を取り除き、初出順を保つ新しい配列を返す。NaN 同士は同じ値とし、入力配列は変更しない。配列以外は null。コードは ```javascript の1ブロックのみ。',cases:[{name:'normal',args:[[3,1,3]],expected:[3,1]},{name:'empty',args:[[]],expected:[]},{name:'mixed',args:[[1,'1',1]],expected:[1,'1']},{name:'nonnarray',args:['bad'],expected:null}]},
+];

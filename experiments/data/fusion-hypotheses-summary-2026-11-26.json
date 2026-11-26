@@ -1,0 +1,522 @@
+{
+  "generatedAt": "2026-11-26T02:30:18.716Z",
+  "files": [
+    "experiments/data/fusion-hypotheses-pilot-2026-11-26.json",
+    "experiments/data/fusion-hypotheses-judge-followup-2026-11-26.json"
+  ],
+  "recordCount": 32,
+  "errorCount": 0,
+  "route": {
+    "modes": {
+      "explain": {
+        "n": 4,
+        "patterns": {
+          "single": 4
+        },
+        "multi": {
+          "n": 4,
+          "k": 0,
+          "ci95": [
+            0,
+            0.4899
+          ]
+        },
+        "axes": {
+          "reasoning": {
+            "n": 4,
+            "mean": 0.3662,
+            "range": [
+              0.2682,
+              0.4281
+            ]
+          },
+          "codeGen": {
+            "n": 4,
+            "mean": 0.1336,
+            "range": [
+              0.0159,
+              0.3115
+            ]
+          },
+          "debugging": {
+            "n": 4,
+            "mean": 0.007,
+            "range": [
+              0.0015,
+              0.0147
+            ]
+          },
+          "toolUse": {
+            "n": 4,
+            "mean": 0.0362,
+            "range": [
+              0.0223,
+              0.0493
+            ]
+          }
+        },
+        "promptChars": [
+          157,
+          158,
+          150,
+          151
+        ]
+      },
+      "implement": {
+        "n": 4,
+        "patterns": {
+          "cascade": 2,
+          "single": 1,
+          "critique": 1
+        },
+        "multi": {
+          "n": 4,
+          "k": 3,
+          "ci95": [
+            0.3006,
+            0.9544
+          ]
+        },
+        "axes": {
+          "reasoning": {
+            "n": 4,
+            "mean": 0.4687,
+            "range": [
+              0.4213,
+              0.5189
+            ]
+          },
+          "codeGen": {
+            "n": 4,
+            "mean": 0.339,
+            "range": [
+              0.0869,
+              0.5347
+            ]
+          },
+          "debugging": {
+            "n": 4,
+            "mean": 0.0098,
+            "range": [
+              0.0017,
+              0.0204
+            ]
+          },
+          "toolUse": {
+            "n": 4,
+            "mean": 0.0999,
+            "range": [
+              0.0562,
+              0.1409
+            ]
+          }
+        },
+        "promptChars": [
+          157,
+          150,
+          158,
+          151
+        ]
+      },
+      "debug": {
+        "n": 4,
+        "patterns": {
+          "single": 2,
+          "cascade": 1,
+          "critique": 1
+        },
+        "multi": {
+          "n": 4,
+          "k": 2,
+          "ci95": [
+            0.15,
+            0.85
+          ]
+        },
+        "axes": {
+          "reasoning": {
+            "n": 4,
+            "mean": 0.4383,
+            "range": [
+              0.3762,
+              0.4825
+            ]
+          },
+          "codeGen": {
+            "n": 4,
+            "mean": 0.223,
+            "range": [
+              0.063,
+              0.4115
+            ]
+          },
+          "debugging": {
+            "n": 4,
+            "mean": 0.0111,
+            "range": [
+              0.0033,
+              0.0196
+            ]
+          },
+          "toolUse": {
+            "n": 4,
+            "mean": 0.0919,
+            "range": [
+              0.0741,
+              0.1093
+            ]
+          }
+        },
+        "promptChars": [
+          150,
+          157,
+          159,
+          152
+        ]
+      },
+      "design": {
+        "n": 4,
+        "patterns": {
+          "cascade": 4
+        },
+        "multi": {
+          "n": 4,
+          "k": 4,
+          "ci95": [
+            0.5101,
+            1
+          ]
+        },
+        "axes": {
+          "reasoning": {
+            "n": 4,
+            "mean": 0.5679,
+            "range": [
+              0.5499,
+              0.6108
+            ]
+          },
+          "codeGen": {
+            "n": 4,
+            "mean": 0.3297,
+            "range": [
+              0.2291,
+              0.4285
+            ]
+          },
+          "debugging": {
+            "n": 4,
+            "mean": 0.0201,
+            "range": [
+              0.0097,
+              0.031
+            ]
+          },
+          "toolUse": {
+            "n": 4,
+            "mean": 0.1937,
+            "range": [
+              0.146,
+              0.2274
+            ]
+          }
+        },
+        "promptChars": [
+          159,
+          161,
+          154,
+          152
+        ]
+      }
+    },
+    "agreement": {
+      "pairs": 8,
+      "patterns": 4,
+      "patternCi95": [
+        0.2152,
+        0.7848
+      ],
+      "models": 2,
+      "modelCi95": [
+        0.0715,
+        0.5907
+      ],
+      "details": [
+        {
+          "topic": "timeout",
+          "mode": "explain",
+          "patterns": [
+            "single",
+            "single"
+          ],
+          "models": [
+            "claude-opus-5.5",
+            "gpt-6.1-terra"
+          ],
+          "samePattern": true,
+          "sameModel": false
+        },
+        {
+          "topic": "timeout",
+          "mode": "implement",
+          "patterns": [
+            "cascade",
+            "single"
+          ],
+          "models": [
+            "gpt-6.1-sol",
+            "claude-opus-5.5"
+          ],
+          "samePattern": false,
+          "sameModel": false
+        },
+        {
+          "topic": "timeout",
+          "mode": "debug",
+          "patterns": [
+            "single",
+            "cascade"
+          ],
+          "models": [
+            "claude-opus-5.5",
+            "gpt-6.1-sol"
+          ],
+          "samePattern": false,
+          "sameModel": false
+        },
+        {
+          "topic": "timeout",
+          "mode": "design",
+          "patterns": [
+            "cascade",
+            "cascade"
+          ],
+          "models": [
+            "gpt-6.1-sol",
+            "gpt-6.1-sol"
+          ],
+          "samePattern": true,
+          "sameModel": true
+        },
+        {
+          "topic": "clamp",
+          "mode": "explain",
+          "patterns": [
+            "single",
+            "single"
+          ],
+          "models": [
+            "gpt-6.1-terra",
+            "gpt-6.1-terra"
+          ],
+          "samePattern": true,
+          "sameModel": true
+        },
+        {
+          "topic": "clamp",
+          "mode": "implement",
+          "patterns": [
+            "cascade",
+            "critique"
+          ],
+          "models": [
+            "gpt-6.1-sol",
+            "claude-opus-5.5"
+          ],
+          "samePattern": false,
+          "sameModel": false
+        },
+        {
+          "topic": "clamp",
+          "mode": "debug",
+          "patterns": [
+            "single",
+            "critique"
+          ],
+          "models": [
+            "gpt-6.1-terra",
+            "claude-opus-5.5"
+          ],
+          "samePattern": false,
+          "sameModel": false
+        },
+        {
+          "topic": "clamp",
+          "mode": "design",
+          "patterns": [
+            "cascade",
+            "cascade"
+          ],
+          "models": [
+            "gpt-6.1-sol",
+            "claude-opus-5.5"
+          ],
+          "samePattern": true,
+          "sameModel": false
+        }
+      ]
+    }
+  },
+  "cache": [
+    {
+      "topic": "clamp",
+      "condition": "repeat",
+      "firstModel": "gpt-6.1-terra",
+      "model": "gpt-6.1-terra",
+      "pattern": "single",
+      "input": 9678,
+      "cached": 6475,
+      "ratio": 0.669,
+      "primaryInput": 9678,
+      "primaryCached": 6475,
+      "primaryRatio": 0.669
+    },
+    {
+      "topic": "clamp",
+      "condition": "fresh",
+      "firstModel": null,
+      "model": "gpt-6.1-terra",
+      "pattern": "single",
+      "input": 6482,
+      "cached": 1271,
+      "ratio": 0.1961,
+      "primaryInput": 6482,
+      "primaryCached": 1271,
+      "primaryRatio": 0.1961
+    },
+    {
+      "topic": "timeout",
+      "condition": "changed",
+      "firstModel": "gpt-6.1-terra",
+      "model": "claude-opus-5.5",
+      "pattern": "critique",
+      "input": 20055,
+      "cached": 1506,
+      "ratio": 0.0751,
+      "primaryInput": 15139,
+      "primaryCached": 1506,
+      "primaryRatio": 0.0995
+    },
+    {
+      "topic": "timeout",
+      "condition": "fresh",
+      "firstModel": null,
+      "model": "gpt-6.1-terra",
+      "pattern": "single",
+      "input": 6480,
+      "cached": 1271,
+      "ratio": 0.1961,
+      "primaryInput": 6480,
+      "primaryCached": 1271,
+      "primaryRatio": 0.1961
+    },
+    {
+      "topic": "clamp",
+      "condition": "changed",
+      "firstModel": "gpt-6.1-terra",
+      "model": "claude-opus-5.5",
+      "pattern": "critique",
+      "input": 41321,
+      "cached": 16638,
+      "ratio": 0.4027,
+      "primaryInput": 15136,
+      "primaryCached": 1506,
+      "primaryRatio": 0.0995
+    },
+    {
+      "topic": "timeout",
+      "condition": "repeat",
+      "firstModel": "gpt-6.1-terra",
+      "model": "gpt-6.1-terra",
+      "pattern": "single",
+      "input": 9763,
+      "cached": 6478,
+      "ratio": 0.6635,
+      "primaryInput": 9763,
+      "primaryCached": 6478,
+      "primaryRatio": 0.6635
+    }
+  ],
+  "judges": [
+    {
+      "id": "retry",
+      "pattern": "single",
+      "verdict": null,
+      "repairStarted": false,
+      "score": null,
+      "finalSourcePhaseId": "p1"
+    },
+    {
+      "id": "timeout",
+      "pattern": "cascade",
+      "verdict": "accept",
+      "repairStarted": false,
+      "score": {
+        "status": "scored",
+        "passed": 4,
+        "total": 4,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "finalSourcePhaseId": "p1"
+    },
+    {
+      "id": "clamp",
+      "pattern": "single",
+      "verdict": null,
+      "repairStarted": false,
+      "score": null,
+      "finalSourcePhaseId": "p1"
+    },
+    {
+      "id": "date-midnight",
+      "pattern": "single",
+      "verdict": null,
+      "repairStarted": false,
+      "score": null,
+      "finalSourcePhaseId": "p1"
+    },
+    {
+      "id": "binary-search-first",
+      "pattern": "cascade",
+      "verdict": "accept",
+      "repairStarted": false,
+      "score": {
+        "status": "scored",
+        "passed": 5,
+        "total": 5,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "finalSourcePhaseId": "p1"
+    },
+    {
+      "id": "stable-unique",
+      "pattern": "cascade",
+      "verdict": "accept",
+      "repairStarted": false,
+      "score": {
+        "status": "scored",
+        "passed": 4,
+        "total": 4,
+        "caseResults": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "finalSourcePhaseId": "p1"
+    }
+  ],
+  "credits": 31.676697
+}
