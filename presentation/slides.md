@@ -108,7 +108,7 @@ size: 16:9
 
 <div class="key-message">別のSDK実行で <strong>予定 → 開始・完了 → 最終ソース</strong> を照合</div>
 
-<div class="phase-flow"><div><small>予定: Cascade</small><b>primary → judge</b><p>repair は条件付き</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6.1-sol</b><p>primary / solver</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6-luna</b><p>judge / accept</p></div><span>→</span><div><small>完了</small><b>primary が最終ソース</b><p>2 requests</p></div></div>
+<div class="phase-flow"><div><small>予定: Cascade</small><b>primary → judge</b><p>repair は条件付き</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6.1-sol</b><p>primary / solver</p></div><span>→</span><div><small>開始 → 完了</small><b>gpt-6-luna</b><p>judge / accept</p></div><span>→</span><div><small>完了</small><b>primary</b><p>最終ソース · 2 requests</p></div></div>
 <p class="hypothesis-note">repair の開始は未観測。予定を実行済みとは扱わない。<br>次の Framekit 開発録画とは別セッションで、モデルを対応付ける証拠はない。</p>
 <div class="source">SDK 2.0.1 / High · 同一会話の課題変更ターン1件 · fusion-runtime-study-2026-11-26.json</div>
 
