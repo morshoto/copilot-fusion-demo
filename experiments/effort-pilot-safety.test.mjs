@@ -10,7 +10,7 @@ test('only permits real reads within the trial directory', () => {
   try {
     mkdirSync(join(root, 'inside'));
     symlinkSync(tmpdir(), join(root, 'escape'));
-    assert.deepEqual(readPermission({ kind: 'read', path: join(root, 'inside') }, root), { kind: 'approved' });
+    assert.deepEqual(readPermission({ kind: 'read', path: join(root, 'inside') }, root), { kind: 'approve-once' });
     for (const request of [{ kind: 'write', path: root }, { kind: 'read', path: join(root, 'escape') }, { kind: 'read', path: root, managedApprovalRequired: true }, { kind: 'read', path: join(root, 'missing') }]) {
       assert.deepEqual(readPermission(request, root), { kind: 'reject' });
     }

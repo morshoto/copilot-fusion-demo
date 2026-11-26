@@ -6,7 +6,7 @@ export function readPermission(request, root) {
   try {
     const relativePath = relative(realpathSync(root), realpathSync(request.path));
     if (relativePath === '..' || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath)) return { kind: 'reject' };
-    return { kind: 'approved' };
+    return { kind: 'approve-once' };
   } catch { return { kind: 'reject' }; }
 }
 
