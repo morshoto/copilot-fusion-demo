@@ -96,7 +96,7 @@ size: 16:9
 <div class="key-message">並列調査、設定確認、独立レビューを<strong>短い操作</strong>で</div>
 
 <div class="command-table">
-<div><code>/fleet</code><strong>独立した作業を並列委任</strong><span>同じ調査課題の追試では3 / 5回で開始・完了</span></div>
+<div><code>/fleet</code><strong>独立した作業を並列委任</strong><span>CLIの --fleet 追試では3 / 5回で開始・完了</span></div>
 <div><code>/env</code><strong>instructions・agents 等を確認</strong><span>意図した設定が読み込まれているかを見る</span></div>
 <div><code>/rubber-duck</code><strong>別の視点から設計を批評</strong><span>セカンドオピニオンを依頼 · 今回は未実行</span></div>
 </div>
@@ -133,22 +133,27 @@ size: 16:9
 
 ---
 
-## Tip 1：subagent はどう呼ぶ？
+## Tip 1：subagent は本当に起動した？
 
-<div class="key-message">同じ調査依頼に、<strong>委任先を明示</strong>する</div>
+<div class="key-message">同じ読み取り専用課題に、<strong>3つの方法で委任</strong></div>
 
-<div class="delegation-prompt"><p><b>共通の依頼</b><br>sample.ts を読み、timeoutMs のバグと修正案を報告してください。変更や外部アクセスはしないでください。</p><p><b>追加する一文</b><br><mark>subagentにファイルの調査を委任してください。</mark></p></div>
-<div class="delegation-methods"><div><b>AGENTS.md</b><br><small>When investigating sample.ts, <mark>delegate the initial file investigation to the explore subagent</mark> and use its findings.</small></div><div><b>CLI オプション</b><br><code>copilot --fleet ...</code><br><small>同じ調査依頼で並列委任を試す</small></div></div>
-<div class="source">実際の依頼と指示から抜粋 · AGENTS.mdにはファイル変更と外部アクセスを禁止する一文も含む</div>
+<div class="delegation-prompt"><p><b>全条件の依頼</b><br>sample.ts を読み、timeoutMs のバグと修正案を報告してください。変更や外部アクセスはしないでください。</p><p><b>プロンプト条件の追加文</b><br><mark>subagentにファイルの調査を委任してください。</mark></p></div>
+<div class="delegation-methods"><div><b>AGENTS.md 条件</b><br><small>When investigating sample.ts, delegate the initial file investigation to the explore subagent and use its findings. Do not modify files or access the network.</small></div><div><b>CLI オプション条件</b><br><code>copilot --fleet ...</code><br><small>共通の依頼を渡す</small></div></div>
+<div class="source">実際の追試の指示 · experiments/data/subagent-followup-2026-11-26.json</div>
 
 ---
 
-## Tip 1：呼び出し方を比べる
+## Tip 1：開始・完了を確かめる
 
-<div class="key-message">同じ読み取り専用課題で、<strong>開始・完了イベント</strong>を数えた</div>
+<div class="key-message">CLI は<strong>作業を委任</strong>、Fusion は<strong>モデルと処理経路を選択</strong></div>
 
-<div class="subagent-chart"><img src="media/subagent-comparison.svg" alt="呼び出し方法別のsubagent開始・完了セッション数"></div>
-<div class="source">Copilot CLI 1.0.115 / Fusion High · view, task を許可 · 試行ごとに新規セッション · 先行は2、追試は4セッション並行 · AGENTS.md条件のみ指示読み込み有効</div>
+<table class="comparison" style="font-size:21px;margin-top:8px"><thead><tr><th>追試の条件</th><th>開始した試行</th><th>完了した試行</th><th>開始 / 完了イベント</th></tr></thead><tbody>
+<tr><td>プロンプトで委任</td><td>5 / 5</td><td>5 / 5</td><td>5 / 5</td></tr>
+<tr><td>AGENTS.md で委任</td><td>5 / 5</td><td>5 / 5</td><td>5 / 5</td></tr>
+<tr><td>--fleet</td><td>3 / 5</td><td>3 / 5</td><td>9 / 9</td></tr>
+</tbody></table>
+<p style="font-size:19px;margin-top:15px;line-height:1.4"><b>次の Issue で：</b>「初期調査を subagent に委任し、原因・修正案・根拠の行を報告。変更と外部アクセスは禁止。結果を回答に取り込んで」</p>
+<div class="source" style="font-size:15px">CLI 1.0.115 / Fusion High · 各5試行・4並行 · view, task のみ · AGENTS.md 条件のみ指示読込有効<br>1試行で複数イベントあり · 1課題の観測であり、一般的な成功率ではない</div>
 
 ---
 
