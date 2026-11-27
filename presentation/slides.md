@@ -179,17 +179,27 @@ size: 16:9
 
 ---
 
-## Tip 3：コストと品質を同時に見る
+## Tip 3：必要な品質を満たした？
 
-<div class="key-message">使用量だけでは品質を比較できない。<strong>成果物の差</strong>も確認する</div>
+<div class="key-message">品質条件：<strong>初期表示から図の文字まで</strong>確認する</div>
 
-<table class="comparison cost-table"><thead><tr><th></th><th>High 優先</th><th>Max 単独</th></tr></thead><tbody>
-<tr><td>回答のテスト案</td><td>見出し・CTA・図を初期から3秒確認</td><td>見出しとCTAを確認。図の文字は対象外</td></tr>
-<tr><td>調査経路</td><td>heroと図、既存テストを読んで2案</td><td>heroと図、既存テストを読んで2案</td></tr>
+<div class="answer-comparison"><div><h3>成果物 A</h3><p>見出し・説明・両CTA・図の文字</p><small>初期から3秒、light / dark で確認するテスト案</small></div><div><h3>成果物 B</h3><p>見出し・CTA を確認</p><small>図の文字はテストの測定対象に含まれない</small></div></div>
+<p class="hypothesis-note">同じIssue本文から得た<strong>テスト案</strong>。どちらが品質条件を満たす？</p>
+<div class="source">各1試行 · Framekit Issue #796 · テスト案は未実行 · experiments/effort-quality-observation.md</div>
+
+---
+
+## 成果物の設定と利用量を開示
+
+<div class="key-message">この1例では<strong>利用量が少ない案に確認漏れ</strong>があった</div>
+
+<table class="comparison cost-table"><thead><tr><th></th><th>成果物 A</th><th>成果物 B</th></tr></thead><tbody>
+<tr><td>設定</td><td>High 優先</td><td>Max 単独</td></tr>
+<tr><td>品質条件</td><td class="ok">合格</td><td class="ng">図の文字が抜けて不合格</td></tr>
 <tr><td>利用量</td><td><b>34.426 AI credits</b></td><td><b>30.113 AI credits</b></td></tr>
-<tr><td>事前の品質条件</td><td class="ok">合格</td><td class="ng">不合格</td></tr>
 </tbody></table>
-<div class="source">各1試行・提示されたIssue本文は同じ · テスト案の評価でありテスト実行や請求額ではない · 異なる品質なので単純比較不可</div>
+<p class="hypothesis-note">同じIssue・合格条件で、プロンプトかeffortを<strong>一つずつ</strong>変えて試す。</p>
+<div class="source">各1試行 · テスト案の比較 · AI credits は請求額ではない · 品質が異なるため単純な費用比較はできない</div>
 
 ---
 
