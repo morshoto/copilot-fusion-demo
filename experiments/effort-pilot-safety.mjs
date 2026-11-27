@@ -1,4 +1,4 @@
-import { realpathSync } from 'node:fs';
+import { lstatSync, realpathSync } from 'node:fs';
 import { dirname, isAbsolute, relative, sep } from 'node:path';
 
 export function readPermission(request, root) {
@@ -9,6 +9,7 @@ export function readPermission(request, root) {
     while (true) {
       try { ancestor = realpathSync(ancestor); break; } catch (error) {
         if (error.code !== 'ENOENT' || dirname(ancestor) === ancestor) return { kind: 'reject' };
+        try { if (lstatSync(ancestor).isSymbolicLink()) return { kind: 'reject' }; } catch (statError) { if (statError.code !== 'ENOENT') return { kind: 'reject' }; }
         ancestor = dirname(ancestor);
       }
     }
