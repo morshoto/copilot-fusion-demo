@@ -1,0 +1,160 @@
+/* @theme fusion-universe */
+@import 'default';
+
+/* GitHub Universe 2025, Building GitHub with Copilot:
+   https://blog.bassemdy.com/assets/static/2025/10/BLD1224_BDghaidi.pdf
+   Cover p.1; chapter p.8; diagrams p.5; evidence p.14–16. */
+
+section {
+  --green: #55e584;
+  --green-dark: #15933d;
+  --muted: #c6cdc8;
+  width: 1280px;
+  height: 720px;
+  box-sizing: border-box;
+  padding: 70px 80px;
+  background: #000;
+  color: #fff;
+  font-family: 'Hiragino Sans', 'Noto Sans JP', Arial, sans-serif;
+  font-size: 25px;
+  justify-content: flex-start;
+}
+
+section h1, section h2, section p { margin: 0; }
+section h2 { font-size: 48px; line-height: 1.25; letter-spacing: -.03em; }
+section strong { color: var(--green); }
+section code { font-family: Menlo, monospace; }
+section:not(.cover):not(.chapter) > p:first-child {
+  margin-bottom: 22px;
+  color: #d3dcd5;
+  font: 20px Menlo, monospace;
+}
+section:not(.cover):not(.chapter) > p:last-child {
+  position: absolute;
+  right: 55px;
+  bottom: 22px;
+  left: 80px;
+  color: #b4bcb7;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Opening slide */
+section.cover { display: block; padding: 0; }
+section.cover::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 39%;
+  border-right: 3px solid #008631;
+  background: url('media/universe-motifs.svg') 35px 35px / 430px 565px no-repeat;
+  content: '';
+}
+section.cover h1 {
+  position: absolute;
+  top: 45px;
+  left: 43%;
+  color: #fff;
+  font: 800 94px/.98 Arial, sans-serif;
+  letter-spacing: -.055em;
+}
+section.cover p:nth-of-type(1) {
+  position: absolute;
+  top: 290px;
+  left: 43%;
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+section.cover p:nth-of-type(2) {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 39%;
+  height: 115px;
+  box-sizing: border-box;
+  border-top: 3px solid #008631;
+  padding: 25px 45px;
+  color: #d1d1d1;
+  font-size: 19px;
+}
+
+/* Chapter breaks */
+section.chapter { display: block; padding: 0; background: var(--green); color: #000; }
+section.chapter::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 195px;
+  border-right: 2px solid var(--green-dark);
+  background: url('media/universe-motifs.svg') 30px 95px / 105px auto no-repeat;
+  content: '';
+}
+section.chapter::after {
+  position: absolute;
+  top: 25px;
+  left: 30px;
+  color: #000;
+  font: 800 31px Arial, sans-serif;
+  content: 'FUSION';
+}
+section.chapter h2 { position: absolute; top: 270px; left: 270px; color: #000; font-size: 69px; }
+section.chapter p { position: absolute; top: 395px; left: 270px; font-size: 32px; }
+
+/* Tables share a readable, full-width foundation. */
+section table { display: table; width: 100%; border-collapse: collapse; }
+section table th, section table td { border: 0; background: transparent; color: inherit; }
+section.flow table { margin-top: 125px; table-layout: fixed; text-align: center; }
+section.flow th, section.flow td { border-right: 20px solid #000; border-left: 20px solid #000; padding: 16px 8px; }
+section.flow th { border-top: 2px solid var(--green); font-size: 28px; }
+section.flow td { border-bottom: 2px solid var(--green); color: #d2d9d4; font-size: 20px; }
+section.flow th:first-child, section.flow td:first-child { border-left: 2px solid var(--green); }
+section.flow th:last-child, section.flow td:last-child { border-right: 2px solid var(--green); }
+section.chart table { margin-top: 48px; font-size: 23px; }
+section.chart th, section.chart td { padding: 16px 14px; border-bottom: 1px solid var(--green-dark); }
+section.chart th { color: var(--green); font-size: 18px; }
+section.chart td:not(:first-child) { font-family: Menlo, monospace; }
+section.chart > p:nth-last-child(2) { margin-top: 28px; color: var(--muted); font-size: 19px; }
+section.commands table { margin-top: 48px; }
+section.commands th { display: none; }
+section.commands td { padding: 22px 0; border-bottom: 1px solid var(--green-dark); }
+section.commands tr:first-child td { border-top: 2px solid var(--green-dark); }
+section.commands td:first-child { width: 220px; }
+section.commands td:nth-child(2) { width: 340px; font-weight: 700; }
+section.commands td:last-child { color: var(--muted); font-size: 19px; }
+section.commands code { color: var(--green); font-size: 27px; }
+
+/* Before and after: both crops use the same scale and top alignment. */
+section.demo > p:nth-of-type(2) { margin-top: 46px; border-top: 2px solid var(--green); padding-top: 18px; width: 340px; color: var(--green); font: 20px Menlo, monospace; }
+section.demo > p:nth-of-type(3) { margin-top: 18px; font-size: 23px; line-height: 1.5; }
+section.demo > p:nth-of-type(4) { margin-top: 28px; font-size: 23px; line-height: 1.5; }
+section.demo > p:nth-of-type(5) { position: absolute; top: 281px; left: 474px; display: flex; gap: 75px; margin: 0; }
+section.demo img { display: block; width: 300px; height: 350px; object-fit: cover; object-position: top; background: white; }
+section.demo::before, section.demo::after { position: absolute; top: 248px; color: var(--green); font: 18px Menlo, monospace; }
+section.demo::before { left: 474px; content: '01  修正前'; }
+section.demo::after { left: 849px; content: '02  修正後'; }
+
+/* Closing points */
+section.takeaways ol { margin: 70px 0 0; padding: 0; list-style: none; counter-reset: takeaway; }
+section.takeaways li { display: flex; align-items: baseline; gap: 58px; margin-bottom: 30px; font-size: 31px; line-height: 1.4; counter-increment: takeaway; }
+section.takeaways li::before { width: 38px; color: var(--green); font: 25px Menlo, monospace; content: counter(takeaway, decimal-leading-zero); }
+
+/* Override Marp's default table stripes and hidden pseudo-elements. */
+section table tr, section table tr:nth-child(2n) { background: transparent; }
+section.cover::before, section.chapter::before, section.chapter::after,
+section.demo::before, section.demo::after { display: block; }
+section.demo > p:nth-of-type(5) { width: 675px; gap: 0; justify-content: space-between; }
+section.chapter::after, section.demo::after { visibility: visible; }
+section.chapter::before { background-size: 210px auto; }
+section.demo { padding-top: 50px; }
+section.chapter::before {
+  box-sizing: border-box;
+  padding: 25px 30px;
+  color: #000;
+  font: 800 31px Arial, sans-serif;
+  content: 'FUSION';
+  background:
+    linear-gradient(140deg, #a5ffc3, #009335) 30px 95px / 105px 105px no-repeat,
+    linear-gradient(#008a30, #008a30) 30px 212px / 105px 105px no-repeat,
+    radial-gradient(circle, #bbffce, #15c957) 30px 329px / 105px 105px no-repeat,
+    linear-gradient(135deg, #fcf9e9, #c4dcff, #edbafa) 30px 446px / 105px 105px no-repeat;
+}
+section.demo::before { content: '01  修正前                         02  修正後'; white-space: pre; }

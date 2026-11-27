@@ -18,3 +18,11 @@ pnpm demo
 ```
 
 Fusion High に決済 API の設計レビューを依頼し、SDK が通知する処理方式、実際のフェーズ、モデル、使用量、回答を表示します。実行方法は Fusion が選ぶため、毎回複数モデルが使われるわけではありません。利用には Copilot の利用枠や料金が発生します。詳細は [GitHub の公式案内](https://docs.github.com/en/copilot/concepts/models/copilot-fusion) を確認してください。
+
+### テーマ見本のプレビュー
+
+`presentation/theme.md` は Marp の見本スライドです。本文は Markdown、デザインは `presentation/fusion-universe.css` で編集します。VS Code の Marp プレビューで表示するか、以下のコマンドで HTML を更新できます。
+
+```sh
+npx --yes @marp-team/marp-cli@4.5.1 presentation/theme.md --html --allow-local-files --theme presentation/fusion-universe.css -o presentation/theme-preview.html
+```
