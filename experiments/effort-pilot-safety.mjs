@@ -1,10 +1,18 @@
 import { realpathSync } from 'node:fs';
-import { isAbsolute, relative, sep } from 'node:path';
+import { dirname, isAbsolute, relative, sep } from 'node:path';
 
 export function readPermission(request, root) {
   if (request.kind !== 'read' || request.managedApprovalRequired || request.requestSandboxBypass) return { kind: 'reject' };
   try {
-    const relativePath = relative(realpathSync(root), realpathSync(request.path));
+    if (!isAbsolute(request.path) || request.path.split(sep).includes('..')) return { kind: 'reject' };
+    let ancestor = request.path;
+    while (true) {
+      try { ancestor = realpathSync(ancestor); break; } catch (error) {
+        if (error.code !== 'ENOENT' || dirname(ancestor) === ancestor) return { kind: 'reject' };
+        ancestor = dirname(ancestor);
+      }
+    }
+    const relativePath = relative(realpathSync(root), ancestor);
     if (relativePath === '..' || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath)) return { kind: 'reject' };
     return { kind: 'approve-once' };
   } catch { return { kind: 'reject' }; }
