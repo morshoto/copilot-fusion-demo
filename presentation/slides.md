@@ -133,6 +133,15 @@ size: 16:9
 
 ---
 
+## Tip：Issue の条件を PR の検証へ
+
+<div class="key-message">Fusion がモデルを選び、<strong>メンテナーが合格条件と根拠を残す</strong></div>
+
+<div class="answer-comparison"><div><h3>Issue #796：合格条件</h3><p>初期表示で<br><b>図の文字が見える</b></p><small>見出し・説明・CTA に加え、図も確認対象にする。</small></div><div><h3>PR に書く検証結果の例</h3><p>hero のテスト：<b>20ケース通過</b><br>図の文字：<b>未検証</b></p><small>対象外を明記し、図の検証を追加してから判定する。</small></div></div>
+<div class="source">Framekit #796 のローカル開発記録 · PR記載の例であり、Framekit側のPRは未作成</div>
+
+---
+
 ## Tip 1：subagent は本当に起動した？
 
 <div class="key-message">同じ読み取り専用課題に、<strong>3つの方法で委任</strong></div>
@@ -208,5 +217,8 @@ size: 16:9
 
 ---
 
-<!-- _class: blank -->
-<!-- _paginate: false -->
+## 次の Issue で試そう
+
+<div class="key-message">自分のリポジトリの <strong>Issue を1件</strong> 選ぶ</div>
+
+<div class="answer-comparison"><div><h3>1. 合格条件を書く</h3><p>何が見えれば<br><b>完了と言えるか</b></p></div><div><h3>2. Fusion で試す</h3><p>PR に検証結果と<br><b>未確認事項</b>を残す</p></div></div>
