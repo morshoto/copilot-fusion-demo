@@ -1,3 +1,6 @@
 {
-  "markdown.marp.themes": ["./fusion-redesign.css"]
+  "markdown.marp.themes": [
+    "./fusion-redesign.css",
+    "./fusion-universe.css"
+  ]
 }

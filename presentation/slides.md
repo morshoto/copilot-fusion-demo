@@ -96,7 +96,7 @@ size: 16:9
 <div class="key-message">並列調査、設定確認、独立レビューを<strong>短い操作</strong>で</div>
 
 <div class="command-table">
-<div><code>/fleet</code><strong>独立した作業を並列委任</strong><span>同じ調査課題の追試では3 / 5回で開始・完了</span></div>
+<div><code>/fleet</code><strong>独立した作業を並列委任</strong><span>CLIの --fleet 追試では3 / 5回で開始・完了</span></div>
 <div><code>/env</code><strong>instructions・agents 等を確認</strong><span>意図した設定が読み込まれているかを見る</span></div>
 <div><code>/rubber-duck</code><strong>別の視点から設計を批評</strong><span>セカンドオピニオンを依頼 · 今回は未実行</span></div>
 </div>
@@ -142,22 +142,27 @@ size: 16:9
 
 ---
 
-## Tip 1：subagent はどう呼ぶ？
+## Tip 1：subagent は本当に起動した？
 
-<div class="key-message">同じ調査依頼に、<strong>委任先を明示</strong>する</div>
+<div class="key-message">同じ読み取り専用課題に、<strong>3つの方法で委任</strong></div>
 
-<div class="delegation-prompt"><p><b>共通の依頼</b><br>sample.ts を読み、timeoutMs のバグと修正案を報告してください。変更や外部アクセスはしないでください。</p><p><b>追加する一文</b><br><mark>subagentにファイルの調査を委任してください。</mark></p></div>
-<div class="delegation-methods"><div><b>AGENTS.md</b><br><small>When investigating sample.ts, <mark>delegate the initial file investigation to the explore subagent</mark> and use its findings.</small></div><div><b>CLI オプション</b><br><code>copilot --fleet ...</code><br><small>同じ調査依頼で並列委任を試す</small></div></div>
-<div class="source">実際の依頼と指示から抜粋 · AGENTS.mdにはファイル変更と外部アクセスを禁止する一文も含む</div>
+<div class="delegation-prompt"><p><b>全条件の依頼</b><br>sample.ts を読み、timeoutMs のバグと修正案を報告してください。変更や外部アクセスはしないでください。</p><p><b>プロンプト条件の追加文</b><br><mark>subagentにファイルの調査を委任してください。</mark></p></div>
+<div class="delegation-methods"><div><b>AGENTS.md 条件</b><br><small>When investigating sample.ts, delegate the initial file investigation to the explore subagent and use its findings. Do not modify files or access the network.</small></div><div><b>CLI オプション条件</b><br><code>copilot --fleet ...</code><br><small>共通の依頼を渡す</small></div></div>
+<div class="source">実際の追試の指示 · experiments/data/subagent-followup-2026-11-26.json</div>
 
 ---
 
-## Tip 1：呼び出し方を比べる
+## Tip 1：開始・完了を確かめる
 
-<div class="key-message">同じ読み取り専用課題で、<strong>開始・完了イベント</strong>を数えた</div>
+<div class="key-message">CLI は<strong>作業を委任</strong>、Fusion は<strong>モデルと処理経路を選択</strong></div>
 
-<div class="subagent-chart"><img src="media/subagent-comparison.svg" alt="呼び出し方法別のsubagent開始・完了セッション数"></div>
-<div class="source">Copilot CLI 1.0.115 / Fusion High · view, task を許可 · 試行ごとに新規セッション · 先行は2、追試は4セッション並行 · AGENTS.md条件のみ指示読み込み有効</div>
+<table class="comparison" style="font-size:21px;margin-top:8px"><thead><tr><th>追試の条件</th><th>開始した試行</th><th>完了した試行</th><th>開始 / 完了イベント</th></tr></thead><tbody>
+<tr><td>プロンプトで委任</td><td>5 / 5</td><td>5 / 5</td><td>5 / 5</td></tr>
+<tr><td>AGENTS.md で委任</td><td>5 / 5</td><td>5 / 5</td><td>5 / 5</td></tr>
+<tr><td>--fleet</td><td>3 / 5</td><td>3 / 5</td><td>9 / 9</td></tr>
+</tbody></table>
+<p style="font-size:19px;margin-top:15px;line-height:1.4"><b>次の Issue で：</b>「初期調査を subagent に委任し、原因・修正案・根拠の行を報告。変更と外部アクセスは禁止。結果を回答に取り込んで」</p>
+<div class="source" style="font-size:15px">CLI 1.0.115 / Fusion High · 各5試行・4並行 · view, task のみ · AGENTS.md 条件のみ指示読込有効<br>1試行で複数イベントあり · 1課題の観測であり、一般的な成功率ではない</div>
 
 ---
 
@@ -188,17 +193,27 @@ size: 16:9
 
 ---
 
-## Tip 3：コストと品質を同時に見る
+## Tip 3：必要な品質を満たした？
 
-<div class="key-message">使用量だけでは品質を比較できない。<strong>成果物の差</strong>も確認する</div>
+<div class="key-message">品質条件：<strong>初期表示から図の文字まで</strong>確認する</div>
 
-<table class="comparison cost-table"><thead><tr><th></th><th>High 優先</th><th>Max 単独</th></tr></thead><tbody>
-<tr><td>回答のテスト案</td><td>見出し・CTA・図を初期から3秒確認</td><td>見出しとCTAを確認。図の文字は対象外</td></tr>
-<tr><td>調査経路</td><td>heroと図、既存テストを読んで2案</td><td>heroと図、既存テストを読んで2案</td></tr>
+<div class="answer-comparison"><div><h3>成果物 A</h3><p>見出し・説明・両CTA・図の文字</p><small>初期から3秒、light / dark で確認するテスト案</small></div><div><h3>成果物 B</h3><p>見出し・CTA を確認</p><small>図の文字はテストの測定対象に含まれない</small></div></div>
+<p class="hypothesis-note">同じIssue本文から得た<strong>テスト案</strong>。どちらが品質条件を満たす？</p>
+<div class="source">各1試行 · Framekit Issue #796 · テスト案は未実行 · experiments/effort-quality-observation.md</div>
+
+---
+
+## 成果物の設定と利用量を開示
+
+<div class="key-message">この1例では<strong>利用量が少ない案に確認漏れ</strong>があった</div>
+
+<table class="comparison cost-table"><thead><tr><th></th><th>成果物 A</th><th>成果物 B</th></tr></thead><tbody>
+<tr><td>設定</td><td>High 優先</td><td>Max 単独</td></tr>
+<tr><td>品質条件</td><td class="ok">合格</td><td class="ng">図の文字が抜けて不合格</td></tr>
 <tr><td>利用量</td><td><b>34.426 AI credits</b></td><td><b>30.113 AI credits</b></td></tr>
-<tr><td>事前の品質条件</td><td class="ok">合格</td><td class="ng">不合格</td></tr>
 </tbody></table>
-<div class="source">各1試行・提示されたIssue本文は同じ · テスト案の評価でありテスト実行や請求額ではない · 異なる品質なので単純比較不可</div>
+<p class="hypothesis-note">同じIssue・合格条件で、プロンプトかeffortを<strong>一つずつ</strong>変えて試す。</p>
+<div class="source">各1試行 · テスト案の比較 · AI credits は請求額ではない · 品質が異なるため単純な費用比較はできない</div>
 
 ---
 
