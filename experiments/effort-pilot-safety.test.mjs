@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { readPermission, reportedCredits } from './effort-pilot-safety.mjs';
 
-test('only permits real reads within the trial directory', () => {
+test('only permits scoped reads within the trial directory', () => {
   const root = mkdtempSync(join(tmpdir(), 'pilot-test-'));
   try {
     mkdirSync(join(root, 'inside'));
