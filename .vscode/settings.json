@@ -2,5 +2,13 @@
   "markdown.marp.themes": [
     "./presentation/fusion-redesign.css",
     "./presentation/fusion-universe.css"
-  ]
+  ],
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.md$",
+        "cmd": "node \"${workspaceFolder}/scripts/format-markdown-html.mjs\" \"${file}\""
+      }
+    ]
+  }
 }

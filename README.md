@@ -26,3 +26,5 @@ Fusion High に決済 API の設計レビューを依頼し、SDK が通知す�
 ```sh
 npx --yes @marp-team/marp-cli@4.5.1 presentation/theme.md --html --allow-local-files --theme presentation/fusion-universe.css -o presentation/theme-preview.html
 ```
+
+Markdown 内の HTML ブロックは、VS Code で保存すると自動整形されます。初回はリポジトリのルートで `npm ci` を実行し、推奨拡張機能 **Run on Save** を有効にしてください。`presentation/` を直接開いた場合も同じ設定を利用できます。Marp の指示、Markdown のコードブロック、インライン HTML は対象外です。手動で実行する場合は `node scripts/format-markdown-html.mjs presentation/slides.md` を使います。

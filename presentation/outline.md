@@ -23,7 +23,7 @@
 VS CodeのMarpプレビュー、または以下で表示用HTMLを生成する。
 
 ```sh
-npx --yes @marp-team/marp-cli@4.5.1 presentation/slides.md --html --allow-local-files --theme presentation/fusion-redesign.css -o presentation/fusion-slides.html
+npx --yes @marp-team/marp-cli@4.5.1 presentation/slides.md --html --allow-local-files --theme presentation/fusion-universe.css -o presentation/fusion-slides.html
 ```
 
 録画は実際のCLI実行で、待ち時間を短縮した。応答時間の実験はツール無効の短い課題であり、ツールを使うエージェントループの回数や内部推論を測定していない。元の記録と再現方法は [実験記録](../experiments/prompt-study-2026-11-26.md)、アーキテクチャ資料は [調査記録](../research/fusion-runtime-architecture.md) を参照。

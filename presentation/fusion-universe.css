@@ -158,3 +158,71 @@ section.chapter::before {
     linear-gradient(135deg, #fcf9e9, #c4dcff, #edbafa) 30px 446px / 105px 105px no-repeat;
 }
 section.demo::before { content: '01  修正前                         02  修正後'; white-space: pre; }
+
+/* Full presentation: preserve the evidence layouts while using the Universe palette. */
+section.deck { padding: 46px 68px 65px; font-size: 23px; line-height: 1.4; }
+section.deck h2 { margin: 0 0 20px; font-size: 41px; font-weight: 800; line-height: 1.25; }
+section.deck h3 { margin: 0 0 18px; color: #fff; font-size: 25px; }
+section.deck .source { position: absolute; right: 78px; bottom: 23px; left: 68px; color: #c6cdc8; font-size: 13px; line-height: 1.3; }
+section.deck .key-message { margin: 0 0 24px; border-left: 3px solid var(--green); padding: 12px 20px; background: #111b14; font-size: 25px; font-weight: 650; }
+section.deck .key-message strong { color: var(--green); }
+section.deck .intro-two { display: grid; grid-template-columns: 1fr 50px 1.25fr 50px 1fr; align-items: center; gap: 14px; margin-top: 80px; text-align: center; }
+section.deck .intro-two h3 { color: var(--green); font-size: 24px; }
+section.deck .intro-two p { font-size: 24px; line-height: 1.65; }
+section.deck .arrow-symbol { color: var(--green); font-size: 38px; }
+section.deck .architecture-image { display: block; width: 100%; max-height: 430px; margin: 6px auto 0; background: #fff; object-fit: contain; }
+section.deck .paper-figure { margin: 24px 0 0; background: #fff; text-align: center; }
+section.deck .paper-figure img { width: 100%; max-height: 320px; object-fit: contain; }
+section.deck .paper-caption { margin-top: 20px; font-size: 21px; line-height: 1.5; }
+section.deck .paper-caption b { color: var(--green); }
+section.deck .command-table { margin-top: 40px; border-top: 2px solid var(--green-dark); }
+section.deck .command-table > div { display: grid; grid-template-columns: 265px 1fr 1.4fr; align-items: center; gap: 20px; border-bottom: 1px solid var(--green-dark); padding: 24px 16px; }
+section.deck .command-table code { color: var(--green); font-size: 25px; font-weight: bold; }
+section.deck .command-table strong { font-size: 22px; }
+section.deck .command-table span { color: var(--muted); font-size: 18px; }
+section.deck .before-after { display: grid; grid-template-columns: 230px 230px 1fr; align-items: start; gap: 25px; }
+section.deck .before-after b { display: block; margin-bottom: 5px; font-size: 17px; }
+section.deck .before-after img { width: 230px; height: 345px; border: 1px solid #aaa; object-fit: cover; object-position: top; }
+section.deck .before-after aside { padding: 65px 0 0 25px; }
+section.deck .before-after aside strong { font-size: 30px; line-height: 1.5; }
+section.deck .before-after aside p { margin-top: 25px; color: var(--muted); font-size: 20px; }
+section.deck .comparison { display: table; width: 100%; margin-top: 32px; border-collapse: collapse; font-size: 23px; }
+section.deck .comparison th, section.deck .comparison td { border: 1px solid #3f7450; padding: 16px 20px; background: #000; vertical-align: middle; }
+section.deck .comparison th { background: #102b19; color: #fff; text-align: left; }
+section.deck .comparison td:first-child { font-weight: 700; }
+section.deck .comparison .ok { color: #75f0a0; font-weight: bold; }
+section.deck .comparison .ng { color: #ffb4a9; font-weight: bold; }
+section.deck .cost-table { font-size: 20px; }
+section.deck .cost-table th, section.deck .cost-table td { padding: 17px; }
+section.deck .cache-table { font-size: 21px; }
+section.deck .cache-table td, section.deck .cache-table th { padding: 17px 20px; }
+section.deck .cache-table b { color: var(--green); }
+section.deck .chart-area { height: 420px; background: #fff; text-align: center; }
+section.deck .chart-area img { width: 100%; height: 100%; object-fit: contain; }
+section.deck .hypothesis-note { margin-top: 28px; color: var(--muted); font-size: 20px; line-height: 1.5; }
+section.deck .answer-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 55px; }
+section.deck .answer-comparison > div { border-top: 3px solid var(--green); padding-top: 22px; }
+section.deck .answer-comparison p { font-size: 26px; line-height: 1.7; }
+section.deck .answer-comparison b { color: var(--green); }
+section.deck .answer-comparison small { display: block; margin-top: 24px; color: var(--muted); font-size: 17px; line-height: 1.45; }
+section.deck .phase-flow { display: grid; grid-template-columns: 1fr 35px 1.2fr 35px 1.2fr 35px 1fr; align-items: center; gap: 10px; margin-top: 70px; text-align: center; }
+section.deck .phase-flow div { min-height: 140px; border: 1px solid var(--green); padding: 25px 8px; background: #06130a; }
+section.deck .phase-flow span { color: var(--green); font-size: 35px; }
+section.deck .phase-flow small { display: block; margin-bottom: 14px; color: var(--muted); font-size: 17px; }
+section.deck .phase-flow b { font-size: 22px; }
+section.deck .phase-flow p { margin-top: 10px; font-size: 17px; }
+section.deck mark { padding: 2px 4px; background: #164723; color: #d3ffdc; font-weight: 800; }
+section.deck .delegation-prompt { padding: 18px 24px; background: #101b13; font-size: 20px; line-height: 1.6; }
+section.deck .delegation-prompt p + p { margin-top: 14px; }
+section.deck .delegation-methods { display: grid; grid-template-columns: 1.45fr 1fr; gap: 30px; margin-top: 28px; }
+section.deck .delegation-methods div { border-top: 3px solid var(--green); padding-top: 12px; font-size: 20px; line-height: 1.45; }
+section.deck .delegation-methods small { font-size: 17px; }
+section.deck .delegation-results { margin-top: 8px; font-size: 21px; }
+section.deck .delegation-next { margin-top: 15px; font-size: 19px; line-height: 1.4; }
+section.deck .delegation-source { font-size: 15px; }
+section.deck .prompt-exact { padding: 22px 28px; background: #101b13; font-size: 20px; line-height: 1.5; }
+section.deck .prompt-exact h3 { margin: 0 0 8px; color: var(--green); font-size: 20px; }
+section.deck .prompt-exact h3:not(:first-child) { margin-top: 20px; }
+section.deck .prompt-exact pre { margin: 10px 0; padding: 12px; background: #222; color: #fff; font: 19px/1.3 Menlo, monospace; }
+section.deck .evidence-image { height: 435px; text-align: center; }
+section.deck .evidence-image img { width: 100%; height: 100%; object-fit: contain; }
